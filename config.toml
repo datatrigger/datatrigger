@@ -1,0 +1,4 @@
+baseURL = "https://www.datatrigger.org"
+languageCode = "en-us"
+title = "Vincent's blog"
+theme = "ananke"
