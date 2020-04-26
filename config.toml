@@ -1,4 +1,60 @@
-baseURL = ""
-languageCode = "en-us"
-title = "Vincent's blog"
-theme = "ananke"
+baseurl         = "https://datatrigger.org/"
+theme           = "casper-two"
+languageCode    = "en-US"
+disqusShortname = ""
+paginate        = 6
+#SectionPagesMenu = "main"
+
+[params]
+  title       = "Data Trigger"
+  subtitle    = "A Data Science blog"
+
+  cover       = "uploads/header_main.jpg"
+  description = "Data Trigger Website"
+  metaDescription = ""
+  googleAnalytics = ""
+  customCSS = []
+  RSSLink = ""
+
+  twitterName = "faketryghost"
+  fbName = "fakeghost"
+  githubName = "vincentlegoualher"
+
+  logo = ""
+  orgName = ""
+  orgWebsite = ""
+  orgDescription = ""
+
+  author = "Vincent Le Goualher"
+  authorAvatar = "uploads/profile_pic.jpg"
+  authorLocation = "Paris, FR"
+  authorWebsite = "https://www.datatrigger.com"
+  authorDescription = "Data Scientist"
+
+  pageNotFoundTitle = "404 - Page not found"
+
+  #casper or caspertwo
+  singleViewStyle = "casper"
+
+[permalinks]
+  post = "/:slug/"
+
+[[menu.main]]
+  name = "Main"
+  url = "/"
+  weight = 200
+
+[[menu.main]]
+  name = "R"
+  url = "/categories/r/"
+  weight = 100
+
+[[menu.main]]
+  name = "Python"
+  url = "/categories/python/"
+  weight = 100
+
+[[menu.main]]
+  name = "Resume"
+  url = "/categories/resume/"
+  weight = 95
