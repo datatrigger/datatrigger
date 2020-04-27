@@ -1,60 +1,112 @@
-baseurl         = "https://datatrigger.org/"
-theme           = "casper-two"
-languageCode    = "en-US"
-disqusShortname = ""
-paginate        = 6
-#SectionPagesMenu = "main"
+baseurl = ""
+DefaultContentLanguage = "en"
+title = "Data Trigger"
+theme = "beautifulhugo"
+metaDataFormat = "yaml"
+pygmentsStyle = "trac"
+pygmentsUseClasses = true
+pygmentsCodeFences = true
+pygmentsCodefencesGuessSyntax = true
+#pygmentsUseClassic = true
+#pygmentOptions = "linenos=inline"
+#disqusShortname = "XXX"
+#googleAnalytics = "XXX"
 
-[params]
-  title       = "Data Trigger"
-  subtitle    = "A Data Science blog"
+[Params]
+  homeTitle = "Data Trigger"
+  subtitle = "Setting the science of data in motion"
+  mainSections = ["post","posts"]
+  logo = "img/profile_pic.jpg" # Expecting square dimensions
+  favicon = "img/favicon.ico"
+  dateFormat = "January 2, 2006"
+  commit = false
+  rss = true
+  comments = true
+  readingTime = true
+  wordCount = true
+  useHLJS = true
+  socialShare = true
+  delayDisqus = true
+  showRelatedPosts = true
+#  hideAuthor = true
+#  gcse = "012345678901234567890:abcdefghijk" # Get your code from google.com/cse. Make sure to go to "Look and Feel" and change Layout to "Full Width" and Theme to "Classic"
 
-  cover       = "uploads/header_main.jpg"
-  description = "Data Trigger Website"
-  metaDescription = ""
-  googleAnalytics = ""
-  customCSS = []
-  RSSLink = ""
+#[[Params.bigimg]]
+#  src = "img/triangle.jpg"
+#  desc = "Triangle"
+#[[Params.bigimg]]
+#  src = "img/sphere.jpg"
+#  desc = "Sphere"
+#  # position: see values of CSS background-position.
+#  position = "center top"
+#[[Params.bigimg]]
+#  src = "img/hexagon.jpg"
+#  desc = "Hexagon"
 
-  twitterName = "faketryghost"
-  fbName = "fakeghost"
-  githubName = "vincentlegoualher"
-
-  logo = ""
-  orgName = ""
-  orgWebsite = ""
-  orgDescription = ""
-
-  author = "Vincent Le Goualher"
-  authorAvatar = "uploads/profile_pic.jpg"
-  authorLocation = "Paris, FR"
-  authorWebsite = "https://www.datatrigger.com"
-  authorDescription = "Data Scientist"
-
-  pageNotFoundTitle = "404 - Page not found"
-
-  #casper or caspertwo
-  singleViewStyle = "casper"
-
-[permalinks]
-  post = "/:slug/"
+[Author]
+  name = "Vincent Le Goualher"
+  website = "datatrigger.org"
+  email = "vlg@datatrigger.org"
+  facebook = "username"
+  github = "vincentlegoualher"
+  gitlab = "username"
+  bitbucket = "username"
+  twitter = "username"
+  reddit = "username"
+  linkedin = "username"
+  xing = "username"
+  stackoverflow = "users/XXXXXXX/username"
+  snapchat = "username"
+  instagram = "username"
+  youtube = "user/username" # or channel/channelname
+  soundcloud = "username"
+  spotify = "username"
+  bandcamp = "username"
+  itchio = "username"
+  vk = "username"
+  paypal = "username"
+  telegram = "username"
+  500px = "username"
+  codepen = "username"
+  mastodon = "url"
+  kaggle = "username"
+  weibo = "username"
+  slack = "username"
 
 [[menu.main]]
-  name = "Main"
-  url = "/"
-  weight = 200
+    name = "Blog"
+    url = ""
+    weight = 1
 
 [[menu.main]]
-  name = "R"
-  url = "/categories/r/"
-  weight = 100
+    name = "About"
+    url = "page/about/"
+    weight = 3
 
 [[menu.main]]
-  name = "Python"
-  url = "/categories/python/"
-  weight = 100
+    identifier = "samples"
+    name = "Samples"
+    weight = 2
 
 [[menu.main]]
-  name = "Resume"
-  url = "/categories/resume/"
-  weight = 95
+    parent = "samples"
+    name = "Big Image Sample"
+    url = "post/2017-03-07-bigimg-sample"
+    weight = 1
+
+[[menu.main]]
+    parent = "samples"
+    name = "Math Sample"
+    url = "post/2017-03-05-math-sample"
+    weight = 2
+
+[[menu.main]]
+    parent = "samples"
+    name = "Code Sample"
+    url = "post/2016-03-08-code-sample"
+    weight = 3
+
+[[menu.main]]
+    name = "Tags"
+    url = "tags"
+    weight = 3
