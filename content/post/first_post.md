@@ -1,5 +1,6 @@
 ---
-title: "First_post"
+title: "First post"
+summary: "Brief description of the content"
 date: 2020-04-26T13:41:21+02:00
 draft: true
 ---
