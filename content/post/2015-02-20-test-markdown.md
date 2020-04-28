@@ -1,7 +1,7 @@
 ---
 title: Markdown cheatsheet
-subtitle: Not much to remember. Markdown is awesome !
-summary: The title of the post says it all.
+subtitle: Awesome subtitle
+summary: preview of the content
 date: 2020-03-15
 tags: ["example", "markdown"]
 ---

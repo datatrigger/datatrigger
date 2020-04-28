@@ -1,9 +1,11 @@
 ---
-title: "First post"
-summary: "Brief description of the content"
+title: "First_post"
+summary: "custom summary for the first post"
 date: 2020-04-26T13:41:21+02:00
 draft: true
 ---
+
+bla bla
 
 # This is type 1 header
 
