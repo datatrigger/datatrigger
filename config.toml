@@ -15,7 +15,7 @@ pygmentsCodefencesGuessSyntax = true
 
 [Params]
   homeTitle = "Data Trigger"
-  subtitle = "Setting the science of data in motion"
+  subtitle = "...Coming soon..."
   mainSections = ["post","posts"]
   logo = "img/profile_pic.jpg" # Expecting square dimensions
   #favicon = "img/favicon.ico"

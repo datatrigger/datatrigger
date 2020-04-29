@@ -1,8 +1,9 @@
 ---
 title: Markdown cheatsheet
 subtitle: Awesome subtitle
-summary: preview of the content
+summary: Awesome preview of this post.
 date: 2020-03-15
+draft: false
 tags: ["example", "markdown"]
 ---
 
