@@ -1,4 +1,4 @@
-baseurl = ""
+baseurl = "https://datatrigger.org"
 DefaultContentLanguage = "en"
 date = "2020-04-26T13:41:21+02:00"
 title = "Data Trigger"
