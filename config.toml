@@ -4,28 +4,42 @@ date = "2020-04-26T13:41:21+02:00"
 title = "Data Trigger"
 theme = "beautifulhugo"
 metaDataFormat = "yaml"
-pygmentsStyle = "trac"
-pygmentsUseClasses = true
-pygmentsCodeFences = true
-pygmentsCodefencesGuessSyntax = true
+
+#pygmentsStyle = "colorful"
+#pygmentsUseClasses = true
+#pygmentsCodeFences = true
+#pygmentsCodefencesGuessSyntax = true
 #pygmentsUseClassic = true
 #pygmentOptions = "linenos=inline"
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = true
+    style = "pygments"
+    tabWidth = 4
+
 #disqusShortname = "XXX"
 #googleAnalytics = "XXX"
 
 [Params]
   homeTitle = "Data Trigger"
-  subtitle = "...Coming soon..."
+  subtitle = "Setting the science of data in motion"
   mainSections = ["post","posts"]
   logo = "img/profile_pic.jpg" # Expecting square dimensions
-  favicon = "img/favicon.ico"
+  favicon = "img/gear_32.ico"
   dateFormat = "January 2, 2006"
   commit = false
   rss = true
   comments = true
   readingTime = true
   wordCount = true
-  useHLJS = true
+  useHLJS = false
   socialShare = true
   delayDisqus = true
   showRelatedPosts = true
@@ -47,7 +61,7 @@ pygmentsCodefencesGuessSyntax = true
 [Author]
   name = "Vincent Le Goualher"
   website = "datatrigger.org"
-  email = "vlg@datatrigger.org"
+  email = "contact@datatrigger.org"
   facebook = "username"
   github = "vincentlegoualher"
   gitlab = "username"
