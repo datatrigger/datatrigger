@@ -2,7 +2,7 @@
 title: "Code highlighting with Hugo"
 summary: "In this article we test the different ways of highlighting code with the static site generator Hugo."
 date: 2020-04-26T13:41:21+02:00
-draft: false
+draft: true
 ---
 
 bla bla

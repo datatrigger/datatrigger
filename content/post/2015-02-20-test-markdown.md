@@ -4,6 +4,7 @@ subtitle: Awesome subtitle
 summary: preview of the content
 date: 2020-03-15
 tags: ["example", "markdown"]
+draft: true
 ---
 
 You can write regular [markdown](http://markdowntutorial.com/) here and [Hugo](https://gohugo.io) will automatically convert it to a nice webpage.  I strongly encourage you to [take 5 minutes to learn how to write in markdown](http://markdowntutorial.com/) - it'll teach you how to transform regular text into bold/italics/headings/tables/etc.
