@@ -23,9 +23,9 @@ metaDataFormat = "yaml"
     noClasses = true
     style = "pygments"
     tabWidth = 4
+    googleAnalytics = "UA-165238354-1"
 
 #disqusShortname = "XXX"
-#googleAnalytics = "XXX"
 
 [Params]
   homeTitle = "Data Trigger"
@@ -35,15 +35,15 @@ metaDataFormat = "yaml"
   favicon = "img/gear_32.ico"
   dateFormat = "January 2, 2006"
   commit = false
-  rss = true
+  #rss = true
   comments = true
   readingTime = true
-  wordCount = true
+  wordCount = false
   useHLJS = false
   socialShare = true
   delayDisqus = true
   showRelatedPosts = true
-#  hideAuthor = true
+  hideAuthor = true
 #  gcse = "012345678901234567890:abcdefghijk" # Get your code from google.com/cse. Make sure to go to "Look and Feel" and change Layout to "Full Width" and Theme to "Classic"
 
 #[[Params.bigimg]]
@@ -66,11 +66,11 @@ metaDataFormat = "yaml"
   github = "datatrigger"
   gitlab = "datatrigger"
   #bitbucket = "username"
-  twitter = "datatrigger"
+  twitter = "TriggerData"
   #reddit = "username"
   linkedin = "datatrigger"
   #xing = "username"
-  stackoverflow = "users/XXXXXXX/username"
+  stackoverflow = "users/13450581/vincent-le-goualher"
   #snapchat = "username"
   #instagram = "username"
   #youtube = "user/username" # or channel/channelname
