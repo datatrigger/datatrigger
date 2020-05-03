@@ -1,17 +1,17 @@
 ---
 title: "Code highlighting with Hugo"
-summary: "In this article we test the different ways of highlighting code with the static site generator Hugo."
+summary: "Test : different ways of highlighting code with Hugo."
 date: 2020-04-26T13:41:21+02:00
-draft: true
+draft: false
 ---
-
-bla bla
 
 # This is type 1 header
 
-*this is italic*
+This is regular text.
 
-**this is bold**
+*this is italic.*
+
+**this is bold.**
 
 # Python / Code Fences
 
