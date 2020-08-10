@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Trigger</title>
+    <link>https://datatrigger.org/</link>
+    <description>Recent content on Data Trigger</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>contact@datatrigger.org (Vincent Le Goualher)</managingEditor>
+    <webMaster>contact@datatrigger.org (Vincent Le Goualher)</webMaster>
+    <lastBuildDate>Sun, 26 Apr 2020 13:41:21 +0200</lastBuildDate>
+    
+	<atom:link href="https://datatrigger.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Code highlighting with Hugo</title>
+      <link>https://datatrigger.org/post/highlights/</link>
+      <pubDate>Sun, 26 Apr 2020 13:41:21 +0200</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/highlights/</guid>
+      <description>Test : different ways of highlighting code with Hugo.</description>
+    </item>
+    
+    <item>
+      <title>Markdown cheatsheet</title>
+      <link>https://datatrigger.org/post/2015-02-20-test-markdown/</link>
+      <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/2015-02-20-test-markdown/</guid>
+      <description>Preview of the content.</description>
+    </item>
+    
+  </channel>
+</rss>

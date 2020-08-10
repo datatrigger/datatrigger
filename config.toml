@@ -32,7 +32,8 @@ googleAnalytics = "UA-165238354-1"
   subtitle = "...Coming Soon..."
   mainSections = ["post","posts"]
   logo = "img/profile_pic.jpg" # Expecting square dimensions
-  favicon = "img/gear_32.ico"
+  favicon = "img/settings.png"
+  #favicon = "img/gear_32.ico"
   dateFormat = "January 2, 2006"
   commit = false
   rss = false
@@ -40,7 +41,7 @@ googleAnalytics = "UA-165238354-1"
   readingTime = true
   wordCount = false
   useHLJS = false
-  socialShare = true
+  socialShare = false
   delayDisqus = true
   showRelatedPosts = true
   hideAuthor = true
@@ -64,7 +65,7 @@ googleAnalytics = "UA-165238354-1"
   email = "contact@datatrigger.org"
   #facebook = "username"
   github = "datatrigger"
-  gitlab = "datatrigger"
+  #gitlab = "datatrigger"
   #bitbucket = "username"
   twitter = "TriggerData"
   #reddit = "username"
@@ -96,32 +97,6 @@ googleAnalytics = "UA-165238354-1"
 [[menu.main]]
     name = "About"
     url = "page/about/"
-    weight = 3
-
-[[menu.main]]
-    identifier = "samples"
-    name = "Samples"
     weight = 2
 
-[[menu.main]]
-    parent = "samples"
-    name = "Big Image Sample"
-    url = "post/2017-03-07-bigimg-sample"
-    weight = 1
 
-[[menu.main]]
-    parent = "samples"
-    name = "Math Sample"
-    url = "post/2017-03-05-math-sample"
-    weight = 2
-
-[[menu.main]]
-    parent = "samples"
-    name = "Code Sample"
-    url = "post/2016-03-08-code-sample"
-    weight = 3
-
-[[menu.main]]
-    name = "Tags"
-    url = "tags"
-    weight = 3
