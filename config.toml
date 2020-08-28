@@ -46,7 +46,8 @@ googleAnalytics = "UA-165238354-1"
   showRelatedPosts = true
   hideAuthor = true
   #gcse = "012345678901234567890:abcdefghijk" # Get your code from google.com/cse. Make sure to go to "Look and Feel" and change Layout to "Full Width" and Theme to "Classic"
-  #custom_css = ["css/text_align.css"]
+  custom_css = ["css/custom.css"]
+
 
 #[[Params.bigimg]]
     #src = "img/triangle.jpg"
