@@ -9,8 +9,6 @@ My name is Vincent Le Goualher, I am 30 years old and I currently work as a data
 
 I created this website to archive methods and code that might be useful for future me (most likely) or other people. All the content is under MIT license. The source code can be found on my [Github](https://github.com/datatrigger).
 
-<p style="text-align: center;">Centered text</p>
-
 ## Resume
 
 My resume is available below, both in English and French :
