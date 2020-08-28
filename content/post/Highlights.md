@@ -2,7 +2,7 @@
 title: "Code highlighting with Hugo"
 summary: "Test : different ways of highlighting code with Hugo."
 date: 2020-04-26T13:41:21+02:00
-draft: false
+draft: true
 ---
 
 # This is type 1 header
