@@ -17,7 +17,8 @@ An outlier can be defined as *an observation that appears to deviate markedly fr
 {{< tweet 1296678533129834503 >}}  
 
 There are quite a few methods to study outliers and eventually detect anomalies. They can be classified in several ways.  
-Firstly, some methods are global as opposed to local algorithms, which only use the $k \in \mathbb{N}$ \(k \in \mathbb{N}\) nearest neighbors. 
+  
+Firstly, some methods are global as opposed to local algorithms, which only use the $k \in \mathbb{N}$ nearest neighbors. 
 
 ## References
 
