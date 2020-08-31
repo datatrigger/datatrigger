@@ -226,7 +226,7 @@ As a global anomaly detection, Isolation Forest clearly detects the outlier $O_g
 
 In my experience, Local Outlier Factor is one of the best methods to identify outliers and detect anomalies. We have seen that it works very well on today's case study, but it is efficient in [many other configurations](https://scikit-learn.org/stable/auto_examples/miscellaneous/plot_anomaly_comparison.html#sphx-glr-auto-examples-miscellaneous-plot-anomaly-comparison-py). Nonetheless, LOF is admittedly one of the anomaly detection algorithms that requires the most computing power, particularly when applied on big datasets. Other than that, the fact that it is unsupervised, distribution-free, local (so well-adapted to multiple clusters of different densities) and that it outputs a real number are the reasons why it is the way to go.  
 
-All the code can be found on my [Github](https://github.com/datatrigger).
+All the code can be found on my [Github](https://github.com/datatrigger/anomaly_detection_lof).
 
 ### References
 
