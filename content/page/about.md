@@ -14,4 +14,4 @@ I created this website to archive methods and code that might be useful for futu
 My resume is available below, both in English and French :
 
 * [Resume (EN)](/doc/resume_en_vincent_le_goualher.pdf)  
-* [Resume (FR)](/doc/resume_fr_vincent_le_goualher.pdf)  
+* [Resume (FR)](/doc/cv_fr_vincent_le_goualher.pdf)  
