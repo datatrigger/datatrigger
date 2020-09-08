@@ -8,7 +8,7 @@ draft: false
 
 ### Spark 3
 
-The main new enhancement in PySpark 3 is the redesign of Pandas user-defined functions with Python type hints. Here we focus on another improvement that went a little bit more unnoticed, that is [sample weights support](https://databricks.com/blog/2020/05/20/new-pandas-udfs-and-python-type-hints-in-the-upcoming-release-of-apache-spark-3-0.html) added for a number of classifiers. Let us give random forest a try.
+The main new enhancement in PySpark 3 is the redesign of [Pandas user-defined functions with Python type hints](https://databricks.com/blog/2020/05/20/new-pandas-udfs-and-python-type-hints-in-the-upcoming-release-of-apache-spark-3-0.html). Here we focus on another improvement that went a little bit more unnoticed, that is [sample weights support](https://spark.apache.org/releases/spark-release-3-0-0.html#mllib) added for a number of classifiers. Let us give random forest a try.
 
 ### Load the credit card fraud dataset in a Spark Session
 
