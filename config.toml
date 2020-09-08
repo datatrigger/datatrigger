@@ -29,7 +29,7 @@ googleAnalytics = "UA-165238354-1"
 
 [Params]
   homeTitle = "Data Trigger"
-  subtitle = "Vincent Le Goualher"
+  subtitle = "A blog on Data Science"
   mainSections = ["post","posts"]
   logo = "img/profile/p32.jpeg" # Expecting square dimensions
   favicon = "img/icon/settings.png"

@@ -204,6 +204,7 @@ res_lrw.groupBy('outcome', 'prediction').count().show()
 ![mat_lrw](/res/spark_3_imbalanced/img/mat_lrw.png)
 
 From bottom to top, we can see that the logistic regression without weights performs very well when it comes to detecting actual fraud. However, this comes at the cost of wrongly identifying a **lot** of wholesome transactions as frauds. The opposite disequilibrium happens with the standard logistic regression, with only roughly $\frac{2}{3}$ of frauds legitimately detected. However, only 11 out of 56 901 wholesome transactions are identified as fraud, which is surprisingly low. Of course, the same experiment with different train/test splits should be conducted before jumping to conclusions.  
+  
 As for random forests, the weighted model shows almost the same performance as the weighted logistic regression regarding real frauds : 90 correct guesses instead of 94. But this time, the number of wholesome transactions mistakenly identified as frauds is divided by ten. This kind of model should be considered when the cost of false positive is relatively low compared to the cost of false negative. What about plain old unweighted random forest model ? It identifies wholesome transactions extremely well, like the basic logistic regression (10 out of 56 901). However, the model is able to rise the *precision* (as in precision vs recall) to approximately $\frac{4}{5}$. Put another way, the *precision* was increased by around 15% with random forest instead of logistic regression.  
   
 We will not dive into the hot topic of evaluation metrics for imbalanced classification. However, we give an example below with the computation of the area under the [Precision-Recall](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html) curve :
@@ -220,6 +221,6 @@ pr.evaluate(res_rf)
 
 Weighted or not, random forest performs well at detecting fraud in comparison with logistic regression. However, having the option of weighting observations is an extremely useful feature as it allows the user to lean the model's performance toward a specific phenomenon. In fraud detection for example, a weighted model is a valid choice if the cost of fraud is high regarding the cost of mistakenly identifying wholesome events as frauds.
 
-You can find the full notebook in this [GitHub repository].(https://github.com/datatrigger/weighted_random_forest_spark_3)
+You can find the full notebook in this [GitHub repository](https://github.com/datatrigger/weighted_random_forest_spark_3).
 
 &nbsp;
