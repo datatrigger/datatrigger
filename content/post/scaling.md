@@ -30,7 +30,7 @@ Programmatically speaking, splitting and scaling a dataset using the method pres
 
 Where the letters $\mathcal{N}$, $\mathcal{C}$ and $\mathcal{U}$ refer to Normal, Cauchy and Uniform distributions, respectively. We draw fifty observations from each (independent) random variable X, Y and Z.  
   
-**All the code below (and more) is available [here](https://github.com/datatrigger/splitting_and_scaling).**
+**All the code below (and more) is available [here](https://github.com/datatrigger/scaling).**
 
 ### Python
 
