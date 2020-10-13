@@ -3,7 +3,7 @@ title: "Back to basics : Scaling train and test samples."
 summary: "Splitting and scaling a dataset seems easy. Well, it is admittedly not that hard, however it can be tricky. Today we will see how to properly split and scale a dataset, as this step if often necessary before any ML wizardry. Let us do this with a few R & Python packages/modules."
 date: 2020-10-12
 tags: ["scaling", "normalize", "standardize", "spark", "pyspark", "python", "r", "dplyr", "caret"]
-draft: true
+draft: false
 ---
 
 ### The importance of scaling
