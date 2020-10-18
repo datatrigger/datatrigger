@@ -69,6 +69,7 @@ df.assign(Subgroup=lambda x: "Total")
 ```
 
 &nbsp;
+  
 |    | Group   | Subgroup   |   Value |
 |---:|:--------|:-----------|--------:|
 |  0 | X       | Total      |       6 |
@@ -81,7 +82,7 @@ df.assign(Subgroup=lambda x: "Total")
 |  7 | Y       | Total      |      10 |
 |  8 | Y       | Total      |      10 |
 |  9 | Y       | Total      |       3 |
-
+  
 and
 
 ```python
@@ -89,6 +90,7 @@ df.assign(Group=lambda x: "Total", Subgroup=lambda x: "Total")
 ```
 
 &nbsp;
+  
 |    | Group   | Subgroup   |   Value |
 |---:|:--------|:-----------|--------:|
 |  0 | Total   | Total      |       6 |
@@ -101,7 +103,7 @@ df.assign(Group=lambda x: "Total", Subgroup=lambda x: "Total")
 |  7 | Total   | Total      |      10 |
 |  8 | Total   | Total      |      10 |
 |  9 | Total   | Total      |       3 |
-
+  
 Then we concatenate these dataframes to the original dataset with ```pandas.concat()``` :  
 
 ```python
@@ -123,6 +125,7 @@ pd.concat([
 ```
 
 &nbsp;
+  
 |    | Group   | Subgroup   |    Value |
 |---:|:--------|:-----------|---------:|
 |  0 | Total   | Total      | 10.3     |
@@ -132,7 +135,7 @@ pd.concat([
 |  4 | Y       | Total      |  9       |
 |  5 | Y       | a          | 10.3333  |
 |  6 | Y       | z          |  7.66667 |
-
+  
 The results are there, but the order of the rows is clearly not satisfying.  
 
 ###### Order levels
@@ -156,6 +159,7 @@ df_subtotal.groupby(by=['Group', 'Subgroup'], observed=True).mean()
 ```
 
 &nbsp;
+  
 |    | Group   | Subgroup   |    Value |
 |---:|:--------|:-----------|---------:|
 |  0 | X       | a          | 13       |
@@ -165,7 +169,7 @@ df_subtotal.groupby(by=['Group', 'Subgroup'], observed=True).mean()
 |  4 | Y       | z          |  7.66667 |
 |  5 | Y       | Total      |  9       |
 |  6 | Total   | Total      | 10.3     |
-
+  
 Hooray !
   
 ## R's Tidyverse
