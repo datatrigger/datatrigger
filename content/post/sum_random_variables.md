@@ -18,7 +18,7 @@ Let $X$ and $Y$ be two independent random variables. Let us assume that their su
 
 ![Gauss](/res/sum_random_variables/gauss.resized.jpg)
 
-**If the pair $(X, Y)$ is normally distributed, then both $X$ and $Y$ are likely to be large at the same time**. In order to understand why, let us look at the contour lines of the $(X,Y)$ pair's density. For each point belonging to a given contour line, the density of the pair $(X,Y)$ is equal to a constant $C \in \mathbb{R}$. In this case, assuming $X, Y \sim \mathcal{N}(0,1)$, then the multivariate density is: $$f(x) := \frac{1}{2 \pi} e^{-\frac{x² + y²}{2}}$$ Hence, for a given constant $0 \leq C \leq \frac{1}{2 \pi}$: $$f(x) = C \Leftrightarrow x² + y² = -2 \log (2 \pi C) := C'$$ This equation shows that the contour lines of a two-dimensional normal distribution are circles. Here is the contour plot :  
+**If the pair $(X, Y)$ is normally distributed, then both $X$ and $Y$ are likely to be large at the same time**. In order to understand why, let us look at the contour lines of the $(X,Y)$ pair's density. For each point belonging to a given contour line, the density of the pair $(X,Y)$ is equal to a constant $C \in \mathbb{R}$. In this case, assuming $X, Y \sim \mathcal{N}(0,1)$, then the multivariate density is: $$f(x) := \frac{1}{2 \pi} e^{-\frac{x² + y²}{2}}$$ Hence, for a given constant $0 < C \leq \frac{1}{2 \pi}$: $$f(x) = C \Leftrightarrow x² + y² = -2 \log (2 \pi C) := C'$$ This equation shows that the contour lines of a two-dimensional normal distribution are circles. Here is the contour plot :  
 
 ![Gauss contour lines](/res/sum_random_variables/gauss_contour_plot.png)
 
