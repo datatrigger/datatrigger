@@ -60,7 +60,7 @@ df = pd.DataFrame({
 })
 ```
 
-###### Concatenate
+##### Concatenate
   
 We build the two following datasets :  
 
@@ -138,7 +138,7 @@ pd.concat([
   
 The results are there, but the order of the rows is clearly not satisfying.  
 
-###### Order levels
+##### Order levels
 
 To circumvent this issue, we cast the grouping variables as dtype *category*. Calling ```pandas.Series.astype("category")``` is not good enough because by default, categories are unordered. Yet, we want the category "Total" to be the last. We use instances of ```CategoricalDtype``` for this purpose. Get more information [here](https://pandas.pydata.org/pandas-docs/stable/user_guide/categorical.html).  
 
@@ -150,7 +150,7 @@ df_subtotal['Group'] = df_subtotal['Group'].astype(cat_Group)
 df_subtotal['Subgroup'] = df_subtotal['Subgroup'].astype(cat_Subgroup)
 ```
 
-###### Aggregate
+##### Aggregate
 
 Now the ```groupby()``` command returns the expected result :  
 
@@ -215,5 +215,11 @@ df %>%
     Subgroup
   )
   ```
+
+## Plots
+
+This technique is also useful for data visualization. Below is an example based on the *mtcars* dataset :  
+
+![totals_histogram](/res/totals_subtotals/totals_histogram)
 
 As usual, the full scripts are available on my [GitHub](https://github.com/datatrigger/subtotals).

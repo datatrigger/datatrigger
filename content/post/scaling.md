@@ -21,7 +21,7 @@ In his excellent [blog post](https://sebastianraschka.com/faq/docs/scale-trainin
 2. Scale the train sample
 3. Scale the test sample **with the training parameters**  
 
-Any other method (scaling then splitting or scaling each sample with its own parameters for example) is wrong because it makes use of information extracted from the test sample to build the model afterwards. Sebastian gives extreme examples to illustrate this in his post. Although improper scaling may have minor consequences when working with a large dataset, it can seriously diminish the perfomance of a given model if only a few observations are available.  
+Any other method (scaling then splitting or scaling each sample with its own parameters for example) is wrong because it makes use of information extracted from the test sample to build the model afterwards. Sebastian gives extreme examples to illustrate this in his post. Although improper scaling may have minor consequences when working with a large dataset, it can seriously diminish the performance of a given model if only a few observations are available.  
   
 Programmatically speaking, splitting and scaling a dataset using the method presented above can be a little bit more troublesome than just scaling a set of observations by itself. Let us see how to proceed in a variety of frameworks. As an example, we will work on a dataset composed of three independent features :  
 * $X \sim \mathcal{N}(\mu = 2, \sigma = 2)$
