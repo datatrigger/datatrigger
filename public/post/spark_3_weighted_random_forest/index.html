@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Weighted Random Forest with Spark 3 - Data Trigger</title>
+  <meta name="description" content="The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms : decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud.">
+  <meta name="author" content="Vincent Le Goualher"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Data Trigger",
+    
+    "url": "https:\/\/datatrigger.org"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/datatrigger.org"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/datatrigger.org",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/datatrigger.org\/post\/spark_3_weighted_random_forest\/",
+          "name": "Weighted random forest with spark 3"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "Vincent Le Goualher"
+  },
+  "headline": "Weighted Random Forest with Spark 3",
+  "description" : "The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms : decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud.",
+  "inLanguage" : "en",
+  "wordCount":  1233 ,
+  "datePublished" : "2020-09-06T00:00:00",
+  "dateModified" : "2020-09-06T00:00:00",
+  "image" : "https:\/\/datatrigger.org\/img\/profile\/p32.jpeg",
+  "keywords" : [ "spark, pyspark, python, weight, fraud, random forest" ],
+  "mainEntityOfPage" : "https:\/\/datatrigger.org\/post\/spark_3_weighted_random_forest\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/datatrigger.org",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/datatrigger.org\/img\/profile\/p32.jpeg",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Weighted Random Forest with Spark 3" />
+<meta property="og:description" content="The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms : decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud.">
+<meta property="og:image" content="https://datatrigger.org/img/profile/p32.jpeg" />
+<meta property="og:url" content="https://datatrigger.org/post/spark_3_weighted_random_forest/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Data Trigger" />
+
+  <meta name="twitter:title" content="Weighted Random Forest with Spark 3" />
+  <meta name="twitter:description" content="The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms : decision tree, gradient tree …">
+  <meta name="twitter:image" content="https://datatrigger.org/img/profile/p32.jpeg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@vincentgoualher" />
+  <meta name="twitter:creator" content="@vincentgoualher" />
+  <link href='https://datatrigger.org/img/icon/settings.png' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.78.2" />
+  <link rel="alternate" href="https://datatrigger.org/index.xml" type="application/rss+xml" title="Data Trigger"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://datatrigger.org/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://datatrigger.org/css/syntax.css" /><link rel="stylesheet" href="https://datatrigger.org/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous"><link rel="stylesheet" href="https://datatrigger.org/css/custom.css">
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-165238354-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://datatrigger.org">Data Trigger</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Data Trigger" href="https://datatrigger.org">
+            <img class="avatar-img" src="https://datatrigger.org/img/profile/p32.jpeg" alt="Data Trigger" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Weighted Random Forest with Spark 3</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;
+  
+  
+  
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h3 id="spark-3">Spark 3</h3>
+<p>The main new enhancement in PySpark 3 is the redesign of <a href="https://databricks.com/blog/2020/05/20/new-pandas-udfs-and-python-type-hints-in-the-upcoming-release-of-apache-spark-3-0.html">Pandas user-defined functions with Python type hints</a>. Here we focus on another improvement that went a little bit more unnoticed, that is <a href="https://spark.apache.org/releases/spark-release-3-0-0.html#mllib">sample weights support</a> added for a number of classifiers. Let us give random forest a try.</p>
+<h3 id="load-the-credit-card-fraud-dataset-in-a-spark-session">Load the credit card fraud dataset in a Spark Session</h3>
+<p>We work on the notoriously imbalanced credit card fraud detection dataset available on <a href="https://www.kaggle.com/mlg-ulb/creditcardfraud">Kaggle</a>. Let us instantiate a SparkSession and load the data into it. I use the four cores available on my machine using the option <code>master('local[4]')</code>.</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Initialize a Spark Session</span>
+<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pyspark.sql</span> <span style="color:#008000;font-weight:bold">import</span> SparkSession
+<span style="color:#408080;font-style:italic"># Specify the number of available cores in .master()</span>
+spark <span style="color:#666">=</span> SparkSession<span style="color:#666">.</span>builder<span style="color:#666">.</span>master(<span style="color:#ba2121">&#39;local[4]&#39;</span>)<span style="color:#666">.</span>appName(<span style="color:#ba2121">&#39;Weighted Random Forest with Spark 3&#39;</span>)<span style="color:#666">.</span>getOrCreate()
+
+<span style="color:#408080;font-style:italic"># Get the data here : https://www.kaggle.com/mlg-ulb/creditcardfraud</span>
+csv_file <span style="color:#666">=</span> <span style="color:#ba2121">&#34;.../creditcard.csv&#34;</span>
+df <span style="color:#666">=</span> spark<span style="color:#666">.</span>read<span style="color:#666">.</span>format(<span style="color:#ba2121">&#34;csv&#34;</span>)<span style="color:#666">.</span>option(<span style="color:#ba2121">&#34;inferSchema&#34;</span>, <span style="color:#ba2121">&#34;true&#34;</span>)<span style="color:#666">.</span>option(<span style="color:#ba2121">&#34;header&#34;</span>, <span style="color:#ba2121">&#34;true&#34;</span>)<span style="color:#666">.</span>load(csv_file)
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">print</span>(df)
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/res/spark_3_imbalanced/img/colnames.png" alt="df credit card schema"></p>
+<p>The &lsquo;Time&rsquo; column is to be deleted since it <em>contains the seconds elapsed between each transaction and the first transaction</em>. This is irrelevant in my opinion. We also rename some columns for our good taste.</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df <span style="color:#666">=</span> df<span style="color:#666">.</span>drop(<span style="color:#ba2121">&#39;Time&#39;</span>)<span style="color:#666">.</span>withColumnRenamed(<span style="color:#ba2121">&#39;Amount&#39;</span>, <span style="color:#ba2121">&#39;amount&#39;</span>)<span style="color:#666">.</span>withColumnRenamed(<span style="color:#ba2121">&#39;Class&#39;</span>, <span style="color:#ba2121">&#39;outcome&#39;</span>)
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="count-the-frauds-and-weight-them">Count the frauds and weight them</h3>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Check imbalance and compute weights</span>
+<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">pandas</span> <span style="color:#008000;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">pd</span>
+counts <span style="color:#666">=</span> df<span style="color:#666">.</span>groupBy(<span style="color:#ba2121">&#39;outcome&#39;</span>)<span style="color:#666">.</span>count()<span style="color:#666">.</span>toPandas()
+<span style="color:#008000;font-weight:bold">print</span>(counts)
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/res/spark_3_imbalanced/img/counts.png" alt="counts"></p>
+<p>We only have 492 frauds out of 284807 transactions. A rather imbalanced dataset indeed. This is the reason why we compute a weight for each observation, according to its class (i.e fraud / not fraud). We will use the following popular method, even though there seems to be no strong consensus at the moment among the ML community regarding this subject : $$w_i := \frac{n}{n_i * C}$$</p>
+<p>Where $C$ is the number of classes (today, $C = 2$), $i \in {1&hellip;C}$, $n$ is the total number of observations and $n_i$ the number of observations of class $i$.</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Counts</span>
+count_fraud <span style="color:#666">=</span> counts[counts[<span style="color:#ba2121">&#39;outcome&#39;</span>]<span style="color:#666">==</span><span style="color:#666">1</span>][<span style="color:#ba2121">&#39;count&#39;</span>]<span style="color:#666">.</span>values[<span style="color:#666">0</span>]
+count_total <span style="color:#666">=</span> counts[<span style="color:#ba2121">&#39;count&#39;</span>]<span style="color:#666">.</span>sum()
+
+<span style="color:#408080;font-style:italic"># Weights</span>
+c <span style="color:#666">=</span> <span style="color:#666">2</span>
+weight_fraud <span style="color:#666">=</span> count_total <span style="color:#666">/</span> (c <span style="color:#666">*</span> count_fraud)
+weight_no_fraud <span style="color:#666">=</span> count_total <span style="color:#666">/</span> (c <span style="color:#666">*</span> (count_total <span style="color:#666">-</span> count_fraud))
+
+<span style="color:#408080;font-style:italic"># Append weights to the dataset</span>
+<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pyspark.sql.functions</span> <span style="color:#008000;font-weight:bold">import</span> col
+<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pyspark.sql.functions</span> <span style="color:#008000;font-weight:bold">import</span> when
+
+df <span style="color:#666">=</span> df<span style="color:#666">.</span>withColumn(<span style="color:#ba2121">&#34;weight&#34;</span>, when(col(<span style="color:#ba2121">&#34;outcome&#34;</span>) <span style="color:#666">==</span><span style="color:#666">1</span>, weight_fraud)<span style="color:#666">.</span>otherwise(weight_no_fraud))
+
+<span style="color:#408080;font-style:italic"># Check everything seems ok</span>
+df<span style="color:#666">.</span>select(<span style="color:#ba2121">&#39;outcome&#39;</span>, <span style="color:#ba2121">&#39;weight&#39;</span>)<span style="color:#666">.</span>where(col(<span style="color:#ba2121">&#39;outcome&#39;</span>)<span style="color:#666">==</span><span style="color:#666">1</span>)<span style="color:#666">.</span>show(<span style="color:#666">3</span>)
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df<span style="color:#666">.</span>select(<span style="color:#ba2121">&#39;outcome&#39;</span>, <span style="color:#ba2121">&#39;weight&#39;</span>)<span style="color:#666">.</span>where(col(<span style="color:#ba2121">&#39;outcome&#39;</span>)<span style="color:#666">==</span><span style="color:#666">0</span>)<span style="color:#666">.</span>show(<span style="color:#666">3</span>)
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<p>We can also have a quick look at the features using the extremely useful <code>describe()</code> function. Since the result is agreggated data, it is no problem to convert it to a Pandas DataFrame in order to benefit from the much nicer displaying features of this library :</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df<span style="color:#666">.</span>describe()<span style="color:#666">.</span>toPandas()
+</code></pre></td></tr></table>
+</div>
+</div><p>All the features, except from &lsquo;Amount&rsquo; come from a PCA on the original dataset, to keep it anonymous. Hence they are all centered in 0. No scaling is necessary to perform the random forest algorithm or the logistic regression.</p>
+<h3 id="split-the-dataset-and-format-data">Split the dataset and format data</h3>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Split the dataset into train and test subsets</span>
+train, test <span style="color:#666">=</span> df<span style="color:#666">.</span>randomSplit([<span style="color:#666">.</span><span style="color:#666">8</span>, <span style="color:#666">.</span><span style="color:#666">2</span>], seed <span style="color:#666">=</span> <span style="color:#666">0</span>)
+<span style="color:#008000;font-weight:bold">print</span>(f<span style="color:#ba2121">&#34;&#34;&#34;There are {train.count()} rows in the train set, and {test.count()} in the test set&#34;&#34;&#34;</span>)
+</code></pre></td></tr></table>
+</div>
+</div><p>There are 227805 rows in the train set, and 57002 in the test set.</p>
+<p> </p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">test<span style="color:#666">.</span>where(col(<span style="color:#ba2121">&#39;outcome&#39;</span>)<span style="color:#666">==</span><span style="color:#666">1</span>)<span style="color:#666">.</span>count()
+</code></pre></td></tr></table>
+</div>
+</div><p>101 frauds out of 492 ended up in the test set.</p>
+<p>In Spark, all the dependent variable have to be nested in a column often named &lsquo;features&rsquo;. I think this way of pre-processing the data is an excellent idea because it avoids mistakes like forgetting columns or applying unintentional changes.</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Format the data for MLlib models</span>
+<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pyspark.ml.feature</span> <span style="color:#008000;font-weight:bold">import</span> VectorAssembler
+vector_assembler <span style="color:#666">=</span> VectorAssembler(inputCols<span style="color:#666">=</span>df<span style="color:#666">.</span>schema<span style="color:#666">.</span>names[:<span style="color:#666">-</span><span style="color:#666">2</span>], outputCol<span style="color:#666">=</span><span style="color:#ba2121">&#34;features&#34;</span>)
+train <span style="color:#666">=</span> vector_assembler<span style="color:#666">.</span>transform(train)
+test <span style="color:#666">=</span> vector_assembler<span style="color:#666">.</span>transform(test)
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="learning-time-machine">Learning time, machine</h3>
+<p>Hyperparameter tuning is not the topic of this post, so We train four models with default parameters (except for numTrees because the default value - 20 - feels a bit low) :</p>
+<ul>
+<li><em>rf</em> : Random Forest</li>
+<li><em>rfw</em> : Weighted Random Forest</li>
+<li><em>lr</em> : Logistic Regression</li>
+<li><em>lrw</em> : Weighted Logistic Regression</li>
+</ul>
+<p>Hyperparameter tuning is not on the agenda, but we will certainly have a chance to do grid search and cross validation with PySpark on another day.</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pyspark.ml.classification</span> <span style="color:#008000;font-weight:bold">import</span> RandomForestClassifier
+
+<span style="color:#408080;font-style:italic"># Random Forest without weights</span>
+rf <span style="color:#666">=</span> RandomForestClassifier(numTrees <span style="color:#666">=</span> <span style="color:#666">200</span>, featuresCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;features&#39;</span>, labelCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;outcome&#39;</span>, seed<span style="color:#666">=</span><span style="color:#666">0</span>)
+rf <span style="color:#666">=</span> rf<span style="color:#666">.</span>fit(train)
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Random Forest with weights</span>
+rfw <span style="color:#666">=</span> RandomForestClassifier(numTrees <span style="color:#666">=</span> <span style="color:#666">200</span>, featuresCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;features&#39;</span>, labelCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;outcome&#39;</span>, weightCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;weight&#39;</span>, seed<span style="color:#666">=</span><span style="color:#666">0</span>)
+rfw <span style="color:#666">=</span> rfw<span style="color:#666">.</span>fit(train)
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Logistic Regression without weights</span>
+<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pyspark.ml.classification</span> <span style="color:#008000;font-weight:bold">import</span> LogisticRegression
+lr <span style="color:#666">=</span> LogisticRegression(featuresCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;features&#39;</span>, labelCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;outcome&#39;</span>)
+lr <span style="color:#666">=</span> lr<span style="color:#666">.</span>fit(train)
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Logistic Regression with weights</span>
+lrw <span style="color:#666">=</span> LogisticRegression(featuresCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;features&#39;</span>, labelCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;outcome&#39;</span>, weightCol<span style="color:#666">=</span><span style="color:#ba2121">&#39;weight&#39;</span>)
+lrw <span style="color:#666">=</span> lrw<span style="color:#666">.</span>fit(train)
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="predict-the-outcome-and-compute-confusion-matrices">Predict the outcome and compute confusion matrices</h3>
+<p>We use the <code>transform</code> function to generate predictions.</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Predict the outcome for the test set using the four different models computed above</span>
+res_rf <span style="color:#666">=</span> rf<span style="color:#666">.</span>transform(test)
+res_rfw <span style="color:#666">=</span> rfw<span style="color:#666">.</span>transform(test)
+res_lr <span style="color:#666">=</span> lr<span style="color:#666">.</span>transform(test)
+res_lrw <span style="color:#666">=</span> lrw<span style="color:#666">.</span>transform(test)
+</code></pre></td></tr></table>
+</div>
+</div><p>Now let us have a look at the confusion matrices for the test set :</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Let us have a look at the confusion matrices on the test set</span>
+
+<span style="color:#408080;font-style:italic"># Random Forest without weights</span>
+res_rf<span style="color:#666">.</span>groupBy(<span style="color:#ba2121">&#39;outcome&#39;</span>, <span style="color:#ba2121">&#39;prediction&#39;</span>)<span style="color:#666">.</span>count()<span style="color:#666">.</span>show()
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/res/spark_3_imbalanced/img/mat_rf.png" alt="mat_rf"></p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Random Forest with weights</span>
+res_rfw<span style="color:#666">.</span>groupBy(<span style="color:#ba2121">&#39;outcome&#39;</span>, <span style="color:#ba2121">&#39;prediction&#39;</span>)<span style="color:#666">.</span>count()<span style="color:#666">.</span>show()
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/res/spark_3_imbalanced/img/mat_rfw.png" alt="mat_rfw"></p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Logistic Regression without weights</span>
+res_lr<span style="color:#666">.</span>groupBy(<span style="color:#ba2121">&#39;outcome&#39;</span>, <span style="color:#ba2121">&#39;prediction&#39;</span>)<span style="color:#666">.</span>count()<span style="color:#666">.</span>show()
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/res/spark_3_imbalanced/img/mat_lr.png" alt="mat_lr"></p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Logistic Regression with weights</span>
+res_lrw<span style="color:#666">.</span>groupBy(<span style="color:#ba2121">&#39;outcome&#39;</span>, <span style="color:#ba2121">&#39;prediction&#39;</span>)<span style="color:#666">.</span>count()<span style="color:#666">.</span>show()
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/res/spark_3_imbalanced/img/mat_lrw.png" alt="mat_lrw"></p>
+<p>From bottom to top, we can see that the logistic regression without weights performs very well when it comes to detecting actual fraud. However, this comes at the cost of wrongly identifying a <strong>lot</strong> of wholesome transactions as frauds. The opposite disequilibrium happens with the standard logistic regression, with only roughly $\frac{2}{3}$ of frauds legitimately detected. However, only 11 out of 56 901 wholesome transactions are identified as fraud, which is surprisingly low. Of course, the same experiment with different train/test splits should be conducted before jumping to conclusions.</p>
+<p>As for random forests, the weighted model shows almost the same performance as the weighted logistic regression regarding real frauds : 90 correct guesses instead of 94. But this time, the number of wholesome transactions mistakenly identified as frauds is divided by ten. This kind of model should be considered when the cost of false positive is relatively low compared to the cost of false negative. What about plain old unweighted random forest model ? It identifies wholesome transactions extremely well, like the basic logistic regression (10 out of 56 901). However, the model is able to rise the <em>precision</em> (as in precision vs recall) to approximately $\frac{4}{5}$. Put another way, the <em>precision</em> was increased by around 15% with random forest instead of logistic regression.</p>
+<p>We will not dive into the hot topic of evaluation metrics for imbalanced classification. However, we give an example below with the computation of the area under the <a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html">Precision-Recall</a> curve :</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#408080;font-style:italic"># Compute the area under the PR curve</span>
+<span style="color:#008000;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">pyspark.ml.evaluation</span> <span style="color:#008000;font-weight:bold">import</span> BinaryClassificationEvaluator
+
+pr <span style="color:#666">=</span> BinaryClassificationEvaluator(rawPredictionCol <span style="color:#666">=</span> <span style="color:#ba2121">&#39;prediction&#39;</span>, labelCol<span style="color:#666">=</span><span style="color:#ba2121">&#34;outcome&#34;</span>, metricName<span style="color:#666">=</span><span style="color:#ba2121">&#34;areaUnderPR&#34;</span>)
+pr<span style="color:#666">.</span>evaluate(res_rf)
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="conclusion">Conclusion</h3>
+<p>Weighted or not, random forest performs well at detecting fraud in comparison with logistic regression. However, having the option of weighting observations is an extremely useful feature as it allows the user to lean the model&rsquo;s performance toward a specific phenomenon. In fraud detection for example, a weighted model is a valid choice if the cost of fraud is high regarding the cost of mistakenly identifying wholesome events as frauds.</p>
+<p>You can find the full notebook in this <a href="https://github.com/datatrigger/weighted_random_forest_spark_3">GitHub repository</a>.</p>
+<p> </p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://datatrigger.org/tags/spark/">spark</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/pyspark/">pyspark</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/python/">python</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/weight/">weight</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/fraud/">fraud</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/random-forest/">random forest</a>&nbsp;
+            
+          </div>
+        
+
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">See also</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/subtotals/">Adding totals and subtotals rows with pandas or the tidyverse</a></li>
+                
+                    <li><a href="/post/scaling/">Back to basics : Scaling train and test samples.</a></li>
+                
+                    <li><a href="/post/anomaly_detection/">Outlier detection</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://datatrigger.org/post/anomaly_detection/" data-toggle="tooltip" data-placement="top" title="Outlier detection">&larr; Previous Post</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://datatrigger.org/post/scaling/" data-toggle="tooltip" data-placement="top" title="Back to basics : Scaling train and test samples.">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:contact@datatrigger.org" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/datatrigger" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/vincentgoualher" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://linkedin.com/in/datatrigger" title="LinkedIn">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="datatrigger.org">Vincent Le Goualher</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2020
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://datatrigger.org">Data Trigger</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.78.2</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://datatrigger.org/js/main.js"></script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://datatrigger.org/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+<script>
+	renderMathInElement(
+		document.body,
+		{
+			delimiters: [
+			{left: "$$", right: "$$", display: true},
+			{left: "\\[", right: "\\]", display: true},
+			{left: "$", right: "$", display: false},
+			{left: "\\(", right: "\\)", display: false}
+			]
+		}
+		);
+	</script>
+
+
+    
+  </body>
+</html>
+

@@ -7,27 +7,59 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>contact@datatrigger.org (Vincent Le Goualher)</managingEditor>
     <webMaster>contact@datatrigger.org (Vincent Le Goualher)</webMaster>
-    <lastBuildDate>Sun, 26 Apr 2020 13:41:21 +0200</lastBuildDate>
-    
-	<atom:link href="https://datatrigger.org/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 31 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://datatrigger.org/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Code highlighting with Hugo</title>
-      <link>https://datatrigger.org/post/highlights/</link>
-      <pubDate>Sun, 26 Apr 2020 13:41:21 +0200</pubDate>
+      <title>Visualizing the sum of two random variables</title>
+      <link>https://datatrigger.org/post/sum_random_variables/</link>
+      <pubDate>Sat, 31 Oct 2020 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
-      <guid>https://datatrigger.org/post/highlights/</guid>
-      <description>Test : different ways of highlighting code with Hugo.</description>
+      <guid>https://datatrigger.org/post/sum_random_variables/</guid>
+      <description>Take too independent random variables identically distributed. Question: if their sum is large, are they likely to be both large ? Let us examine this question with contour plots.</description>
     </item>
     
     <item>
-      <title>Markdown cheatsheet</title>
-      <link>https://datatrigger.org/post/2015-02-20-test-markdown/</link>
-      <pubDate>Sun, 15 Mar 2020 00:00:00 +0000</pubDate>
+      <title>Adding totals and subtotals rows with pandas or the tidyverse</title>
+      <link>https://datatrigger.org/post/subtotals/</link>
+      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
-      <guid>https://datatrigger.org/post/2015-02-20-test-markdown/</guid>
-      <description>Preview of the content.</description>
+      <guid>https://datatrigger.org/post/subtotals/</guid>
+      <description>When dealing with a dataframe, generating aggregate data is a very common task. In my experience, presenting the summary statistics for the whole population or for subgroups directly in the dataframe can be useful, if not necessary. Today, I present my recipe to achieve this with the pandas and tidyverse packages.</description>
+    </item>
+    
+    <item>
+      <title>Back to basics : Scaling train and test samples.</title>
+      <link>https://datatrigger.org/post/scaling/</link>
+      <pubDate>Mon, 12 Oct 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/scaling/</guid>
+      <description>Splitting and scaling a dataset seems easy. Well, it is admittedly not that hard, however it can be tricky. Today we will see how to properly split and scale a dataset, as this step if often necessary before any ML wizardry. Let us do this with a few R &amp;amp; Python packages/modules.</description>
+    </item>
+    
+    <item>
+      <title>Weighted Random Forest with Spark 3</title>
+      <link>https://datatrigger.org/post/spark_3_weighted_random_forest/</link>
+      <pubDate>Sun, 06 Sep 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/spark_3_weighted_random_forest/</guid>
+      <description>The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms : decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud.</description>
+    </item>
+    
+    <item>
+      <title>Outlier detection</title>
+      <link>https://datatrigger.org/post/anomaly_detection/</link>
+      <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/anomaly_detection/</guid>
+      <description>In this post, I try to define what an outlier is and I present several ways to approach the problem of anomaly detection. Then, I present the Local Outlier Factor algorithm and apply it on a specific dataset to show its power, using both Python and R. I also compare its performance with the Isolation Forest method.</description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>https://datatrigger.org/page/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/page/about/</guid>
+      <description>Me, myself and I Hello Internet ! My name is Vincent Le Goualher, I am 30 years old and I currently work as a data scientist in Paris. My job involves analysing datasets, visualizing trends, using machine learning to model phenomena and building/deploying applications to predict behaviors or make decisions. So far, I have worked in several domains, namely public health and financial services. Unsurprinsingly, I am a heavy user of Python tools such as pandas, PyTorch, PySpark and many others.</description>
     </item>
     
   </channel>

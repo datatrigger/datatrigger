@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Adding totals and subtotals rows with pandas or the tidyverse - Data Trigger</title>
+  <meta name="description" content="When dealing with a dataframe, generating aggregate data is a very common task. In my experience, presenting the summary statistics for the whole population or for subgroups directly in the dataframe can be useful, if not necessary. Today, I present my recipe to achieve this with the pandas and tidyverse packages.">
+  <meta name="author" content="Vincent Le Goualher"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "Data Trigger",
+    
+    "url": "https:\/\/datatrigger.org"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/datatrigger.org"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/datatrigger.org",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/datatrigger.org\/post\/subtotals\/",
+          "name": "Adding totals and subtotals rows with pandas or the tidyverse"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "Vincent Le Goualher"
+  },
+  "headline": "Adding totals and subtotals rows with pandas or the tidyverse",
+  "description" : "When dealing with a dataframe, generating aggregate data is a very common task. In my experience, presenting the summary statistics for the whole population or for subgroups directly in the dataframe can be useful, if not necessary. Today, I present my recipe to achieve this with the pandas and tidyverse packages.",
+  "inLanguage" : "en",
+  "wordCount":  827 ,
+  "datePublished" : "2020-10-18T00:00:00",
+  "dateModified" : "2020-10-18T00:00:00",
+  "image" : "https:\/\/datatrigger.org\/img\/profile\/p32.jpeg",
+  "keywords" : [ "python, r, pandas, tidyverse, total row, subtotals, aggregate, groupby" ],
+  "mainEntityOfPage" : "https:\/\/datatrigger.org\/post\/subtotals\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/datatrigger.org",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/datatrigger.org\/img\/profile\/p32.jpeg",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="Adding totals and subtotals rows with pandas or the tidyverse" />
+<meta property="og:description" content="When dealing with a dataframe, generating aggregate data is a very common task. In my experience, presenting the summary statistics for the whole population or for subgroups directly in the dataframe can be useful, if not necessary. Today, I present my recipe to achieve this with the pandas and tidyverse packages.">
+<meta property="og:image" content="https://datatrigger.org/img/profile/p32.jpeg" />
+<meta property="og:url" content="https://datatrigger.org/post/subtotals/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Data Trigger" />
+
+  <meta name="twitter:title" content="Adding totals and subtotals rows with pandas or the tidyverse" />
+  <meta name="twitter:description" content="When dealing with a dataframe, generating aggregate data is a very common task. In my experience, presenting the summary statistics for the whole population or for subgroups directly in the dataframe …">
+  <meta name="twitter:image" content="https://datatrigger.org/img/profile/p32.jpeg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@vincentgoualher" />
+  <meta name="twitter:creator" content="@vincentgoualher" />
+  <link href='https://datatrigger.org/img/icon/settings.png' rel='icon' type='image/x-icon'/>
+  <meta name="generator" content="Hugo 0.78.2" />
+  <link rel="alternate" href="https://datatrigger.org/index.xml" type="application/rss+xml" title="Data Trigger"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://datatrigger.org/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://datatrigger.org/css/syntax.css" /><link rel="stylesheet" href="https://datatrigger.org/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous"><link rel="stylesheet" href="https://datatrigger.org/css/custom.css">
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-165238354-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://datatrigger.org">Data Trigger</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Blog" href="/">Blog</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/page/about/">About</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+      <div class="avatar-container">
+        <div class="avatar-img-border">
+          <a title="Data Trigger" href="https://datatrigger.org">
+            <img class="avatar-img" src="https://datatrigger.org/img/profile/p32.jpeg" alt="Data Trigger" />
+          </a>
+        </div>
+      </div>
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>Adding totals and subtotals rows with pandas or the tidyverse</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+  <i class="fas fa-calendar"></i>&nbsp;
+  
+  
+  
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+        <h2 id="an-easy-problem-without-a-simple-solution">An easy problem without a simple solution</h2>
+<p>Today, we are definitely not talking about complex Data Science. We have a dataset like this one:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:left">Group</th>
+<th style="text-align:left">Subgroup</th>
+<th style="text-align:right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">6</td>
+</tr>
+<tr>
+<td style="text-align:right">1</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">19</td>
+</tr>
+<tr>
+<td style="text-align:right">2</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">14</td>
+</tr>
+<tr>
+<td style="text-align:right">3</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">4</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">7</td>
+</tr>
+<tr>
+<td style="text-align:right">5</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">6</td>
+</tr>
+<tr>
+<td style="text-align:right">6</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">18</td>
+</tr>
+<tr>
+<td style="text-align:right">7</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">8</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">9</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">3</td>
+</tr>
+</tbody>
+</table>
+<p>And we would like to programmatically generate a summary, like this one:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:left">Group</th>
+<th style="text-align:left">Subgroup</th>
+<th style="text-align:right">Mean of Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">13</td>
+</tr>
+<tr>
+<td style="text-align:right">1</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">2</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">12.25</td>
+</tr>
+<tr>
+<td style="text-align:right">3</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">10.3333</td>
+</tr>
+<tr>
+<td style="text-align:right">4</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">7.66667</td>
+</tr>
+<tr>
+<td style="text-align:right">5</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">9</td>
+</tr>
+<tr>
+<td style="text-align:right">6</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">10.3</td>
+</tr>
+</tbody>
+</table>
+<p>It may seem like something very easy to achieve. Well, I was the first to be surprised when I realized that there is currently no trivial way to do this with both pandas and tidyverse libraries. Even the almighty <em>Stack Overflow</em> does not give a clear answer about how to do this, as far as I know. Let us see how to proceed.</p>
+<h2 id="how-to">HOW TO</h2>
+<p>The first idea that comes to mind is to compute the &ldquo;Total&rdquo; row on the side, and to bind it to the original dataset. Unfortunately, this works if the total is needed only for the whole population and not for subgroups. Indeed, this method is not appropriate for subtotals because reordering the rows after the concatenation is a real pain.<br>
+To get around this problem, we concatenate the original dataset to itself as much as needeed, after having made &ldquo;Total&rdquo; a new level for the features we want to include in the aggregate data.</p>
+<h4 id="pandas">Pandas</h4>
+<p>We will work on the following dataset, presented above :</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">pandas</span> <span style="color:#008000;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">pd</span>
+<span style="color:#008000;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">numpy</span> <span style="color:#008000;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">np</span>
+
+np<span style="color:#666">.</span>random<span style="color:#666">.</span>seed(<span style="color:#666">42</span>)
+
+df <span style="color:#666">=</span> pd<span style="color:#666">.</span>DataFrame({
+<span style="color:#ba2121">&#34;Group&#34;</span>: <span style="color:#666">4</span><span style="color:#666">*</span>[<span style="color:#ba2121">&#39;X&#39;</span>]<span style="color:#666">+</span><span style="color:#666">6</span><span style="color:#666">*</span>[<span style="color:#ba2121">&#39;Y&#39;</span>],
+<span style="color:#ba2121">&#34;Subgroup&#34;</span>: <span style="color:#666">3</span><span style="color:#666">*</span>[<span style="color:#ba2121">&#39;a&#39;</span>]<span style="color:#666">+</span>[<span style="color:#ba2121">&#39;z&#39;</span>]<span style="color:#666">+</span><span style="color:#666">3</span><span style="color:#666">*</span>[<span style="color:#ba2121">&#39;a&#39;</span>]<span style="color:#666">+</span><span style="color:#666">3</span><span style="color:#666">*</span>[<span style="color:#ba2121">&#39;z&#39;</span>],
+<span style="color:#ba2121">&#34;Value&#34;</span>: np<span style="color:#666">.</span>random<span style="color:#666">.</span>randint(<span style="color:#666">20</span>, size<span style="color:#666">=</span><span style="color:#666">10</span>)
+})
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="concatenate">Concatenate</h5>
+<p>We build the two following datasets :</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df<span style="color:#666">.</span>assign(Subgroup<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">lambda</span> x: <span style="color:#ba2121">&#34;Total&#34;</span>)
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:left">Group</th>
+<th style="text-align:left">Subgroup</th>
+<th style="text-align:right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">6</td>
+</tr>
+<tr>
+<td style="text-align:right">1</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">19</td>
+</tr>
+<tr>
+<td style="text-align:right">2</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">14</td>
+</tr>
+<tr>
+<td style="text-align:right">3</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">4</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">7</td>
+</tr>
+<tr>
+<td style="text-align:right">5</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">6</td>
+</tr>
+<tr>
+<td style="text-align:right">6</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">18</td>
+</tr>
+<tr>
+<td style="text-align:right">7</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">8</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">9</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">3</td>
+</tr>
+</tbody>
+</table>
+<p>and</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df<span style="color:#666">.</span>assign(Group<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">lambda</span> x: <span style="color:#ba2121">&#34;Total&#34;</span>, Subgroup<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">lambda</span> x: <span style="color:#ba2121">&#34;Total&#34;</span>)
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:left">Group</th>
+<th style="text-align:left">Subgroup</th>
+<th style="text-align:right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">6</td>
+</tr>
+<tr>
+<td style="text-align:right">1</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">19</td>
+</tr>
+<tr>
+<td style="text-align:right">2</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">14</td>
+</tr>
+<tr>
+<td style="text-align:right">3</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">4</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">7</td>
+</tr>
+<tr>
+<td style="text-align:right">5</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">6</td>
+</tr>
+<tr>
+<td style="text-align:right">6</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">18</td>
+</tr>
+<tr>
+<td style="text-align:right">7</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">8</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">9</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">3</td>
+</tr>
+</tbody>
+</table>
+<p>Then we concatenate these dataframes to the original dataset with <code>pandas.concat()</code> :</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_subtotal <span style="color:#666">=</span> pd<span style="color:#666">.</span>concat([
+    df,
+    df<span style="color:#666">.</span>assign(Subgroup<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">lambda</span> x: <span style="color:#ba2121">&#34;Total&#34;</span>),
+    df<span style="color:#666">.</span>assign(Group<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">lambda</span> x: <span style="color:#ba2121">&#34;Total&#34;</span>, Subgroup<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">lambda</span> x: <span style="color:#ba2121">&#34;Total&#34;</span>)
+])
+</code></pre></td></tr></table>
+</div>
+</div><p>Let us compute the mean for each group/subgroup :</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pd<span style="color:#666">.</span>concat([
+    df,
+    df<span style="color:#666">.</span>assign(Subgroup<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">lambda</span> x: <span style="color:#ba2121">&#34;Total&#34;</span>),
+    df<span style="color:#666">.</span>assign(Group<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">lambda</span> x: <span style="color:#ba2121">&#34;Total&#34;</span>, Subgroup<span style="color:#666">=</span><span style="color:#008000;font-weight:bold">lambda</span> x: <span style="color:#ba2121">&#34;Total&#34;</span>)
+])<span style="color:#666">.</span>groupby(by<span style="color:#666">=</span>[<span style="color:#ba2121">&#39;Group&#39;</span>, <span style="color:#ba2121">&#39;Subgroup&#39;</span>], observed<span style="color:#666">=</span>True)<span style="color:#666">.</span>mean()
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:left">Group</th>
+<th style="text-align:left">Subgroup</th>
+<th style="text-align:right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">10.3</td>
+</tr>
+<tr>
+<td style="text-align:right">1</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">12.25</td>
+</tr>
+<tr>
+<td style="text-align:right">2</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">13</td>
+</tr>
+<tr>
+<td style="text-align:right">3</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">4</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">9</td>
+</tr>
+<tr>
+<td style="text-align:right">5</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">10.3333</td>
+</tr>
+<tr>
+<td style="text-align:right">6</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">7.66667</td>
+</tr>
+</tbody>
+</table>
+<p>The results are there, but the order of the rows is clearly not satisfying.</p>
+<h5 id="order-levels">Order levels</h5>
+<p>To circumvent this issue, we cast the grouping variables as dtype <em>category</em>. Calling <code>pandas.Series.astype(&quot;category&quot;)</code> is not good enough because by default, categories are unordered. Yet, we want the category &ldquo;Total&rdquo; to be the last. We use instances of <code>CategoricalDtype</code> for this purpose. Get more information <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/categorical.html">here</a>.</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cat_Group <span style="color:#666">=</span> CategoricalDtype(categories<span style="color:#666">=</span><span style="color:#008000">list</span>(df[<span style="color:#ba2121">&#39;Group&#39;</span>]<span style="color:#666">.</span>unique()) <span style="color:#666">+</span> [<span style="color:#ba2121">&#39;Total&#39;</span>], ordered<span style="color:#666">=</span>True)
+cat_Subgroup <span style="color:#666">=</span> CategoricalDtype(categories<span style="color:#666">=</span><span style="color:#008000">list</span>(df[<span style="color:#ba2121">&#39;Subgroup&#39;</span>]<span style="color:#666">.</span>unique()) <span style="color:#666">+</span> [<span style="color:#ba2121">&#39;Total&#39;</span>], ordered<span style="color:#666">=</span>True)
+
+df_subtotal[<span style="color:#ba2121">&#39;Group&#39;</span>] <span style="color:#666">=</span> df_subtotal[<span style="color:#ba2121">&#39;Group&#39;</span>]<span style="color:#666">.</span>astype(cat_Group)
+df_subtotal[<span style="color:#ba2121">&#39;Subgroup&#39;</span>] <span style="color:#666">=</span> df_subtotal[<span style="color:#ba2121">&#39;Subgroup&#39;</span>]<span style="color:#666">.</span>astype(cat_Subgroup)
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="aggregate">Aggregate</h5>
+<p>Now the <code>groupby()</code> command returns the expected result :</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df_subtotal<span style="color:#666">.</span>groupby(by<span style="color:#666">=</span>[<span style="color:#ba2121">&#39;Group&#39;</span>, <span style="color:#ba2121">&#39;Subgroup&#39;</span>], observed<span style="color:#666">=</span>True)<span style="color:#666">.</span>mean()
+</code></pre></td></tr></table>
+</div>
+</div><p> </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:left">Group</th>
+<th style="text-align:left">Subgroup</th>
+<th style="text-align:right">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">13</td>
+</tr>
+<tr>
+<td style="text-align:right">1</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td style="text-align:right">2</td>
+<td style="text-align:left">X</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">12.25</td>
+</tr>
+<tr>
+<td style="text-align:right">3</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">a</td>
+<td style="text-align:right">10.3333</td>
+</tr>
+<tr>
+<td style="text-align:right">4</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">z</td>
+<td style="text-align:right">7.66667</td>
+</tr>
+<tr>
+<td style="text-align:right">5</td>
+<td style="text-align:left">Y</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">9</td>
+</tr>
+<tr>
+<td style="text-align:right">6</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:left">Total</td>
+<td style="text-align:right">10.3</td>
+</tr>
+</tbody>
+</table>
+<p>Hooray !</p>
+<h2 id="rs-tidyverse">R&rsquo;s Tidyverse</h2>
+<p>In this case, we use <em>dplyr</em> for the concatenation and <em>forcats</em> to reorder the levels :</p>
+<div class="highlight"><div style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style=";-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#408080;font-style:italic"># Import necessary packages</span>
+<span style="color:#00f">library</span>(tibble)
+<span style="color:#00f">library</span>(dplyr)
+<span style="color:#00f">library</span>(forcats)
+
+<span style="color:#408080;font-style:italic"># Generate the data</span>
+df <span style="color:#666">&lt;-</span> <span style="color:#00f">tibble</span>(
+  Group <span style="color:#666">=</span> <span style="color:#00f">c</span>(<span style="color:#00f">rep</span>(<span style="color:#ba2121">&#34;X&#34;</span>, <span style="color:#666">4</span>), <span style="color:#00f">rep</span>(<span style="color:#ba2121">&#34;Y&#34;</span>, <span style="color:#666">6</span>)),
+  Subgroup <span style="color:#666">=</span> <span style="color:#00f">c</span>(<span style="color:#00f">rep</span>(<span style="color:#ba2121">&#34;a&#34;</span>, <span style="color:#666">3</span>), <span style="color:#ba2121">&#34;z&#34;</span>, <span style="color:#00f">rep</span>(<span style="color:#ba2121">&#34;a&#34;</span>, <span style="color:#666">3</span>), <span style="color:#00f">rep</span>(<span style="color:#ba2121">&#34;z&#34;</span>, <span style="color:#666">3</span>)),
+  Value <span style="color:#666">=</span> <span style="color:#00f">sample</span>(<span style="color:#666">20</span>, <span style="color:#666">10</span>, replace <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">TRUE</span>)
+)
+
+df <span style="color:#666">%&gt;%</span>
+  <span style="color:#408080;font-style:italic"># Concatenate</span>
+  <span style="color:#00f">bind_rows</span>(
+    df <span style="color:#666">%&gt;%</span> <span style="color:#00f">mutate</span>(Subgroup <span style="color:#666">=</span> <span style="color:#ba2121">&#34;Total&#34;</span>),
+    df <span style="color:#666">%&gt;%</span> <span style="color:#00f">mutate</span>(<span style="color:#00f">across</span>(<span style="color:#00f">c</span>(Group, Subgroup), <span style="color:#666">~</span> <span style="color:#ba2121">&#34;Total&#34;</span>))
+  ) <span style="color:#666">%&gt;%</span>
+  <span style="color:#408080;font-style:italic"># Aggregate</span>
+  <span style="color:#00f">group_by</span>(
+    Group,
+    Subgroup
+  ) <span style="color:#666">%&gt;%</span>
+  <span style="color:#00f">summarise</span>(
+    Mean <span style="color:#666">=</span> <span style="color:#00f">mean</span>(Value)
+  ) <span style="color:#666">%&gt;%</span>
+  <span style="color:#00f">ungroup</span>() <span style="color:#666">%&gt;%</span>
+  <span style="color:#408080;font-style:italic"># Reorder factor levels</span>
+  <span style="color:#00f">mutate</span>(
+    Group <span style="color:#666">=</span> Group <span style="color:#666">%&gt;%</span> <span style="color:#00f">as.factor</span>() <span style="color:#666">%&gt;%</span> <span style="color:#00f">fct_relevel</span>(<span style="color:#ba2121">&#34;Total&#34;</span>, after <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">Inf</span>),
+    Subgroup <span style="color:#666">=</span> Subgroup <span style="color:#666">%&gt;%</span> <span style="color:#00f">as.factor</span>() <span style="color:#666">%&gt;%</span> <span style="color:#00f">fct_relevel</span>(<span style="color:#ba2121">&#34;Total&#34;</span>, after <span style="color:#666">=</span> <span style="color:#008000;font-weight:bold">Inf</span>)
+  ) <span style="color:#666">%&gt;%</span>
+  <span style="color:#408080;font-style:italic"># Arrange</span>
+  <span style="color:#00f">arrange</span>(
+    Group,
+    Subgroup
+  )
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="plots">Plots</h2>
+<p>This technique is also useful for data visualization. Below is an example based on the <em>mtcars</em> dataset :</p>
+<p><img src="/res/totals_subtotals/totals_histogram" alt="totals_histogram"></p>
+<p>As usual, the full scripts are available on my <a href="https://github.com/datatrigger/subtotals">GitHub</a>.</p>
+
+
+        
+          <div class="blog-tags">
+            
+              <a href="https://datatrigger.org/tags/python/">python</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/r/">r</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/pandas/">pandas</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/tidyverse/">tidyverse</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/total-row/">total row</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/subtotals/">subtotals</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/aggregate/">aggregate</a>&nbsp;
+            
+              <a href="https://datatrigger.org/tags/groupby/">groupby</a>&nbsp;
+            
+          </div>
+        
+
+        
+
+        
+          
+            
+          
+
+          
+                  <h4 class="see-also">See also</h4>
+                  <ul>
+                
+                
+                    <li><a href="/post/sum_random_variables/">Visualizing the sum of two random variables</a></li>
+                
+                    <li><a href="/post/scaling/">Back to basics : Scaling train and test samples.</a></li>
+                
+                    <li><a href="/post/spark_3_weighted_random_forest/">Weighted Random Forest with Spark 3</a></li>
+                
+                    <li><a href="/post/anomaly_detection/">Outlier detection</a></li>
+                
+              </ul>
+
+          
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://datatrigger.org/post/scaling/" data-toggle="tooltip" data-placement="top" title="Back to basics : Scaling train and test samples.">&larr; Previous Post</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://datatrigger.org/post/sum_random_variables/" data-toggle="tooltip" data-placement="top" title="Visualizing the sum of two random variables">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+        
+        
+      
+
+    </div>
+  </div>
+</div>
+
+      
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+              <li>
+                <a href="mailto:contact@datatrigger.org" title="Email me">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/datatrigger" title="GitHub">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/vincentgoualher" title="Twitter">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="https://linkedin.com/in/datatrigger" title="LinkedIn">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              <a href="datatrigger.org">Vincent Le Goualher</a>
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2020
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://datatrigger.org">Data Trigger</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.78.2</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://datatrigger.org/js/main.js"></script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://datatrigger.org/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+<script>
+	renderMathInElement(
+		document.body,
+		{
+			delimiters: [
+			{left: "$$", right: "$$", display: true},
+			{left: "\\[", right: "\\]", display: true},
+			{left: "$", right: "$", display: false},
+			{left: "\\(", right: "\\)", display: false}
+			]
+		}
+		);
+	</script>
+
+
+    
+  </body>
+</html>
+

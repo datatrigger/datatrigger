@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dplyr on Data Trigger</title>
+    <link>https://datatrigger.org/tags/dplyr/</link>
+    <description>Recent content in dplyr on Data Trigger</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>contact@datatrigger.org (Vincent Le Goualher)</managingEditor>
+    <webMaster>contact@datatrigger.org (Vincent Le Goualher)</webMaster>
+    <lastBuildDate>Mon, 12 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://datatrigger.org/tags/dplyr/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Back to basics : Scaling train and test samples.</title>
+      <link>https://datatrigger.org/post/scaling/</link>
+      <pubDate>Mon, 12 Oct 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/scaling/</guid>
+      <description>Splitting and scaling a dataset seems easy. Well, it is admittedly not that hard, however it can be tricky. Today we will see how to properly split and scale a dataset, as this step if often necessary before any ML wizardry. Let us do this with a few R &amp;amp; Python packages/modules.</description>
+    </item>
+    
+  </channel>
+</rss>

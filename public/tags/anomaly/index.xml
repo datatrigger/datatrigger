@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>anomaly on Data Trigger</title>
+    <link>https://datatrigger.org/tags/anomaly/</link>
+    <description>Recent content in anomaly on Data Trigger</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>contact@datatrigger.org (Vincent Le Goualher)</managingEditor>
+    <webMaster>contact@datatrigger.org (Vincent Le Goualher)</webMaster>
+    <lastBuildDate>Mon, 31 Aug 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://datatrigger.org/tags/anomaly/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Outlier detection</title>
+      <link>https://datatrigger.org/post/anomaly_detection/</link>
+      <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/anomaly_detection/</guid>
+      <description>In this post, I try to define what an outlier is and I present several ways to approach the problem of anomaly detection. Then, I present the Local Outlier Factor algorithm and apply it on a specific dataset to show its power, using both Python and R. I also compare its performance with the Isolation Forest method.</description>
+    </item>
+    
+  </channel>
+</rss>

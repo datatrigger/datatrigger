@@ -6,10 +6,6 @@
     <description>Recent content in Categories on Data Trigger</description>
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>contact@datatrigger.org (Vincent Le Goualher)</managingEditor>
-    <webMaster>contact@datatrigger.org (Vincent Le Goualher)</webMaster>
-    
-	<atom:link href="https://datatrigger.org/categories/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <webMaster>contact@datatrigger.org (Vincent Le Goualher)</webMaster><atom:link href="https://datatrigger.org/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
