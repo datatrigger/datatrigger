@@ -11,7 +11,7 @@ I created this website to archive methods and code that might be useful to other
 
 ## Resume
 
-My resume is available below, both in English and French.
+My resume is available below, both in English and French. Download may take up to a minute.
 
 * [Resume (EN)](/doc/resume_en_vincent_le_goualher.pdf)  
 * [Resume (FR)](/doc/cv_fr_vincent_le_goualher.pdf)
