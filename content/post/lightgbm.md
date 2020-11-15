@@ -237,7 +237,7 @@ To give some perspective about this result, let us note that the standard deviat
 
 ### Conclusion
 
-In the end, our LightGBM model has achieved similar performance to XGBoost, at least regarding accuracy. Nevertheless, the average training speed is about twice as long. This does not mean that we could not reach better performance if we went deeper into hyperparameter tuning and grid searching. However, we can note that regarding this specific superconductivity problem/dataset, LightGBM did not trivially provided a better model than XGBoost. The source code of this experiment is available on [Github](https://github.com/datatrigger/light_gradient_boosted_machine).
+In the end, our LightGBM model has achieved similar performance to XGBoost regarding both speed and accuracy. This does not mean that we could not reach better performance if we went deeper into hyperparameter tuning and grid searching. However, we can note that regarding this specific superconductivity problem/dataset, LightGBM did not trivially provided a better model than XGBoost. The source code of this experiment is entirely available on [Github](https://github.com/datatrigger/light_gradient_boosted_machine).
 
 ### References
 
