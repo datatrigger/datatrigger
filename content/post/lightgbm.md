@@ -50,7 +50,7 @@ In this part, we train a LightGBM model using the parameters provided by Kam Ham
 * Fit the model using the train data and compute the RMSE on the test sample.
 * Repeat 25 times and retain the average RSME on the test data.
 
-##### LightGBM
+#### LightGBM
 
 ```python
 # LightGBM parameters based on the original paper https://arxiv.org/abs/1803.10260
@@ -100,7 +100,7 @@ execution_time = sum(execution_time)/len(execution_time)
 
 ![lightgbm first results](/res/lightgbm/lightgbm_results_1.png)
 
-##### XGBoost
+#### XGBoost
 
 ```python
 # XGBoost parameters based on the original paper https://arxiv.org/abs/1803.10260
@@ -239,7 +239,6 @@ To give some perspective about this result, let us note that the standard deviat
 
 In the end, our LightGBM model has achieved similar performance to XGBoost, at least regarding accuracy. Nevertheless, the average training speed is about twice as long. This does not mean that we could not reach better performance if we went deeper into hyperparameter tuning and grid searching. However, we can note that regarding this specific superconductivity problem/dataset, LightGBM did not trivially provided a better model than XGBoost. The source code of this experiment is available on [Github](https://github.com/datatrigger/light_gradient_boosted_machine).
 
-&nbsp;  
 ### References
 
 [[1]](https://arxiv.org/abs/1803.10260) HAMIDIEH, Kam : *A Data-Driven Statistical Model for Predicting the Critical Temperature of a Superconductor*, University of Pennsylvania, Wharton, Statistics Department, 2018.  
