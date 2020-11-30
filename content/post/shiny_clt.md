@@ -20,7 +20,7 @@ It is named after the polymath of genius [Francis Galton](https://en.wikipedia.o
 
 The CLT comes in many tastes and flavors and it can be found in about a zillion math books. However, writing this article without explicitly mentioning at least its "standard" version is inconceivable ! Let $(X_i)_{i \in \mathbb{N}}$ be a sequence of independent and identically distributed random variables. Suppose that the associated distribution admits finite expected value $\mu$ and variance $\sigma²$. Then the sequence:
 
-$$(\frac{\overline{X_n} - \mu}{\frac{\sigma}{\sqrt{n}}})_{i \in \mathbb{N}}$$
+$$(\frac{\overline{X_n} - \mu}{\frac{\sigma}{\sqrt{n}}})_{n \in \mathbb{N}}$$
 
 converges in distribution to the standard normal distribution $\mathcal{N}(0,1)$, where
 
@@ -28,7 +28,7 @@ $$\overline{X_n} = \frac{1}{n} \sum\limits_{i=1}^{n} X_i \ , \ n \in \mathbb{N}$
 
 ### Visualizing the CLT
 
-The [*Shiny CLT*](https://datatrigger.shinyapps.io/CLT_Visualization/) app is currently deployed on shinyapps.io. It computes samples, then the mean of these samples, for the following distribution:
+The [*Shiny CLT*](https://datatrigger.shinyapps.io/CLT_Visualization/) app is currently deployed on shinyapps.io. It computes samples, then the mean of these samples, for the following distributions:
 
 * Continous distributions: **Cauchy**, exponential, log-normal and uniform
 * Discrete distributions : binomial and Poisson
