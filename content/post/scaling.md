@@ -1,5 +1,5 @@
 ---
-title: "Back to basics : Scaling train and test samples."
+title: "Back to basics: Scaling train and test samples."
 summary: "Splitting and scaling a dataset seems easy. Well, it is admittedly not that hard, however it can be tricky. Today we will see how to properly split and scale a dataset, as this step if often necessary before any ML wizardry. Let us do this with a few R & Python packages/modules."
 date: 2020-10-12
 tags: ["scaling", "normalize", "standardize", "spark", "pyspark", "python", "r", "dplyr", "caret"]
@@ -23,7 +23,7 @@ In his excellent [blog post](https://sebastianraschka.com/faq/docs/scale-trainin
 
 Any other method (scaling then splitting or scaling each sample with its own parameters for example) is wrong because it makes use of information extracted from the test sample to build the model afterwards. Sebastian gives extreme examples to illustrate this in his post. Although improper scaling may have minor consequences when working with a large dataset, it can seriously diminish the performance of a given model if only a few observations are available.  
   
-Programmatically speaking, splitting and scaling a dataset using the method presented above can be a little bit more troublesome than just scaling a set of observations by itself. Let us see how to proceed in a variety of frameworks. As an example, we will work on a dataset composed of three independent features :  
+Programmatically speaking, splitting and scaling a dataset using the method presented above can be a little bit more troublesome than just scaling a set of observations by itself. Let us see how to proceed in a variety of frameworks. As an example, we will work on a dataset composed of three independent features:  
 * $X \sim \mathcal{N}(\mu = 2, \sigma = 2)$
 * $Y \sim \mathcal{C}(x_0 = 0, \gamma = 1)$
 * $Z \sim \mathcal{U}(a = 5, b = 10)$
@@ -76,7 +76,7 @@ df_test_scaled_sd = pd.DataFrame(scaler_sd.transform(test))
 df_test_scaled_range = pd.DataFrame(scaler_range.transform(test))
 ```
 
-The ```DataFrame.describe()``` function allows us to check that both the train and test samples were successfully scaled :  
+The ```DataFrame.describe()``` function allows us to check that both the train and test samples were successfully scaled:  
 
 ```python
 df_train_scaled_sd.describe()
@@ -116,7 +116,7 @@ train = vector_assembler.transform(train)
 test = vector_assembler.transform(test)
 ```
 
-This time only standardization will be done. As in scikit-learn, other scalers are available in Sparks's MLlib : see [here](https://spark.apache.org/docs/latest/ml-features).
+This time only standardization will be done. As in scikit-learn, other scalers are available in Sparks's MLlib: see [here](https://spark.apache.org/docs/latest/ml-features).
 
 ```python
 # Standardize the data using only the train sample
@@ -133,7 +133,7 @@ train_scaled = scalerModel.transform(train)
 test_scaled = scalerModel.transform(test)
 ```
 
-The snippet below computes the specified summary statistics (mean and standard deviation in this case) :  
+The snippet below computes the specified summary statistics (mean and standard deviation in this case):  
 
 ```python
 # Check the results are consistent
@@ -146,7 +146,7 @@ train_scaled.select(summarizer.summary(train_scaled.scaledFeatures)).show(trunca
 
 ### R
 
-Once again, the dataset is built as a ```tibble()``` using the random functions from Base R :  
+Once again, the dataset is built as a ```tibble()``` using the random functions from Base R   
 
 ```r
 library(tidyverse)
@@ -167,7 +167,7 @@ df_train <- df %>% slice(train_indexes)
 df_test <- df %>% slice(-train_indexes)
 ```
 
-#### The easiest way : the caret package
+#### The easiest way: the caret package
 
 We demonstrate both the standardization and the normalization. The scaling is basically done in three lines of code.
 
@@ -181,7 +181,7 @@ df_train_standardized_caret <- predict(standardize_params, df_train)
 df_test_standardized_caret <- predict(standardize_params, df_test)
 ```
 
-#### The old-school way : base R
+#### The old-school way: base R
 
 There is not too much to say about it, this is quite straightforward if you know your way around the ```sweep()``` and ```apply()``` functions. Of course, the pipe ```%>%``` is not a base R feature but I use it for the sake of clarity.
 
@@ -196,7 +196,7 @@ df_test_standardized_baseR <- df_test %>%
   sweep( MARGIN = 2, STATS = stdvs, FUN = "/" )
 ```
 
-#### the hardest way : Tidyverse's dplyr
+#### the hardest way: Tidyverse's dplyr
 
 Also the best way in some cases. For instance, if only a subset of features have to be scaled. This can be achieved efficiently with the ```across()``` available in dplyr 1.0.0. For example, features whose name starts with a given string or numeric ones. More on ```across()``` [here](https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/).
 
@@ -229,4 +229,4 @@ Train-test splitting and scaling are fundamental stages of data preprocessing. I
 
 ### References
 
-[[1]](https://arxiv.org/abs/1502.03167) IOFFE, Sergey, SZEGEDY, Christian : *Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift*, Google Inc., 2015.  
+[[1]](https://arxiv.org/abs/1502.03167) IOFFE, Sergey, SZEGEDY, Christian: *Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift*, Google Inc., 2015.  

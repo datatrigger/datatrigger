@@ -45,7 +45,7 @@ To get around this problem, we concatenate the original dataset to itself as muc
   
 #### Pandas  
 
-We will work on the following dataset, presented above :  
+We will work on the following dataset, presented above:  
 
 ```python
 import pandas as pd
@@ -62,7 +62,7 @@ df = pd.DataFrame({
 
 ##### Concatenate
   
-We build the two following datasets :  
+We build the two following datasets:  
 
 ```python
 df.assign(Subgroup=lambda x: "Total")
@@ -104,7 +104,7 @@ df.assign(Group=lambda x: "Total", Subgroup=lambda x: "Total")
 |  8 | Total   | Total      |      10 |
 |  9 | Total   | Total      |       3 |
   
-Then we concatenate these dataframes to the original dataset with ```pandas.concat()``` :  
+Then we concatenate these dataframes to the original dataset with ```pandas.concat()```:  
 
 ```python
 df_subtotal = pd.concat([
@@ -114,7 +114,7 @@ df_subtotal = pd.concat([
 ])
 ```
 
-Let us compute the mean for each group/subgroup :  
+Let us compute the mean for each group/subgroup:  
 
 ```python
 pd.concat([
@@ -152,7 +152,7 @@ df_subtotal['Subgroup'] = df_subtotal['Subgroup'].astype(cat_Subgroup)
 
 ##### Aggregate
 
-Now the ```groupby()``` command returns the expected result :  
+Now the ```groupby()``` command returns the expected result:  
 
 ```python
 df_subtotal.groupby(by=['Group', 'Subgroup'], observed=True).mean()
@@ -174,7 +174,7 @@ Hooray !
   
 ## R's Tidyverse
 
-In this case, we use *dplyr* for the concatenation and *forcats* to reorder the levels :  
+In this case, we use *dplyr* for the concatenation and *forcats* to reorder the levels:  
 
 ```r
 # Import necessary packages
@@ -218,7 +218,7 @@ df %>%
 
 ## Plots
 
-This technique is also useful for data visualization. Below is an example based on the *mtcars* dataset :  
+This technique is also useful for data visualization. Below is an example based on the *mtcars* dataset:  
 
 ![totals_histogram](/res/totals_subtotals/totals_histogram)
 

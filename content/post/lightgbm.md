@@ -1,6 +1,6 @@
 ---
 title: "Gradient tree boosting in the cloud"
-summary: "A cloud computing experiment with two slightly different implementations of gradient boosted trees : LightGBM and XGBoost. Let us evaluate how these two algorithms do on a moderately large dataset, regarding both accuracy and speed."
+summary: "A cloud computing experiment with two slightly different implementations of gradient boosted trees LightGBM and XGBoost. Let us evaluate how these two algorithms do on a moderately large dataset, regarding both accuracy and speed."
 date: 2020-11-13
 tags: ["python", "xgboost", "lightgbm", "gradient boosted trees", "cloud computing", "machine learning", "superconductors", "paperspace"]
 draft: false
@@ -16,7 +16,7 @@ In his [study [1]](https://arxiv.org/abs/1803.10260), Kam Hamidieh builds a grad
 
 ### Data
 
-The dataset contains 21 263 superconductors described by 81 explanatory variables, and one more response variable $Tc$. We are cosily ensconced in the supervised learning framework, and more specifically, regression. The explanatory variables are all continuous and positive. They are related to the eight following physical properties of every atom forming the superconductor: atomic mass, first ionization energy, atomic radius, density, electron affinity, fusion heat, thermal conductivity and valence. For each of these characteristics, ten summary statistics are computed : mean, weighted mean, geometric mean, entropy, range, etc... These quantities are the actual values of the independent variables. As a consequence, we get 8*10 = 80 **highly correlated features**. In this context, leaning towards tree-based ensemble methods seems reasonable. The eighty-first input variable is the number of atoms in the superconductor molecule.  
+The dataset contains 21 263 superconductors described by 81 explanatory variables, and one more response variable $Tc$. We are cosily ensconced in the supervised learning framework, and more specifically, regression. The explanatory variables are all continuous and positive. They are related to the eight following physical properties of every atom forming the superconductor: atomic mass, first ionization energy, atomic radius, density, electron affinity, fusion heat, thermal conductivity and valence. For each of these characteristics, ten summary statistics are computed mean, weighted mean, geometric mean, entropy, range, etc... These quantities are the actual values of the independent variables. As a consequence, we get 8*10 = 80 **highly correlated features**. In this context, leaning towards tree-based ensemble methods seems reasonable. The eighty-first input variable is the number of atoms in the superconductor molecule.  
 
 ```python
 import pandas
@@ -26,7 +26,7 @@ df.describe()
 
 ![Dataset](/res/lightgbm/dataset.png) 
 
-More information on data preparation, feature extraction as well as a descriptive analysis of the dataset are available in the original paper [1]. The following block attests that there are no missing values :  
+More information on data preparation, feature extraction as well as a descriptive analysis of the dataset are available in the original paper [1]. The following block attests that there are no missing values  
 
 ```python
 print(f'There are {df.isna().sum().sum()} missing values in the dataset.')
@@ -59,8 +59,8 @@ parameters_lgbm = {
     'objective': 'regression',
     'metric': 'l2',
     'learning_rate': 0.02,
-    'max_depth' : 16,
-    'min_data_in_leaf' : 1,
+    'max_depth' 16,
+    'min_data_in_leaf' 1,
     'feature_fraction': 0.5,
     'bagging_fraction': 0.5,
     'bagging_freq': 1
@@ -108,8 +108,8 @@ parameters_xgb = {
     'booster': 'gbtree',
     'objective': 'reg:squarederror',
     'eta': 0.02,
-    'max_depth' : 16,
-    'min_child_weight' : 1,
+    'max_depth' 16,
+    'min_child_weight' 1,
     'colsample_bytree': 0.5,
     'subsample': 0.5
 }
@@ -191,8 +191,8 @@ for eta in eta_list:
                     'max_bin': max_bin,
                     'num_leaves': num_leaves,
                     'learning_rate': eta,
-                    #'max_depth' : 16,
-                    'min_data_in_leaf' : min_data_in_leaf,
+                    #'max_depth' 16,
+                    'min_data_in_leaf' min_data_in_leaf,
                     'feature_fraction': 1,
                     'bagging_fraction': 1,
                     'bagging_freq': 1
@@ -241,7 +241,7 @@ In the end, our LightGBM model has achieved similar performance to XGBoost regar
 
 ### References
 
-[[1]](https://arxiv.org/abs/1803.10260) HAMIDIEH, Kam : *A Data-Driven Statistical Model for Predicting the Critical Temperature of a Superconductor*, University of Pennsylvania, Wharton, Statistics Department, 2018.  
+[[1]](https://arxiv.org/abs/1803.10260) HAMIDIEH, Kam *A Data-Driven Statistical Model for Predicting the Critical Temperature of a Superconductor*, University of Pennsylvania, Wharton, Statistics Department, 2018.  
   
 [[2]](https://arxiv.org/abs/1603.02754) CHEN, T., GUESTRIN, C. (2016). *Xgboost: A scalable tree boosting system*, University of Washington, 2016.
   

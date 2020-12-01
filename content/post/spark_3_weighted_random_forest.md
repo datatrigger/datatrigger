@@ -1,6 +1,6 @@
 ---
 title: Weighted Random Forest with Spark 3
-summary: "The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms : decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud."
+summary: "The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms: decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud."
 date: 2020-09-06
 tags: ["spark", "pyspark", "python", "weight", "fraud", "random forest"]
 draft: false
@@ -20,7 +20,7 @@ from pyspark.sql import SparkSession
 # Specify the number of available cores in .master()
 spark = SparkSession.builder.master('local[4]').appName('Weighted Random Forest with Spark 3').getOrCreate()
 
-# Get the data here : https://www.kaggle.com/mlg-ulb/creditcardfraud
+# Get the data here: https://www.kaggle.com/mlg-ulb/creditcardfraud
 csv_file = ".../creditcard.csv"
 df = spark.read.format("csv").option("inferSchema", "true").option("header", "true").load(csv_file)
 ```
@@ -50,7 +50,7 @@ print(counts)
 
 ![counts](/res/spark_3_imbalanced/img/counts.png)
 
-We only have 492 frauds out of 284807 transactions. A rather imbalanced dataset indeed. This is the reason why we compute a weight for each observation, according to its class (i.e fraud / not fraud). We will use the following popular method, even though there seems to be no strong consensus at the moment among the ML community regarding this subject : $$w_i := \frac{n}{n_i * C}$$
+We only have 492 frauds out of 284807 transactions. A rather imbalanced dataset indeed. This is the reason why we compute a weight for each observation, according to its class (i.e fraud / not fraud). We will use the following popular method, even though there seems to be no strong consensus at the moment among the ML community regarding this subject: $$w_i := \frac{n}{n_i * C}$$
 
 Where $C$ is the number of classes (today, $C = 2$), $i \in {1...C}$, $n$ is the total number of observations and $n_i$ the number of observations of class $i$.
 
@@ -82,7 +82,7 @@ df.select('outcome', 'weight').where(col('outcome')==0).show(3)
 
 &nbsp;
 
-We can also have a quick look at the features using the extremely useful ```describe()``` function. Since the result is agreggated data, it is no problem to convert it to a Pandas DataFrame in order to benefit from the much nicer displaying features of this library :
+We can also have a quick look at the features using the extremely useful ```describe()``` function. Since the result is agreggated data, it is no problem to convert it to a Pandas DataFrame in order to benefit from the much nicer displaying features of this library:
 
 ```python
 df.describe().toPandas()
@@ -120,12 +120,12 @@ test = vector_assembler.transform(test)
 
 ### Learning time, machine
 
-Hyperparameter tuning is not the topic of this post, so We train four models with default parameters (except for numTrees because the default value - 20 - feels a bit low) :
+Hyperparameter tuning is not the topic of this post, so We train four models with default parameters (except for numTrees because the default value - 20 - feels a bit low):
 
-* *rf* : Random Forest
-* *rfw* : Weighted Random Forest
-* *lr* : Logistic Regression
-* *lrw* : Weighted Logistic Regression  
+* *rf*: Random Forest
+* *rfw*: Weighted Random Forest
+* *lr*: Logistic Regression
+* *lrw*: Weighted Logistic Regression  
 
 Hyperparameter tuning is not on the agenda, but we will certainly have a chance to do grid search and cross validation with PySpark on another day.
 
@@ -171,7 +171,7 @@ res_lr = lr.transform(test)
 res_lrw = lrw.transform(test)
 ```
 
-Now let us have a look at the confusion matrices for the test set :  
+Now let us have a look at the confusion matrices for the test set:  
 
 ```python
 # Let us have a look at the confusion matrices on the test set
@@ -205,9 +205,9 @@ res_lrw.groupBy('outcome', 'prediction').count().show()
 
 From bottom to top, we can see that the logistic regression without weights performs very well when it comes to detecting actual fraud. However, this comes at the cost of wrongly identifying a **lot** of wholesome transactions as frauds. The opposite disequilibrium happens with the standard logistic regression, with only roughly $\frac{2}{3}$ of frauds legitimately detected. However, only 11 out of 56 901 wholesome transactions are identified as fraud, which is surprisingly low. Of course, the same experiment with different train/test splits should be conducted before jumping to conclusions.  
   
-As for random forests, the weighted model shows almost the same performance as the weighted logistic regression regarding real frauds : 90 correct guesses instead of 94. But this time, the number of wholesome transactions mistakenly identified as frauds is divided by ten. This kind of model should be considered when the cost of false positive is relatively low compared to the cost of false negative. What about plain old unweighted random forest model ? It identifies wholesome transactions extremely well, like the basic logistic regression (10 out of 56 901). However, the model is able to rise the *precision* (as in precision vs recall) to approximately $\frac{4}{5}$. Put another way, the *precision* was increased by around 15% with random forest instead of logistic regression.  
+As for random forests, the weighted model shows almost the same performance as the weighted logistic regression regarding real frauds: 90 correct guesses instead of 94. But this time, the number of wholesome transactions mistakenly identified as frauds is divided by ten. This kind of model should be considered when the cost of false positive is relatively low compared to the cost of false negative. What about plain old unweighted random forest model ? It identifies wholesome transactions extremely well, like the basic logistic regression (10 out of 56 901). However, the model is able to rise the *precision* (as in precision vs recall) to approximately $\frac{4}{5}$. Put another way, the *precision* was increased by around 15% with random forest instead of logistic regression.  
   
-We will not dive into the hot topic of evaluation metrics for imbalanced classification. However, we give an example below with the computation of the area under the [Precision-Recall](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html) curve :
+We will not dive into the hot topic of evaluation metrics for imbalanced classification. However, we give an example below with the computation of the area under the [Precision-Recall](https://scikit-learn.org/stable/auto_examples/model_selection/plot_precision_recall.html) curve:
 
 ```python
 # Compute the area under the PR curve

@@ -31,7 +31,7 @@ $$\overline{X_n} = \frac{1}{n} \sum\limits_{i=1}^{n} X_i \ , \ n \in \mathbb{N}$
 The [*Shiny CLT*](https://datatrigger.shinyapps.io/CLT_Visualization/) app is currently deployed on shinyapps.io. It computes samples, then the mean of these samples, for the following distributions:
 
 * Continous distributions: **Cauchy**, exponential, log-normal and uniform
-* Discrete distributions : binomial and Poisson
+* Discrete distributions: binomial and Poisson
 
 The **Cauchy** distribution does not satisfy the CLT hypotheses as its mean and variance are undefined, consequently to the divergence of the associated integrals. The density shown in the Shiny app has its location parameter $x_0$ set to 0 and its scale $\gamma$ set to 1. We can see how close it is to the density of a standard normal distribution, except for the heavier tails. The parameters of the other distributions are the default parameters of the random variate generation functions available in the R package ```stats```.
   
