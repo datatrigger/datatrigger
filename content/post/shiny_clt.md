@@ -6,6 +6,8 @@ tags: ["r", "shiny", "data visualization", "central limit theorem"]
 draft: false
 ---
 
+*Run the Shiny CLT app at https://datatrigger.shinyapps.io/CLT_Visualization/*
+
 ### The Galton Board
 
 As an introduction to this post, let me introduce one of the geekiest objects I own: a [Galton Board](https://en.wikipedia.org/wiki/Bean_machine), also known as a *bean machine* or a *quincunx*.
