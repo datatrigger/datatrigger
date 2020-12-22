@@ -1,7 +1,7 @@
 ---
 title: "Image recognition with PyTorch and fastai"
 summary: "Computer vision is one of the most fascinating domains in Machine Learning. Libraries like PyTorch and more recently, fastai, have made these kinds of models extraordinarily accessible. In this post, we build an aircraft classifier from gathering data to training and deployment."
-date: 2020-12-23
+date: 2020-12-22
 tags: ["computer vision", "transfer learning", "pre-trained models", "deployment", "pytorch", "torchvision", "fastai", "fast.ai", "python"]
 draft: false
 ---
