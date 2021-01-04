@@ -14,7 +14,7 @@ The content of this article is inspired by the book [*Deep Learning for Coders w
 
 ![fastbook](/res/aircraft_classifier/fastbook.resized.jpg)
 
-Released in 2020, this book might be the one good thing that actually happened this year. It is both beginner friendly and very complete --- 547 pages without the appendices --- from a practitioner's point of view. More importantly, it is very enjoyable to read and code with. As for [*fastai*](https://docs.fast.ai/), it is a Deep Learning Python module [1] that is built on top of *PyTorch*. It aims at popularizing, facilitating and speeding up the process of building Deep Learning models and applications. Spoiler alert: in my opinion, it does an incredible job at achieving these goals. Let us see how to build an image recognition model with *fastai*.
+Released in 2020, this book is one of the good things that actually happened this year. It is both beginner friendly and very complete --- 547 pages without the appendices --- from a practitioner's point of view. More importantly, it is very enjoyable to read and code with. As for [*fastai*](https://docs.fast.ai/), it is a Deep Learning Python module [1] that is built on top of *PyTorch*. It aims at popularizing, facilitating and speeding up the process of building Deep Learning models and applications. Spoiler alert: in my opinion, it does an incredible job at achieving these goals. Let us see how to build an image recognition model with *fastai*.
 
 ### Building a Deep Learning model
 
