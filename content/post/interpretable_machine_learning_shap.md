@@ -489,7 +489,7 @@ In this regard, SHAP is a major breakthrough in the field of interpretable ML be
 * Shapley values have consistent mathematical properties (additivity, symmetry...)
 * Its implementation is very efficient with tree-based models
 
-Having already seen this library at work in my company in order to improve accuracy while retaining interpretability, I am convinced that SHAP and probably other interpretable ML tools will have a substantial impact on operational AI in the coming years.
+I am convinced that SHAP and probably other interpretable ML tools will have a substantial impact on operational AI in the coming years.
 
 *Full notebook available on [GitHub](https://github.com/datatrigger/interpretable_machine_learning)*
 
