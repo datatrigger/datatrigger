@@ -1,6 +1,6 @@
 ---
 title: "Interpretable machine learning with SHAP"
-summary: "In this post, we predict health insurance costs with an efficient black box model, namely random forest. Then we interpret individual predictions as weel as the global behavior of the estimator using SHapley Additive exPlanations."
+summary: "In this post, we predict health insurance costs with an efficient black box model, namely random forest. Then we interpret individual predictions as well as the global behavior of the estimator using SHapley Additive exPlanations."
 date: 2021-01-24
 tags: ["interpretability", "explainability", "Shapley", "SHAP", "correlation", "multicollinearity", "python", "black box", "insurance"]
 draft: false
