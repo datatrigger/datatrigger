@@ -20,7 +20,7 @@ Released in 2020, this book is one of the good things that actually happened thi
 
 The goal of the classifier is to distinguish between an **airliner**, a **fighter jet** and an **attack helicopter**. The first step is to gather relevant pictures and to build an appropriate dataset.
 
-#### Create the dataset
+#### Creating the dataset
 
 We will use Azure's Bing Image Search API in order to collect pictures of aircrafts. It lets the user retrieve a maximum of 150 results per query. A free Azure account is needed for this part. Once the key for the Bing Image Search resource is generated, *fastai*'s function ```utils.search_images_bing()``` makes it very easy to get the desired pictures in properly organized folders:
 
