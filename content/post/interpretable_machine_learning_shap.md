@@ -30,7 +30,7 @@ df.describe()
 
 ![Dataset pandas description](/res/interpretable_machine_learning/2.describe_df.png)
 
-The **standard deviation** of the charges is about \\$12 000, which looks high given the mean equal to \\$13 270. Getting a model to produce accurate predictions may be a challenge.  
+The **standard deviation** of the charges is about \$12 000, which looks high given the mean equal to \$13 270. Getting a model to produce accurate predictions may be a challenge.  
   
 The U.S. life expectancy stands at 79 years, so the elderly are not well represented in the dataset: the eldest individual is 64. About half the population is obese by WHO standards.
 
@@ -213,11 +213,11 @@ pprint.pprint(rmse)
 
 ![Linear models' RMSEs](/res/interpretable_machine_learning/13.rmse_lm.png)
 
-The models built with the log-transformed target perform worse than the others on the test sample. The lowest RSME obtained by log-transforming the charges—*BMI only*—is almost \\$1 000 higher than the lowest RMSE with no transformation (*Both age and BMI*). This represents a significant amount given the range of the charges, and the range of the different RMSEs computed here. Therefore, it is clear that log-transforming the target variable did not improve the results even if the charges seem to be log-normally distributed. We will not perform a Kolmogorov-Smirnov test to verify this assertion here.
+The models built with the log-transformed target perform worse than the others on the test sample. The lowest RSME obtained by log-transforming the charges—*BMI only*—is almost \$1 000 higher than the lowest RMSE with no transformation (*Both age and BMI*). This represents a significant amount given the range of the charges, and the range of the different RMSEs computed here. Therefore, it is clear that log-transforming the target variable did not improve the results even if the charges seem to be log-normally distributed. We will not perform a Kolmogorov-Smirnov test to verify this assertion here.
   
 ### ii) Multicollinearity
 
-We have seen that the features *age* and *BMI* both have moderately high variance inflation factors, which suggests that maybe one of them could be excluded to improve the model and make interpretations more reliable. However, including both variables has yielded the lowest out-of-sample RMSE, while excluding the *BMI* increases it by approximately \\$350. Is this significant ?
+We have seen that the features *age* and *BMI* both have moderately high variance inflation factors, which suggests that maybe one of them could be excluded to improve the model and make interpretations more reliable. However, including both variables has yielded the lowest out-of-sample RMSE, while excluding the *BMI* increases it by approximately \$350. Is this significant ?
 
 Let us switch to R to perform an analysis of variance of the nested models with/without the *BMI* variable. The F-statistic will help us to determine if the full model yields a significant drop in sum of square errors or not. In this case, we are testing the nullity of only one feature so the F-statistic is equivalent to the t-statistic of *BMI* in the full model ($F = t²$). The associated p-values are equal.
 
@@ -235,7 +235,7 @@ The t-statistic of the BMI is very high, so much that the associated p-value is 
 
 The residuals show heteroscedasticity. Nonetheless, the situation is *not* disastrous. The red lines represent the 95% centered confidence interval of the Student distribution and it turns ou that 5.14 % of the observations are outside these bounds (see R script). However, all these observations have a studentized residual greater than 2 and not one is less than -2, i.e there is no symmetry.  
   
-The residuals are homoscedastic until charges approximately equal to \\$15 000. After that, clearly the heteroscedasticity "begins". It is notable that between \\$15 000 and \\$30 000, the model either underestimates or overestimates the charges. Above \\$35 000, the model underestimate the charges. **High charges are underestimated by the linear model.**
+The residuals are homoscedastic until charges approximately equal to \$15 000. After that, clearly the heteroscedasticity "begins". It is notable that between \$15 000 and \$30 000, the model either underestimates or overestimates the charges. Above \$35 000, the model underestimate the charges. **High charges are underestimated by the linear model.**
 
 On the whole, the residuals of this linear regression are faintly heteroscedastic. Given the size of the sample (around 800 observations), this phenomenon should not have major consequences on inference. Indeed, an important sample size stabilizes the standard errors estimates used to compute the statistics for significance testing and confidence intervals/p-value.
 
@@ -358,7 +358,7 @@ df_test.sort_values(by='residual').tail())
 
 ![A few fails](/res/interpretable_machine_learning/24.fails.png)
 
-Let us see what happened with the highest residual. The model predicted less than \\$2 000, but the individual was charged more than \\$20 000:
+Let us see what happened with the highest residual. The model predicted less than \$2 000, but the individual was charged more than \$20 000:
 
 ![Explanation 3 (observation with highest residual)](/res/interpretable_machine_learning/25.observation3.png)
 
@@ -413,7 +413,7 @@ ax=sns.barplot(x="Feature importance", y="Column", data=features_importance, pal
 
 ![Random forest feature importance](/res/interpretable_machine_learning/28.rf_feature_importance.png)
 
-Since the SHAP feature importance is the mean of the Shapley values (in absolute value), it is expressed in terms of dollars. The average effect of smoking is plus or minus \\$7 000, starting from the baseline prediction (\\$13 400). Whereas with Random Forest, we only know it is around 67%. We can just compare this value with the other features' importance.  
+Since the SHAP feature importance is the mean of the Shapley values (in absolute value), it is expressed in terms of dollars. The average effect of smoking is plus or minus \$7 000, starting from the baseline prediction (\$13 400). Whereas with Random Forest, we only know it is around 67%. We can just compare this value with the other features' importance.  
 
 Besides, the actual importances of each feature that are given by the two methods are similar but not identical. The *BMI* comes before *age* according to Random Forest, while SHAP tells the contrary. In addition, the associated values are closer with Random Forest. It could be that the small correlation (0.11) between these two features makes it hard to evaluate their real importance. However, telling who is right between SHAP or RF is beyond my current knowledge.
 
