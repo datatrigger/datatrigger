@@ -141,7 +141,7 @@ ax.tick_params(labelsize=14)
 plt.savefig('tokenized_articles_length_distribution.png', bbox_inches='tight');
 ```
 
-![Distribution of the article lengths](/res/nlp_hugging_face/6.tokenized_articles_length_distribution.png)
+![Distribution of the article lengths](/res/nlp_hugging_face/6.tokenized_articles_length_distribution.resized.png)
 
 ```python
 from scipy.stats import percentileofscore
@@ -310,6 +310,3 @@ Either way, way to go 🤗 Hugging Face!
 [[1]](https://arxiv.org/abs/1910.01108) Victor Sanh, Lysandre Debut, Julien Chaumond, Thomas Wolf. *DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter.* (Hugging Face, 2020)  
   
 [[2]](http://mlg.ucd.ie/files/publications/greene06icml.pdf) D. Greene and P. Cunningham. "Practical Solutions to the Problem of Diagonal Dominance in Kernel Document Clustering", Proc. ICML 2006.
-
-
-
