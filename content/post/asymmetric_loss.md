@@ -3,6 +3,8 @@ title: "An asymmetric loss for regression models"
 summary: "Drive regression models towards under/overestimation while keeping accurate outputs with the linear-exponential loss."
 date: 2022-01-09
 tags: ["loss", "custom", "asymmetric", "underestimation", "overestimation", "regression", "python"]
+math:
+    enable: true
 draft: false
 ---
 
