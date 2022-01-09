@@ -3,8 +3,6 @@ title: "An asymmetric loss for regression models"
 summary: "Drive regression models towards under/overestimation while keeping accurate outputs with the linear-exponential loss."
 date: 2022-01-09
 tags: ["loss", "custom", "asymmetric", "underestimation", "overestimation", "regression", "python"]
-math:
-    enable: true
 draft: false
 ---
 
@@ -36,16 +34,20 @@ As this function is infinitely differentiable, it can very well be implemented a
 Let us give an XGBoost example. To train such a model with this custom loss, we will need to provide its first and second order derivatives with respect to the prediction $\hat{y}$ (see section 2.2 of the [XGBoost paper](https://arxiv.org/pdf/1603.02754.pdf), or the [example in the doc](https://xgboost.readthedocs.io/en/latest/tutorials/custom_metric_obj.html)):
 
 $$
-\begin{cases} lexp &\text{ } (y, &\text{ } \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\\\ 
-\frac{\partial &\text{ } lexp}{\partial &\text{ } \hat{y}}(y, \ \hat{y}) = \frac{2}{a} \cdot [e^{a \cdot (\hat{y}-y)} - 1] \\\\ 
-\frac{\partial^{2} &\text{ } lexp}{\partial &\text{ } {\hat{y}}^2}(y, \ \hat{y}) = 2 \cdot e^{a \cdot (\hat{y}-y)} \end{cases}
+\begin{cases}
+lexp &\text{ } (y, &\text{ } \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\\\ 
+\frac{\partial &\text{ } lexp}{\partial &\text{ } \hat{y}}(y, &\text{ } \hat{y}) = \frac{2}{a} \cdot [e^{a \cdot (\hat{y}-y)} - 1] \\\\ 
+\frac{\partial^{2} &\text{ } lexp}{\partial &\text{ } {\hat{y}}^2}(y, &\text{ } \hat{y}) = 2 \cdot e^{a \cdot (\hat{y}-y)}
+\end{cases}
 $$
 
 Here we have defined the error as the unconventional $\hat{y}-y$. The point is to avoid minus signs all over the place when computing derivatives. This will lead to penalize overestimations more than underestimation: overall, the model will underestimate. If we want to train the regressor the other way around, then we will swap $\hat{y}-y$ for the "usual" $y-\hat{y}$, keeping in mind the following high school classics:
 
 $$
-\begin{cases} \frac{\partial}{\partial x}f(\text{-} x) = \text{-} f'(\text{-} x) \\\\ 
-\frac{\partial^2}{\partial x^2}f(\text{-} x) = f''(\text{-} x) \end{cases}
+\begin{cases}
+\frac{\partial}{\partial x}f(\text{-} x) = \text{-} f'(\text{-} x) \\\\ 
+\frac{\partial^2}{\partial x^2}f(\text{-} x) = f''(\text{-} x)
+\end{cases}
 $$
 
 *Technical note: using 128-bit floats is advised when implementing this loss. Else overflow errors may arise because of skyrocketing values in the exponential.*
