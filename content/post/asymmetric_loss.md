@@ -4,6 +4,8 @@ summary: "Drive regression models towards under/overestimation while keeping acc
 date: 2022-01-09
 tags: ["loss", "custom", "asymmetric", "underestimation", "overestimation", "regression", "python"]
 draft: false
+math:
+    enable: true
 ---
 
 *Full notebook available on [GitHub](https://github.com/datatrigger/asymmetric_loss)*
