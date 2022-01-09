@@ -41,6 +41,13 @@ $$
 \frac{\partial^{2} \, lexp}{\partial \, {\hat{y}}^2}(y, \ \hat{y}) = 2 \cdot e^{a \cdot (\hat{y}-y)} \\\\ \end{array} \right.
 $$
 
+$$
+F_{X}(x)=\operatorname{Pr}(X \leq x)= \begin{cases} 
+0 &\text{if } x<0 \\\\ 
+\frac{1}{2} &\text{if } 0 \leq x<1 \\\\ 
+1 &\text{if } x \geq 1 \end{cases}
+$$
+
 Here we have defined the error as the unconventional $\hat{y}-y$. The point is to avoid minus signs all over the place when computing derivatives. This will lead to penalize overestimations more than underestimation: overall, the model will underestimate. If we want to train the regressor the other way around, then we will swap $\hat{y}-y$ for the "usual" $y-\hat{y}$, keeping in mind the following high school classics:
 
 $$\left\{
