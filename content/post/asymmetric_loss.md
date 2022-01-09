@@ -10,7 +10,7 @@ draft: false
 
 In the context of regression, there are a few real-world situations in which users would rather get positive errors than negative ones (or the opposite), while still wanting estimations as accurate as possible:
 * Forecasting supply needs for materials critical for production: you'd better have too much than be short
-* Time to delivery: clients may be much more bothered by delay than earlier-than-expected events 
+* Time to delivery: clients may be much more bothered by delay than by earlier-than-expected events 
 * Estimating insurance premium: companies may overestimate costs rather than underestimate them to remain profitable
 
 Let's implement a custom asymmetric loss for this purpose. We will use this [Kaggle dataset](https://www.kaggle.com/nehalbirla/motorcycle-dataset) about used motorcycles' prices. We will drive the regression model towards underpredicting values using the linear-exponential loss. This way, the bikes would generally be sold at a higher price than expected, while keeping accurate estimations on average. This approach is interesting from a seller's perspective as it tends to avoid bad surprises.
@@ -69,7 +69,7 @@ Let us compare the usual squared error and the linear-exponential loss using a f
 
 There is an interesting phenomenon happening between $a \approx 13$ and $a \approx 20$: the mean/median/perc. 95 start decreasing but the overall RMSE does not degrade. In other words, we are actually achieving **underestimation without degrading the accuracy** of the model.
 
-When $a=20$, the RMSE is the same for the two losses but the prices are estimated 200 dollars lower, on average. This means the linear-exponential loss allows the errors distribution to be **skewed**. Actually, in this case the squared-error-loss residuals are initially skewed to the right, as shown below. The linear-exponential loss "unskew" the residuals to the left.
+When $a=20$, the RMSE is the same for the two losses but the prices are estimated 200 dollars lower, on average. This means the linear-exponential loss allows the errors distribution to be **skewed**. Actually, in this case the squared-error-loss residuals are initially skewed to the right, as shown below. The linear-exponential loss "unskews" the residuals to the left.
 
 ![skewness_comparison](/res/asymmetric_loss/skewness.png)
 
@@ -84,6 +84,14 @@ Below are the RMSEs of both losses (linear-exponential/decentered squared) when 
 ![decentered_squared_rmse](/res/asymmetric_loss/decentered_squared_rmse.png)
 
 Although it is difficult to determine if the gap observed below is significant or not without further analysis (other datasets, other hyperparameter tunings...), this piece of information seems to be in favor of the linear-exponential loss' relevance. An additional remark: when the average test error starts decreasing (read the plot from right to left), the decentered loss' RMSE increases straight away, whereas the linex loss' RMSE decreases first, before rising up again. So, with the linex loss, there is an interesting **tradeoff between underestimation and accuracy**.
+
+# Conclusion
+
+Coming back to our used motorcycles prices. When a=19.65, the RMSE is the same wether the model is trained with the usual squared error loss or with the linear-exponential loss. However, the predictions are lowered by 180 dollars, on average. See the distributions of the residuals below:
+
+![error_distributions](/res/asymmetric_loss/conclusion.png)
+
+So, we have been able to drive our model towards underestimation, without sacrificing accuracy. Even more underestimation could be achieved by increasing the parameter a, but this would also increase RMSE.
 
 # References
 
