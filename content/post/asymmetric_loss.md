@@ -42,6 +42,14 @@ $$
 $$
 
 $$
+\begin{cases} 
+lexp \ (y, \ \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\\\ 
+\frac{\partial \, lexp}{\partial \, \hat{y}}(y, \ \hat{y}) = \frac{2}{a} \cdot [e^{a \cdot (\hat{y}-y)} - 1] \\\\ 
+\frac{\partial^{2} \, lexp}{\partial \, {\hat{y}}^2}(y, \ \hat{y}) = 2 \cdot e^{a \cdot (\hat{y}-y)}
+\end{cases}
+$$
+
+$$
 F_{X}(x)=\operatorname{Pr}(X \leq x)= \begin{cases} 
 0 &\text{if } x<0 \\\\ 
 \frac{1}{2} &\text{if } 0 \leq x<1 \\\\ 
