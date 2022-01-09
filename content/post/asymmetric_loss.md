@@ -33,13 +33,26 @@ As this function is infinitely differentiable, it can very well be implemented a
 
 Let us give an XGBoost example. To train such a model with this custom loss, we will need to provide its first and second order derivatives with respect to the prediction $\hat{y}$ (see section 2.2 of the [XGBoost paper](https://arxiv.org/pdf/1603.02754.pdf), or the [example in the doc](https://xgboost.readthedocs.io/en/latest/tutorials/custom_metric_obj.html)):
 
-$\left\{\begin{array}\\ lexp \ (y, \ \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\ \frac{\partial \, lexp}{\partial \, \hat{y}}(y, \ \hat{y}) = \frac{2}{a} \cdot [e^{a \cdot (\hat{y}-y)} - 1] \\ \frac{\partial^{2} \, lexp}{\partial \, {\hat{y}}^2}(y, \ \hat{y}) = 2 \cdot e^{a \cdot (\hat{y}-y)} \\ \end{array} \right.$
+$$
+\left\{
+    \begin{array}\\
+        lexp \ (y, \ \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\
+        \frac{\partial \, lexp}{\partial \, \hat{y}}(y, \ \hat{y}) = \frac{2}{a} \cdot [e^{a \cdot (\hat{y}-y)} - 1] \\
+        \frac{\partial^{2} \, lexp}{\partial \, {\hat{y}}^2}(y, \ \hat{y}) = 2 \cdot e^{a \cdot (\hat{y}-y)} \\
+    \end{array}
+\right.
+$$
 
 Here we have defined the error as the unconventional $\hat{y}-y$. The point is to avoid minus signs all over the place when computing derivatives. This will lead to penalize overestimations more than underestimation: overall, the model will underestimate. If we want to train the regressor the other way around, then we will swap $\hat{y}-y$ for the "usual" $y-\hat{y}$, keeping in mind the following high school classics:
 
-$\left\{\begin{array}\\\frac{\partial}{\partial x}f(\text{-} x) = \text{-} f'(\text{-} x) \\\frac{\partial^2}{\partial x^2{-} x) = f''(\text{-} x) \\
+$$
+\left\{
+    \begin{array}\\
+        \frac{\partial}{\partial x}f(\text{-} x) = \text{-} f'(\text{-} x) \\
+        \frac{\partial^2}{\partial x^2}f(\text{-} x) = f''(\text{-} x) \\
     \end{array}
-\right.$
+\right.
+$$
 
 *Technical note: using 128-bit floats is advised when implementing this loss. Else overflow errors may arise because of skyrocketing values in the exponential.*
 
@@ -60,7 +73,7 @@ Let us compare the usual squared error and the linear-exponential loss using a f
 
 There is an interesting phenomenon happening between $a \approx 13$ and $a \approx 20$: the mean/median/perc. 95 start decreasing but the overall RMSE does not degrade. In other words, we are actually achieving **underestimation without degrading the accuracy** of the model.
 
-When $a=20$, the RMSE is the same for the two losses but the prices are estimated \\$200 lower, on average. This means the linear-exponential loss allows the errors distribution to be **skewed**. Actually, in this case the squared-error-loss residuals are initially skewed to the right, as shown below. The linear-exponential loss "unskew" the residuals to the left.
+When $a=20$, the RMSE is the same for the two losses but the prices are estimated 200 dollars lower, on average. This means the linear-exponential loss allows the errors distribution to be **skewed**. Actually, in this case the squared-error-loss residuals are initially skewed to the right, as shown below. The linear-exponential loss "unskew" the residuals to the left.
 
 ![skewness_comparison](/res/asymmetric_loss/skewness.png)
 
@@ -68,9 +81,9 @@ When $a=20$, the RMSE is the same for the two losses but the prices are estimate
 
 Recall that the point of all this is to drive the model towards underestimation, without loosing accuracy if possible. The linear-exponential loss is asymmetric (--> underestimation) but still aims at achieving 0 error (--> accuracy). These two characteristics appear to make this loss successful in that matter.
 
-What if, instead of implementing this complicated custom loss, we just lowered the predictions by a fixed quantity? On the basis that the squared-loss errors average to 0 on the test set, we could just subtract \\$100 to every prediction to achieve on overall underprediction of \\$100, on average. Now, we are doing underestimation without aiming at the actual price, but aiming at a -\\$100 error, on average. That is why I call such a loss a *decentered* squared error loss.
+What if, instead of implementing this complicated custom loss, we just lowered the predictions by a fixed quantity? On the basis that the squared-loss errors average to 0 on the test set, we could just subtract 100 dollars to every prediction to achieve on overall underprediction of 100 dollars, on average. Now, we are doing underestimation without aiming at the actual price, but aiming at a minus-100-dollar error, on average. That is why I call such a loss a *decentered* squared error loss.
 
-Below are the RMSEs of both losses (linear-exponential/decentered squared) when they achieve the same mean error. For instance, when both losses are adjusted to yield a -\\$100 average underestimation on the test set, the linear-exponential loss' RMSE is about \\$695, whereas the decentered loss' RMSE is about \\$721.
+Below are the RMSEs of both losses (linear-exponential/decentered squared) when they achieve the same mean error. For instance, when both losses are adjusted to yield a 100 dollars average underestimation on the test set, the linear-exponential loss' RMSE is about 695 dollars, whereas the decentered loss' RMSE is about 721 dollars.
 
 ![decentered_squared_rmse](/res/asymmetric_loss/decentered_squared_rmse.png)
 
