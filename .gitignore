@@ -1,3 +1,4 @@
 .DS_Store
-static/res/.DS_Store
 .hugo_build.lock
+static/res/.DS_Store
+static/.DS_Store
