@@ -4,8 +4,6 @@ summary: "Drive regression models towards under/overestimation while keeping acc
 date: 2022-01-09
 tags: ["loss", "custom", "asymmetric", "underestimation", "overestimation", "regression", "python"]
 draft: false
-math:
-    enable: true
 ---
 
 *Full notebook available on [GitHub](https://github.com/datatrigger/asymmetric_loss)*
@@ -37,7 +35,7 @@ Let us give an XGBoost example. To train such a model with this custom loss, we 
 
 $$
 \begin{cases}
-lexp \ (y, &\text{ } \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\\\ 
+lexp &\text{ } (y, &\text{ } \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\\\ 
 \frac{\partial &\text{ } lexp}{\partial &\text{ } \hat{y}}(y, \ \hat{y}) = \frac{2}{a} \cdot [e^{a \cdot (\hat{y}-y)} - 1] \\\\ 
 \frac{\partial^{2} &\text{ } lexp}{\partial &\text{ } {\hat{y}}^2}(y, \ \hat{y}) = 2 \cdot e^{a \cdot (\hat{y}-y)}
 \end{cases}
