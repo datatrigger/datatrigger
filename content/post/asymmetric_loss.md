@@ -35,8 +35,8 @@ Let us give an XGBoost example. To train such a model with this custom loss, we 
 
 $$
 \begin{cases}
-lexp (y, \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\\\ 
-\frac{\partial lexp}{\partial \hat{y}}(y, \hat{y}) = \frac{2}{a} \cdot [e^{a \cdot (\hat{y}-y)} - 1] \\\\ 
+lexp (y, \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\\\[6pt] 
+\frac{\partial lexp}{\partial \hat{y}}(y, \hat{y}) = \frac{2}{a} \cdot [e^{a \cdot (\hat{y}-y)} - 1] \\\\[6pt] 
 \frac{\partial^{2} lexp}{\partial {\hat{y}}^2}(y, \hat{y}) = 2 \cdot e^{a \cdot (\hat{y}-y)}
 \end{cases}
 $$
@@ -45,7 +45,7 @@ Here we have defined the error as the unconventional $\hat{y}-y$. The point is t
 
 $$
 \begin{cases}
-\frac{\partial}{\partial x}f(\text{-} x) = \text{-} f'(\text{-} x) \\\\ 
+\frac{\partial}{\partial x}f(\text{-} x) = \text{-} f'(\text{-} x) \\\\[6pt] 
 \frac{\partial^2}{\partial x^2}f(\text{-} x) = f''(\text{-} x)
 \end{cases}
 $$
