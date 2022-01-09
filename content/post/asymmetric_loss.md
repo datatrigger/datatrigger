@@ -33,26 +33,22 @@ As this function is infinitely differentiable, it can very well be implemented a
 
 Let us give an XGBoost example. To train such a model with this custom loss, we will need to provide its first and second order derivatives with respect to the prediction $\hat{y}$ (see section 2.2 of the [XGBoost paper](https://arxiv.org/pdf/1603.02754.pdf), or the [example in the doc](https://xgboost.readthedocs.io/en/latest/tutorials/custom_metric_obj.html)):
 
-$$
-\left\{
+$$\left\{
     \begin{array}\\
         lexp \ (y, \ \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\
         \frac{\partial \, lexp}{\partial \, \hat{y}}(y, \ \hat{y}) = \frac{2}{a} \cdot [e^{a \cdot (\hat{y}-y)} - 1] \\
         \frac{\partial^{2} \, lexp}{\partial \, {\hat{y}}^2}(y, \ \hat{y}) = 2 \cdot e^{a \cdot (\hat{y}-y)} \\
     \end{array}
-\right.
-$$
+\right.$$
 
 Here we have defined the error as the unconventional $\hat{y}-y$. The point is to avoid minus signs all over the place when computing derivatives. This will lead to penalize overestimations more than underestimation: overall, the model will underestimate. If we want to train the regressor the other way around, then we will swap $\hat{y}-y$ for the "usual" $y-\hat{y}$, keeping in mind the following high school classics:
 
-$$
-\left\{
+$$\left\{
     \begin{array}\\
         \frac{\partial}{\partial x}f(\text{-} x) = \text{-} f'(\text{-} x) \\
         \frac{\partial^2}{\partial x^2}f(\text{-} x) = f''(\text{-} x) \\
     \end{array}
-\right.
-$$
+\right.$$
 
 *Technical note: using 128-bit floats is advised when implementing this loss. Else overflow errors may arise because of skyrocketing values in the exponential.*
 
