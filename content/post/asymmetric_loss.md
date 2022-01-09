@@ -46,7 +46,6 @@ Here we have defined the error as the unconventional $\hat{y}-y$. The point is t
 $$
 \begin{cases}
 \frac{\partial}{\partial x}f(\text{-} x) = \text{-} f'(\text{-} x) \\\\ 
-lexp (y, \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat{y}-y) - 1] \\\\ 
 \frac{\partial^2}{\partial x^2}f(\text{-} x) = f''(\text{-} x)
 \end{cases}
 $$
