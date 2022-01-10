@@ -25,7 +25,7 @@ $$lexp \colon E \longmapsto b \cdot [e^{a \cdot E} - a \cdot E - 1]$$
 
 where $E$ is the difference between the observed value and the predicted value, i.e $E:=y-\hat{y}$.
 
-When $a$ is close to 0, then $lx(E) \sim b \cdot \frac{a^2 \cdot E^2}{2} + o(E^2)$ (see Taylor series of $exp$). So, let us set $b=\frac{2}{a^2}$. This way, we will have $lexp(E) \approx E^2$ when $a$ is small. When $a$ increases, the "asymmetry" of the loss increases as well:
+When $a$ is close to 0, then $lexp(E) \sim b \cdot \frac{a^2 \cdot E^2}{2} + o(E^2)$ (see Taylor series of $exp$). So, let us set $b=\frac{2}{a^2}$. This way, we will have $lexp(E) \approx E^2$ when $a$ is small. When $a$ increases, the "asymmetry" of the loss increases as well:
 
 ![Linear-exponential loss](/res/asymmetric_loss/linex.gif)
 
