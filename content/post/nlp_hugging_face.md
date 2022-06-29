@@ -15,7 +15,7 @@ draft: false
 Here is an example:
 
 ```python
-# transformers 3.5.1 in this notebook
+# transformers 4.20.1 in this notebook
 from transformers import pipeline
 
 # By default, the pipeline runs on the CPU (device=-1). Set device to 0 to use the GPU (and to 1 for the second GPU, etc...)
@@ -300,7 +300,7 @@ Adding the summarization before the zero-shot classification, **the accuracy jum
 
 Text classification is a piece of cake using 🤗 Hugging Face's pre-trained models: fine-tuning DistilBERT is fast (using a GPU), easy and it resulted in a 98.65% accuracy on the BBC News test set. Although this result should be confirmed with other train-test split (only 56 articles in the test set), it is absolutely remarkable. The raw Zero-Shot Classification pipeline from the `transformers` library could not compete at all with such a performance, ending up with a ~59% accuracy on the same test set. Nonetheless, this result is still decent considering the complete absence of training required by this method.  
   
-Given the substantial length of the BBC News articles, we tried summarizing them before performing the Zero-Shot classification, still using the beloved `transformers` library. This method resulted in a +23% increase of accuracy. Another way would have been to carry out sentence segmentation before the Zero-Shot classification, and averaging the prediction over all an article's sentences.
+Given the substantial length of the BBC News articles, we tried summarizing them before performing the Zero-Shot classification, still using the beloved `transformers` library. This method resulted in a +15% increase of accuracy. Another way would have been to carry out sentence segmentation before the Zero-Shot classification, and averaging the prediction over all an article's sentences.
 
 We end up with two text classifiers:
 * One that requires training and yields a 98.65% accuracy
