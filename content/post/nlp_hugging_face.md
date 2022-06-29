@@ -220,17 +220,22 @@ predictions=trainer.predict(test_dataset)
 
 ```python
 test_results=test.copy(deep=True)
-test_results["label_int_pred_transfer_learning"]=predictions.label_ids
+test_results["label_int_pred_transfer_learning"]=np.argmax(predictions.predictions, axis=-1)
 test_results['label_pred_transfer_learning']=test_results['label_int_pred_transfer_learning'].apply(lambda x:labels[x])
+accuracy=1-(len(test_results[test_results["label"]!=test_results["label_pred_transfer_learning"]])/len(test_results))
 ```
 
-Now the following command prints an empty `pandas.DataFrame()`:
+The accuracy of the fine-tuned DistilBERT transformer model on the test set is **98.65%**.
 
-```python
-test_results[test_results["label"]!=test_results["label_pred_transfer_learning"]].head()
-```
+#### Misclassified articles
 
-The accuracy of the fine-tuned DistilBERT transformer model on the test set is **100%**!
+There are only 3 errors on the test set, out of 56 articles. Besides, the misclassifications actually make sense because the articles could very well have been labelled differently:
+
+* The first article was put into the category business by the labeller whereas the model predicted politics. But since it is about the richest countries' ministers/presidents writing off some African countries' debt, it is also definitely about politics
+* The second article is about the censorship of a play in Uganda, so the predicted label politics could actually be deemed more relevant than the original label, entertainment
+* The third misclassified article is about the impact of IT on UK's firms, mainly through e-commerce, and the role of the government in this area. So politics (actual), tech (predicted) and even business are fine as labels
+
+
 
 ### III) Zero-Shot Classification
 
@@ -249,12 +254,11 @@ test_results.to_parquet("test_results.parquet")
 
 # Accuracy
 error_rate=len(test_results[test_results["label"]!=test_results["label_pred_zero_shot"]])/len(test_results)
-print(f'Accuracy of the Zero-Shot classifier: {round(100*(1-error_rate), 2)} %')
 ```
 
-![Zero-Shot Classification accuracy](/res/nlp_hugging_face/8.accuracy_zsc.png)
+We end up with an accuracy of **58.74%** with the Zero-Shot classifier.
 
-The Zero-Shot classifier does a really bad job compared with the fine-tuned model. However, given the number of labels &mdash; 5 &mdash; this result is not that catastrophic. It is well above the 20% a random classifier would achieve (assuming balanced classes). Glancing at a few random articles uncorrectly labeled by the Zero-Shot classifier, there does not seem to be a particularly problematic class, although such a assertion would require further investigation. But the length of the news could lead to poor performance. We can read about this on the [🤗 Hugging Face forum](https://discuss.huggingface.co/t/new-pipeline-for-zero-shot-text-classification/681/85). Joe Davison, 🤗 Hugging Face developer and creator of the Zero-Shot pipeline, says the following:
+So, this classifier does a really bad job compared with the fine-tuned model. However, given the number of labels &mdash; 5 &mdash; this result is not that catastrophic. It is well above the 20% a random classifier would achieve (assuming balanced classes). Glancing at a few random articles uncorrectly labeled by the Zero-Shot classifier, there does not seem to be a particularly problematic class, although such a assertion would require further investigation. But the length of the news could lead to poor performance. We can read about this on the [🤗 Hugging Face forum](https://discuss.huggingface.co/t/new-pipeline-for-zero-shot-text-classification/681/85). Joe Davison, 🤗 Hugging Face developer and creator of the Zero-Shot pipeline, says the following:
 
 > *For long documents, I don’t think there’s an ideal solution right now. If truncation isn’t satisfactory, then the best thing you can do is probably split the document into smaller segments and ensemble the scores somehow.*
 
@@ -286,24 +290,23 @@ test_results['label_pred_sum_zs']=test_results['article'].apply(lambda x:classif
 test_results.to_parquet("test_results.parquet")
 
 error_rate_sum_zs=len(test_results[test_results["label"]!=test_results["label_pred_sum_zs"]])/len(test_results)
-print(f'Accuracy of the Summmarization+Zero-Shot classifier pipeline: {round(100*(1-error_rate_sum_zs), 2)} %')
 ```
 
-![Summarization + Zero-Shot Classification accuracy](/res/nlp_hugging_face/10.accuracy_szsc.png)
+This time, the accuracy increases to **73.54%**.
 
-Adding the summarization before the zero-shot classification, **the accuracy jumped by ~23%**! Let us remember that there was no training whatsoever. From this perspective, a 78% accuracy looks pretty good to me! This result could probably be enhanced by tuning the summarizer's parameters regarding beam search or maximal length.
+Adding the summarization before the zero-shot classification, **the accuracy jumped by ~15%**! Let us remember that there was no training whatsoever. From this perspective, a 73.5% accuracy looks pretty good. This result could probably be enhanced by tuning the summarizer's parameters regarding beam search or maximal length.
 
 ### V) Conclusion
 
-Text classification is a piece of cake using 🤗 Hugging Face's pre-trained models: fine-tuning DistilBERT is fast (using a GPU), easy and it resulted in a 100% accuracy on the BBC News test set. Although this result should be confirmed with other train-test split (only 56 articles in the test set), it is absolutely remarkable. The raw Zero-Shot Classification pipeline from the `transformers` library could not compete at all with such a performance, ending up with a ~55% accuracy on the same test set. Nonetheless, this result is still decent considering the complete absence of training required by this method.  
+Text classification is a piece of cake using 🤗 Hugging Face's pre-trained models: fine-tuning DistilBERT is fast (using a GPU), easy and it resulted in a 98.65% accuracy on the BBC News test set. Although this result should be confirmed with other train-test split (only 56 articles in the test set), it is absolutely remarkable. The raw Zero-Shot Classification pipeline from the `transformers` library could not compete at all with such a performance, ending up with a ~59% accuracy on the same test set. Nonetheless, this result is still decent considering the complete absence of training required by this method.  
   
 Given the substantial length of the BBC News articles, we tried summarizing them before performing the Zero-Shot classification, still using the beloved `transformers` library. This method resulted in a +23% increase of accuracy. Another way would have been to carry out sentence segmentation before the Zero-Shot classification, and averaging the prediction over all an article's sentences.
 
 We end up with two text classifiers:
-* One that requires training and yields a 100% accuracy
-* One that does not require any training, but yields a ~78% accuracy
+* One that requires training and yields a 98.65% accuracy
+* One that does not require any training, but yields a ~73.5% accuracy
 
-Either way, way to go 🤗 Hugging Face!
+Long live 🤗 Hugging Face!
 
 ## References
 
