@@ -13,4 +13,4 @@ I created this website to archive methods and code that might be useful to other
 
 Download may take up to a minute.
 
-* [Resume](/doc/vincent_le_goualher_cv.pdf)
+* [Resume](/doc/resume_vincent_le_goualher.pdf)
