@@ -2,9 +2,6 @@
 title: About me
 ---
 
-## Me, myself and I
-
-
 Hello Internet! My name is Vincent Le Goualher and I currently work as a Data Scientist in Lausanne, Switzerland. I originally engaged in this field because I love both maths and software development. Now that I have some experience, I would add that discovering and solving business problems is another reason to get excited by this job.
 
 So far, I have worked in several domains, namely public health, financial services and now consumer electronics. I conducted a wide variety of projects involving regression, classification, NLP, clustering, etc... Lately, I have been particularly interested in time series. I also made a deep dive into MLOps to ensure the models in production are accessible to the end user, maintained and monitored.
