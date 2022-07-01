@@ -10,10 +10,9 @@ Unsurprinsingly, I am a heavy user of Python libraries such as pandas, PyTorch, 
 
 All the content is under MIT license. The source code can be found on [GitHub](https://github.com/datatrigger).
 
-## Resume
+### Links
 
-Download may take up to a minute: [Resume](/doc/resume_vincent_le_goualher.pdf)
-
-## Links
-
-Reach my email or GitHub/LinkedIn accounts by hitting the icons at the bottom 👇
+* [📄 Resume](/doc/resume_vincent_le_goualher.pdf)
+* [📧 Email](contact@datatrigger.org)
+* [🔗 GitHub](https://github.com/datatrigger)
+* [🔗 LinkedIn](https://www.linkedin.com/in/datatrigger/)
