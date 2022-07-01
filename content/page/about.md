@@ -13,6 +13,6 @@ All the content is under MIT license. The source code can be found on [GitHub](h
 ### Links
 
 * [📄 Resume](/doc/resume_vincent_le_goualher.pdf)
-* [📧 Email](contact@datatrigger.org)
+* [📧 Email](mailto:contact@datatrigger.org)
 * [🔗 GitHub](https://github.com/datatrigger)
 * [🔗 LinkedIn](https://www.linkedin.com/in/datatrigger/)
