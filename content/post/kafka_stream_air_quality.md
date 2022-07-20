@@ -6,10 +6,11 @@ tags: ["kafka", "stream", "API", "data engineering", "distributed", "http", "req
 draft: false
 ---
 
-### Introduction
 *Project available on [GitHub](https://github.com/datatrigger/kafka_stream_air_quality)*
 
-The [World Air Quality Index](https://aqicn.org/station/@16822) project centralizes [air quality index (AQI)](https://en.wikipedia.org/wiki/Air_quality_index) data from 2 000+ cities and 30 000+ stations across the world. It is a non-profit organization based in Beijing. It provides a completely free API to get both historical data and real-time data. **Kudos to these guys!**
+### Introduction
+
+The [World Air Quality Index](https://aqicn.org/station/@16822) project centralizes [Air Quality Index (AQI)](https://en.wikipedia.org/wiki/Air_quality_index) data from 2 000+ cities and 30 000+ stations across the world. It is a non-profit organization based in Beijing. It provides a completely free API to get both historical data and real-time data. **Kudos to these guys!**
 
 ![World Air Quality Index project](/res/kafka_stream_air_quality/world_air_quality_index_project.png)
 
@@ -24,7 +25,7 @@ We are going to build a real-time stream of the air quality index of 9 cities ac
 ### What could be the applications of such a pipeline?
 
 * Kafka relies on distributed computing, this is one of the reasons why it is highly scalable. So, we could be monitoring thousands of stations for AQI
-* A Kafka cluster can be fed independently by multiple data-poducing entities (called *producers*), so we could very well fetch data from other sources (e.g. weather forecasts, traffic...) and gather everything in the cluster
+* A Kafka cluster can be fed independently by multiple data-producing entities (called *producers*), so we could very well fetch data from other sources (e.g. weather forecasts, traffic...) and gather everything in the cluster
 * Finally, we could merge and process this continuous flow of data almost as if it was a standard database using [ksqlDB](https://ksqldb.io/). This dataset could be used for modeling purpose (e.g. forecasting) on a regular basis, say to re-train a model everyday and compute predictions.
 
 ### The code
@@ -44,7 +45,7 @@ When executing the *producer* script, we can see the data is fetched:
 
 The data seems to be refreshed at most every hour, so we're fine probing the server for new AQI measurements every 10 minutes. On the other side of the Kafka cluster, the *consumer* pulls the new records in real-time:
 
-![Kafka consumer screenshot](/res/kafka_stream_air_quality/producer.png)
+![Kafka consumer screenshot](/res/kafka_stream_air_quality/consumer.png)
 
 ### Next steps
 
@@ -53,3 +54,5 @@ Kafka is far for being a single tool, it actually consists in a myriad of system
 * to connect Kafka to a traditional database to store historical AQI data
 * to implement a schema on top of the data to control its format
 * to use ksqlDB to query the data, aggregating on a given time window for instance
+
+Thanks for reading!
