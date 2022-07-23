@@ -2,17 +2,16 @@
 title: About me
 ---
 
-Hello Internet! My name is Vincent Le Goualher and I currently work as a Data Scientist in Lausanne, Switzerland. I originally engaged in this field because I love both maths and software development. Now that I have some experience, I would add that discovering and solving business problems is another reason to get excited by this job.
+Hello Internet! I am Vincent, a data practitioner based in Switzerland. Up until now, my official role has been Data Scientist, but I've been leaning more and more towards Data Engineering and MLOps over the past year: data modeling, data pipelines, model deployment, CI/CD frameworks, APIs...
 
-So far, I have worked in several domains, namely public health, financial services and now consumer electronics. I conducted a wide variety of projects involving regression, classification, NLP, clustering, etc... Lately, I have been particularly interested in time series. I also made a deep dive into MLOps to ensure the models in production are accessible to the end user, maintained and monitored.
+So far, I have worked in several domains, namely public health, financial services and now consumer electronics. I conducted a wide variety of projects involving tools like containers (e.g. Docker), cloud providers (e.g. AWS EC2, S3, ECR...), distributed computing (e.g. Spark), databases (e.g. Snowflake) and Machine Learning (e.g PyTorch, XGBoost, pandas, scikit-learn...).
 
-Unsurprinsingly, I am a heavy user of Python libraries such as pandas, PyTorch, transformers and many others. But I am also a big fan of R's Tidyverse, ggplot2 and Shiny, as well as a few other packages. My daily tools also include Git/GitHub, Docker and a few AWS services such as ECR, ECS, EventBridge or S3. I created this website to archive methods and code that might be useful to other people, including future me.
+I created this website to archive projects and code that might be useful to other people, including future me. All the content is under MIT license and the source code can be found on [GitHub](https://github.com/datatrigger).
 
-All the content is under MIT license. The source code can be found on [GitHub](https://github.com/datatrigger).
+Thanks for reading!
 
 ### Links
 
 * [📧 Email](mailto:contact@datatrigger.org)
 * [🔗 GitHub](https://github.com/datatrigger)
 * [🔗 LinkedIn](https://www.linkedin.com/in/datatrigger/)
-* [📄 Resume](/doc/resume_vincent_le_goualher.pdf)
