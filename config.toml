@@ -29,7 +29,7 @@ googleAnalytics = "UA-165238354-1"
 
 [Params]
   homeTitle = "Data Trigger"
-  subtitle = "A blog on Data Science, Data Engineering & MLOps"
+  subtitle = "A blog on MLOps, Data Engineering & Data Science"
   mainSections = ["post","posts"]
   logo = "img/profile/p32.jpeg" # Expecting square dimensions
   favicon = "img/icon/settings.png"
