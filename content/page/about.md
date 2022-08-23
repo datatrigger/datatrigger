@@ -12,6 +12,6 @@ Thanks for reading!
 
 ### Links
 
-* [📧 Email](mailto:contact@datatrigger.org)
+* [📧 Email](mailto:vincentlegoualher.data@gmail.com)
 * [🔗 GitHub](https://github.com/datatrigger)
 * [🔗 LinkedIn](https://www.linkedin.com/in/datatrigger/)
