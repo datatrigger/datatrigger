@@ -9,5 +9,5 @@ Thanks for reading!
 ### Links
 
 * [📧 Email](mailto:vlg.engineering@gmail.com)
-* [🔗 Website](datatrigger.org)
+* [🔗 Website](https://www.datatrigger.org)
 * [🔗 LinkedIn](https://www.linkedin.com/in/datatrigger/)
