@@ -8,6 +8,6 @@ Thanks for reading!
 
 ### Links
 
-* [📧 Email](mailto:vlg.engineering@gmail.com)
+* [📧 Email](mailto:vlg.engineer@gmail.com)
 * [🔗 Website](https://www.datatrigger.org)
 * [🔗 LinkedIn](https://www.linkedin.com/in/datatrigger/)
