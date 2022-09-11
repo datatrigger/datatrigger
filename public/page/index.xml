@@ -13,8 +13,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
       <guid>https://datatrigger.org/page/about/</guid>
-      <description>Hello Internet! I am Vincent, a data practitioner based in Switzerland. I have been focusing on Machine Learning Operations (MLOps) and Data Engineering projects over the past few years: CI/CD frameworks, containers, APIs, data pipelines&amp;hellip;
-So far, I have worked in several domains, namely public health, financial services and now consumer electronics. I conducted a wide variety of projects involving tools like containers (e.g. Docker, Kubernetes), cloud providers (AWS, GCP), distributed computing (e.</description>
+      <description>Me, myself and I Hello Internet ! My name is Vincent Le Goualher, I am 30 years old and I currently work as a data scientist in Paris. My job involves analysing datasets, visualizing trends, using machine learning to model phenomena and building/deploying applications to predict behaviors or make decisions. So far, I have worked in several domains, namely public health and financial services. Unsurprinsingly, I am a heavy user of Python tools such as pandas, PyTorch, PySpark and many others.</description>
     </item>
     
   </channel>
