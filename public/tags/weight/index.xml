@@ -14,7 +14,7 @@
       <pubDate>Sun, 06 Sep 2020 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
       <guid>https://datatrigger.org/post/spark_3_weighted_random_forest/</guid>
-      <description>The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms : decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud.</description>
+      <description>The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms: decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud.</description>
     </item>
     
   </channel>

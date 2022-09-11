@@ -7,7 +7,70 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>contact@datatrigger.org (Vincent Le Goualher)</managingEditor>
     <webMaster>contact@datatrigger.org (Vincent Le Goualher)</webMaster>
-    <lastBuildDate>Sat, 31 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://datatrigger.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://datatrigger.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build a real-time stream of air quality data with Apache Kafka</title>
+      <link>https://datatrigger.org/post/kafka_stream_air_quality/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/kafka_stream_air_quality/</guid>
+      <description>Let&amp;rsquo;s build a data stream with Kafka today! We will retrieve air quality data using the &lt;a href=&#34;https://aqicn.org/station/@16822&#34;&gt;World Air Quality Index&lt;/a&gt; project&amp;rsquo;s API, then push it on a Kafka cluster.</description>
+    </item>
+    
+    <item>
+      <title>An asymmetric loss for regression models</title>
+      <link>https://datatrigger.org/post/asymmetric_loss/</link>
+      <pubDate>Sun, 09 Jan 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/asymmetric_loss/</guid>
+      <description>Drive regression models towards under/overestimation while keeping accurate outputs with the linear-exponential loss.</description>
+    </item>
+    
+    <item>
+      <title>NLP with 🤗 Hugging Face</title>
+      <link>https://datatrigger.org/post/nlp_hugging_face/</link>
+      <pubDate>Mon, 12 Jul 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/nlp_hugging_face/</guid>
+      <description>Zero-shot classification is basically text classification with no training at all. How does it compare with transfer learning/fine-tuning? We&amp;rsquo;ll see using the beloved 🤗 &lt;code&gt;transformers&lt;/code&gt; library.</description>
+    </item>
+    
+    <item>
+      <title>Interpretable machine learning with SHAP</title>
+      <link>https://datatrigger.org/post/interpretable_machine_learning_shap/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/interpretable_machine_learning_shap/</guid>
+      <description>In this post, we predict health insurance costs with an efficient black box model, namely random forest. Then we interpret individual predictions as well as the global behavior of the estimator using SHapley Additive exPlanations.</description>
+    </item>
+    
+    <item>
+      <title>Image recognition with PyTorch and fastai</title>
+      <link>https://datatrigger.org/post/aircraft_classifier/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/aircraft_classifier/</guid>
+      <description>Computer vision is one of the most fascinating domains in Machine Learning. Libraries like PyTorch and more recently, fastai, have made these kinds of models extraordinarily accessible. In this post, we build an aircraft classifier from gathering data to training and deployment.</description>
+    </item>
+    
+    <item>
+      <title>Shiny Central Limit Theorem</title>
+      <link>https://datatrigger.org/post/shiny_clt/</link>
+      <pubDate>Sat, 28 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/shiny_clt/</guid>
+      <description>The central limit theorem is one of the greatest hits in the history of statistics. I wrote a little Shiny app to visualize it and to illustrate its infamous &amp;ldquo;counterexample&amp;rdquo;, Cauchy distribution: &lt;a href=&#34;https://datatrigger.shinyapps.io/CLT_Visualization/&#34;&gt;https://datatrigger.shinyapps.io/CLT_Visualization/&lt;/a&gt;.</description>
+    </item>
+    
+    <item>
+      <title>Gradient tree boosting in the cloud</title>
+      <link>https://datatrigger.org/post/lightgbm/</link>
+      <pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/lightgbm/</guid>
+      <description>A cloud computing experiment with two slightly different implementations of gradient boosted trees LightGBM and XGBoost. Let us evaluate how these two algorithms do on a moderately large dataset, regarding both accuracy and speed.</description>
+    </item>
+    
     <item>
       <title>Visualizing the sum of two random variables</title>
       <link>https://datatrigger.org/post/sum_random_variables/</link>
@@ -27,7 +90,7 @@
     </item>
     
     <item>
-      <title>Back to basics : Scaling train and test samples.</title>
+      <title>Back to basics: Scaling train and test samples.</title>
       <link>https://datatrigger.org/post/scaling/</link>
       <pubDate>Mon, 12 Oct 2020 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
@@ -41,7 +104,7 @@
       <pubDate>Sun, 06 Sep 2020 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
       <guid>https://datatrigger.org/post/spark_3_weighted_random_forest/</guid>
-      <description>The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms : decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud.</description>
+      <description>The third version of the number one distributed computing framework Spark was released in June 2020. Sample weights support was implemented for tree-based algorithms: decision tree, gradient tree boosting and random forest. Today we experiment with this new feature on an imbalanced dataset about credit card fraud.</description>
     </item>
     
     <item>
@@ -59,7 +122,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
       <guid>https://datatrigger.org/page/about/</guid>
-      <description>Me, myself and I Hello Internet ! My name is Vincent Le Goualher, I am 30 years old and I currently work as a data scientist in Paris. My job involves analysing datasets, visualizing trends, using machine learning to model phenomena and building/deploying applications to predict behaviors or make decisions. So far, I have worked in several domains, namely public health and financial services. Unsurprinsingly, I am a heavy user of Python tools such as pandas, PyTorch, PySpark and many others.</description>
+      <description>Hello Internet! I am Vincent, a data practitioner based in Switzerland. I have been focusing on Machine Learning Operations (MLOps) and Data Engineering projects over the past few years: CI/CD frameworks, containers, APIs, data pipelines&amp;hellip;
+So far, I have worked in several domains, namely public health, financial services and now consumer electronics. I conducted a wide variety of projects involving tools like containers (e.g. Docker, Kubernetes), cloud providers (AWS, GCP), distributed computing (e.</description>
     </item>
     
   </channel>

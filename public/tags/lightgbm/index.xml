@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lightgbm on Data Trigger</title>
+    <link>https://datatrigger.org/tags/lightgbm/</link>
+    <description>Recent content in lightgbm on Data Trigger</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>contact@datatrigger.org (Vincent Le Goualher)</managingEditor>
+    <webMaster>contact@datatrigger.org (Vincent Le Goualher)</webMaster>
+    <lastBuildDate>Fri, 13 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://datatrigger.org/tags/lightgbm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gradient tree boosting in the cloud</title>
+      <link>https://datatrigger.org/post/lightgbm/</link>
+      <pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/post/lightgbm/</guid>
+      <description>A cloud computing experiment with two slightly different implementations of gradient boosted trees LightGBM and XGBoost. Let us evaluate how these two algorithms do on a moderately large dataset, regarding both accuracy and speed.</description>
+    </item>
+    
+  </channel>
+</rss>

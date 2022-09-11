@@ -7,22 +7,454 @@
     <generator>Hugo -- gohugo.io</generator>
     <managingEditor>contact@datatrigger.org (Vincent Le Goualher)</managingEditor>
     <webMaster>contact@datatrigger.org (Vincent Le Goualher)</webMaster>
-    <lastBuildDate>Sat, 31 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://datatrigger.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://datatrigger.org/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>contour</title>
-      <link>https://datatrigger.org/tags/contour/</link>
-      <pubDate>Sat, 31 Oct 2020 00:00:00 +0000</pubDate>
+      <title>air</title>
+      <link>https://datatrigger.org/tags/air/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
-      <guid>https://datatrigger.org/tags/contour/</guid>
+      <guid>https://datatrigger.org/tags/air/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>API</title>
+      <link>https://datatrigger.org/tags/api/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cluster</title>
+      <link>https://datatrigger.org/tags/cluster/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/cluster/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data engineering</title>
+      <link>https://datatrigger.org/tags/data-engineering/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/data-engineering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>distributed</title>
+      <link>https://datatrigger.org/tags/distributed/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/distributed/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>http</title>
+      <link>https://datatrigger.org/tags/http/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kafka</title>
+      <link>https://datatrigger.org/tags/kafka/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/kafka/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>request</title>
+      <link>https://datatrigger.org/tags/request/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/request/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>stream</title>
+      <link>https://datatrigger.org/tags/stream/</link>
+      <pubDate>Wed, 20 Jul 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/stream/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>asymmetric</title>
+      <link>https://datatrigger.org/tags/asymmetric/</link>
+      <pubDate>Sun, 09 Jan 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/asymmetric/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>custom</title>
+      <link>https://datatrigger.org/tags/custom/</link>
+      <pubDate>Sun, 09 Jan 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/custom/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>loss</title>
+      <link>https://datatrigger.org/tags/loss/</link>
+      <pubDate>Sun, 09 Jan 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/loss/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>overestimation</title>
+      <link>https://datatrigger.org/tags/overestimation/</link>
+      <pubDate>Sun, 09 Jan 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/overestimation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://datatrigger.org/tags/python/</link>
+      <pubDate>Sun, 09 Jan 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>regression</title>
+      <link>https://datatrigger.org/tags/regression/</link>
+      <pubDate>Sun, 09 Jan 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/regression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>underestimation</title>
+      <link>https://datatrigger.org/tags/underestimation/</link>
+      <pubDate>Sun, 09 Jan 2022 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/underestimation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>distilbert</title>
+      <link>https://datatrigger.org/tags/distilbert/</link>
+      <pubDate>Mon, 12 Jul 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/distilbert/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugging face</title>
+      <link>https://datatrigger.org/tags/hugging-face/</link>
+      <pubDate>Mon, 12 Jul 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/hugging-face/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NLP</title>
+      <link>https://datatrigger.org/tags/nlp/</link>
+      <pubDate>Mon, 12 Jul 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>text classification</title>
+      <link>https://datatrigger.org/tags/text-classification/</link>
+      <pubDate>Mon, 12 Jul 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/text-classification/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>transformers</title>
+      <link>https://datatrigger.org/tags/transformers/</link>
+      <pubDate>Mon, 12 Jul 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/transformers/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>zero-shot classification</title>
+      <link>https://datatrigger.org/tags/zero-shot-classification/</link>
+      <pubDate>Mon, 12 Jul 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/zero-shot-classification/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>black box</title>
+      <link>https://datatrigger.org/tags/black-box/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/black-box/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>correlation</title>
+      <link>https://datatrigger.org/tags/correlation/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/correlation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>explainability</title>
+      <link>https://datatrigger.org/tags/explainability/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/explainability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>insurance</title>
+      <link>https://datatrigger.org/tags/insurance/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/insurance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>interpretability</title>
+      <link>https://datatrigger.org/tags/interpretability/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/interpretability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>multicollinearity</title>
+      <link>https://datatrigger.org/tags/multicollinearity/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/multicollinearity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SHAP</title>
+      <link>https://datatrigger.org/tags/shap/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/shap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Shapley</title>
+      <link>https://datatrigger.org/tags/shapley/</link>
+      <pubDate>Sun, 24 Jan 2021 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/shapley/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>computer vision</title>
+      <link>https://datatrigger.org/tags/computer-vision/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/computer-vision/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>deployment</title>
+      <link>https://datatrigger.org/tags/deployment/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/deployment/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fast.ai</title>
+      <link>https://datatrigger.org/tags/fast.ai/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/fast.ai/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fastai</title>
+      <link>https://datatrigger.org/tags/fastai/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/fastai/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pre-trained models</title>
+      <link>https://datatrigger.org/tags/pre-trained-models/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/pre-trained-models/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pytorch</title>
+      <link>https://datatrigger.org/tags/pytorch/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/pytorch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>torchvision</title>
+      <link>https://datatrigger.org/tags/torchvision/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/torchvision/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>transfer learning</title>
+      <link>https://datatrigger.org/tags/transfer-learning/</link>
+      <pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/transfer-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>central limit theorem</title>
+      <link>https://datatrigger.org/tags/central-limit-theorem/</link>
+      <pubDate>Sat, 28 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/central-limit-theorem/</guid>
       <description></description>
     </item>
     
     <item>
       <title>data visualization</title>
       <link>https://datatrigger.org/tags/data-visualization/</link>
-      <pubDate>Sat, 31 Oct 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 28 Nov 2020 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
       <guid>https://datatrigger.org/tags/data-visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r</title>
+      <link>https://datatrigger.org/tags/r/</link>
+      <pubDate>Sat, 28 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shiny</title>
+      <link>https://datatrigger.org/tags/shiny/</link>
+      <pubDate>Sat, 28 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/shiny/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cloud computing</title>
+      <link>https://datatrigger.org/tags/cloud-computing/</link>
+      <pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/cloud-computing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gradient boosted trees</title>
+      <link>https://datatrigger.org/tags/gradient-boosted-trees/</link>
+      <pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/gradient-boosted-trees/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lightgbm</title>
+      <link>https://datatrigger.org/tags/lightgbm/</link>
+      <pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/lightgbm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>machine learning</title>
+      <link>https://datatrigger.org/tags/machine-learning/</link>
+      <pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>paperspace</title>
+      <link>https://datatrigger.org/tags/paperspace/</link>
+      <pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/paperspace/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>superconductors</title>
+      <link>https://datatrigger.org/tags/superconductors/</link>
+      <pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/superconductors/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>xgboost</title>
+      <link>https://datatrigger.org/tags/xgboost/</link>
+      <pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/xgboost/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>contour</title>
+      <link>https://datatrigger.org/tags/contour/</link>
+      <pubDate>Sat, 31 Oct 2020 00:00:00 +0000</pubDate>
+      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
+      <guid>https://datatrigger.org/tags/contour/</guid>
       <description></description>
     </item>
     
@@ -41,15 +473,6 @@
       <pubDate>Sat, 31 Oct 2020 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
       <guid>https://datatrigger.org/tags/ggplot2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>r</title>
-      <link>https://datatrigger.org/tags/r/</link>
-      <pubDate>Sat, 31 Oct 2020 00:00:00 +0000</pubDate>
-      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
-      <guid>https://datatrigger.org/tags/r/</guid>
       <description></description>
     </item>
     
@@ -86,15 +509,6 @@
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       <author>contact@datatrigger.org (Vincent Le Goualher)</author>
       <guid>https://datatrigger.org/tags/pandas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>python</title>
-      <link>https://datatrigger.org/tags/python/</link>
-      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
-      <author>contact@datatrigger.org (Vincent Le Goualher)</author>
-      <guid>https://datatrigger.org/tags/python/</guid>
       <description></description>
     </item>
     
