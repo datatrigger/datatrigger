@@ -1,5 +1,5 @@
 ---
-title: "A multi container Machine Learning application deployed on a Kubernetes cluster - Part 1/2: Docker"
+title: "A multi container ML app (1/2): Docker"
 summary: "Building a translation app by putting together 3 containerized microservices: a Flask frontend, a FastAPI backend and a MySQL database. Let's see how to properly dockerize each part and how we can connect them. Also covered: security with Docker secrets, CI/CD with GitHub Actions, data persistence with Docker volumes."
 date: 2022-09-11
 tags: ["docker", "container", "api", "nlp", "database", "flask", "fastapi", "python", "mysql", "secrets", "ci/cd", "registry"]
