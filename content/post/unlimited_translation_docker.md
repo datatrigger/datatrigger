@@ -27,15 +27,17 @@ In this post, we build and deploy the app on a single node with Docker. In part 
 
 ### The project
 
-###### High-level overview
+##### High-level overview
+
+1) On its main page, the Flask frontend takes German text as input and sends an HTTP request to the backend, which responds with the translated text. Then, both the original text and the translation are inserted inside the MySQL database.  
+  
+2) On its secondary page, the frontend takes a SQL query as input, fetch the results from the database and displays the result.
 
 ![microservices chart](/res/unlimited_translation_docker/unlimited_translation_chart.png)
 
-static/res/unlimited_translation_docker/unlimited_translation_chart.jpg
+##### Method
 
-###### Method
-
-The first step is to build the microservices locally.
+The first step is to build each microservice directly on our machine, without thinking about Docker. We just use a virtual environment for each component (I like Python's standard ```venv```). This is much more convenient during the development phase since we do not have to rebuild a container every time we change something. In the meantime, we exactly know what modules each microservice needs.
 
 ### Docker
 
