@@ -26,3 +26,17 @@ As a non-German speaker living in Switzerland, I often need to quickly translate
 In this post, we build and deploy the app on a single node with Docker. In part 2/2, the app will be deployed on a Kubernetes cluster.
 
 ### The project
+
+###### High-level overview
+
+Diagram of the 3 microservices
+
+###### Method
+
+The first step is to build the microservices locally.
+
+### Docker
+
+###### Dockerize each app
+
+###
