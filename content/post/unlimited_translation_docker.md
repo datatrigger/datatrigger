@@ -29,7 +29,9 @@ In this post, we build and deploy the app on a single node with Docker. In part 
 
 ###### High-level overview
 
-Diagram of the 3 microservices
+![microservices chart](/res/unlimited_translation_docker/unlimited_translation_chart.png)
+
+static/res/unlimited_translation_docker/unlimited_translation_chart.jpg
 
 ###### Method
 
