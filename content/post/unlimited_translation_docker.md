@@ -6,12 +6,14 @@ tags: ["docker", "container", "api", "nlp", "database", "flask", "fastapi", "pyt
 draft: true
 ---
 
-Use the app at [translation.datatrigger.org](translation.datatrigger.org)
+*App:*
 
-*Source code*:
-* *[Docker Compose deployment](https://github.com/datatrigger/unlimited-translation_docker_swarm)*
-* *[Flask frontend](https://github.com/datatrigger/unlimited_translation-frontend-swarm)*
-* *[FastAPI backend](https://github.com/datatrigger/unlimited_translation-backend)*
+* [translation.datatrigger.org](translation.datatrigger.org)
+
+*Source code:*
+* [Docker Compose deployment](https://github.com/datatrigger/unlimited-translation_docker_swarm)
+* [Flask frontend container](https://github.com/datatrigger/unlimited_translation-frontend-swarm)
+* [FastAPI backend container](https://github.com/datatrigger/unlimited_translation-backend)
 
 ### Introduction
 
@@ -24,5 +26,3 @@ As a non-German speaker living in Switzerland, I often need to quickly translate
 In this post, we build and deploy the app on a single node with Docker. In part 2/2, the app will be deployed on a Kubernetes cluster.
 
 ### The project
-
-TEST
