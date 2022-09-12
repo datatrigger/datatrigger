@@ -25,9 +25,7 @@ As a non-German speaker living in Switzerland, I often need to quickly translate
 
 In this post, we build and deploy the app on a single node with Docker. In part 2/2, the app will be deployed on a Kubernetes cluster.
 
-### The project
-
-##### High-level overview
+### High-level overview of the app
 
 1) On its main page, the Flask frontend takes German text as input and sends an HTTP request to the backend, which responds with the translated text. Then, both the original text and the translation are inserted inside the MySQL database.  
   
@@ -35,11 +33,24 @@ In this post, we build and deploy the app on a single node with Docker. In part 
 
 ![microservices chart](/res/unlimited_translation_docker/unlimited_translation_chart.png)
 
-##### Method
+### Before dockerizing
 
-The first step is to build each microservice directly on our machine, without thinking about Docker. We just use a virtual environment for each component (I like Python's standard ```venv```). This is much more convenient during the development phase since we do not have to rebuild a container every time we change something. In the meantime, we exactly know what modules each microservice needs.
+The first step is to build each microservice directly on our machine, without thinking about Docker. We use a virtual environment for each component (I like Python's standard ```venv```). This is much more convenient during the development phase since we do not have to rebuild a container every time we change something. In the meantime, we exactly know what modules each microservice needs.
+
+```
+cd path/to/microservice_folder
+python3 -m venv .venv
+source .venv/bin/activate
+pip install ...
+```
+
+During this phase, I use the local network to connect the microservices together. I directly hardcode the URLs (like *http://localhost:80/*) in the components so they can talk to each other.
+
+In this case, we have to write the Flask frontend and the FastAPI backend. For the MySQL database, we use the official container as is.
 
 ### Docker
+
+Once the components
 
 ###### Dockerize each app
 
