@@ -35,23 +35,65 @@ In this post, we build and deploy the app on a single node with Docker. In part 
 
 ### Before dockerizing
 
-The first step is to build each microservice directly on our machine, without thinking about Docker. We use a virtual environment for each component (I like Python's standard ```venv```). This is much more convenient during the development phase since we do not have to rebuild a container every time we change something. In the meantime, we exactly know what modules each microservice needs.
+The first step is to build each microservice directly on our machine, without thinking about Docker. I use a virtual environment for each component (I like Python's standard ```venv```). This is much more convenient during the development phase since there is no need to rebuild a container every time something changes. In the meantime, I am in control of the modules/python version each microservice needs to work properly.
 
-```
-cd path/to/microservice_folder
-python3 -m venv .venv
-source .venv/bin/activate
-pip install ...
-```
+Below is the ```venv``` syntax to create a virtual environment named *.venv*:
+
+```cd path/to/microservice_folder```  
+```python3 -m venv .venv```  
+```source .venv/bin/activate```  
+```pip install ...```  
 
 During this phase, I use the local network to connect the microservices together. I directly hardcode the URLs (like *http://localhost:80/*) in the components so they can talk to each other.
 
-In this case, we have to write the Flask frontend and the FastAPI backend. For the MySQL database, we use the official container as is.
+In this case, we have to write the Flask frontend and the FastAPI backend. For the MySQL database, we'll use the official container as is.
 
 ### Docker
 
-Once the components
+Once the app works on a local machine, we can start to build container images.
 
-###### Dockerize each app
+##### How to Dockerize a microservice
 
-###
+My method is as follows:
+
+1) Get python's version: ```python --version``` or ```python3 --version```  
+
+2) Write the list of **imported** packages in a ```requirements.txt``` file
+
+I've seen people using ```pip freeze > requirements.txt``` but I prefer to avoid this because it lists every single module in your environment. This includes potentially unnecessary modules that you might have tried during development, or dependencies that do not need to be explicitly listed. So, I manually list the packages I actually **import** in my scripts: the ```requirements.txt``` file is much shorter and readable this way. There is actually a module called [pipreqs](https://github.com/bndr/pipreqs) to automate this process.
+
+3) Create a folder/repository with the following structure:
+
+```
+/docker_image_repo
+├── workdir
+│   ├── script_1.py
+│   ├── script_2.py
+|   |── some_folder
+|   |...
+│   ├── requirements.txt
+├── Dockerfile
+```
+##### The Dockerfile
+
+With the above steps completed, it is now pretty straightforward to write the ```Dockerfile```. Check out the source for the [Flask frontend image](https://github.com/datatrigger/unlimited_translation-frontend-swarm) or the [FastAPI backend image](https://github.com/datatrigger/unlimited_translation-backend). Let's look at the backend's Dockerfile in detail:
+
+* ```FROM python:3.10```: Start from a Debian distirbution with the exact python version needed  
+* ```COPY /workdir /workdir```: Copy the scripts and source code files  
+* ```WORKDIR workdir```: Set the working directory as... The workdir folder  
+* ```RUN pip install --no-cache-dir --upgrade -r requirements.txt && python pull_nlp_models.py```: Set the python environment + download NLP models  
+* ```CMD ["uvicorn", "backend_fastapi:app", "--host", "0.0.0.0", "--port", "80"]```: Run the FastAPI microservice  
+
+#### Keep it light
+
+### Docker registry
+
+### CI/CD
+
+### Networking
+
+### Security - Docker secrets
+
+### Persist data
+
+### Orchestration (depends on...)
