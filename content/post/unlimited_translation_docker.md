@@ -15,6 +15,18 @@ draft: true
 * [Flask frontend container](https://github.com/datatrigger/unlimited_translation-frontend-swarm)
 * [FastAPI backend container](https://github.com/datatrigger/unlimited_translation-backend)
 
+*Content of this post:*
+1) [Introduction](#introduction)
+2) [High-level overview of the app](#high-level-overview-of-the-app)
+3) [Before dockerizing](#before-dockerizing)
+4) [Docker](#docker)
+5) [Docker registry](#docker-registry)
+6) [CI/CD](#ci/cd)
+7) [Networking](#networking)
+8) [Docker secrets](#docker-secrets)
+9) [Data Persistence](#data-persistence)
+10) [Dependency ordering](#dependency-ordering)
+
 ### Introduction
 
 As a non-German speaker living in Switzerland, I often need to quickly translate large texts, but I get annoyed by character limits on Google Translate or DeepL. Learning German may have been a *way* better call, but instead I decided to deploy a translation application. It's made of 3 containerized microservices:
@@ -39,10 +51,12 @@ The first step is to build each microservice directly on our machine, without th
 
 Below is the ```venv``` syntax to create a virtual environment named *.venv*:
 
-```cd path/to/microservice_folder```  
-```python3 -m venv .venv```  
-```source .venv/bin/activate```  
-```pip install ...```  
+```bash
+cd path/to/microservice_folder
+python3 -m venv .venv
+source .venv/bin/activate
+pip install ...
+```  
 
 During this phase, I use the local network to connect the microservices together. I directly hardcode the URLs (like *http://localhost:80/*) in the components so they can talk to each other.
 
@@ -52,7 +66,7 @@ In this case, we have to write the Flask frontend and the FastAPI backend. For t
 
 Once the app works on a local machine, we can start to build container images.
 
-##### How to Dockerize a microservice
+#### How to Dockerize a microservice
 
 My method is as follows:
 
@@ -74,17 +88,22 @@ I've seen people using ```pip freeze > requirements.txt``` but I prefer to avoid
 │   ├── requirements.txt
 ├── Dockerfile
 ```
-##### The Dockerfile
+#### The Dockerfile
 
 With the above steps completed, it is now pretty straightforward to write the ```Dockerfile```. Check out the source for the [Flask frontend image](https://github.com/datatrigger/unlimited_translation-frontend-swarm) or the [FastAPI backend image](https://github.com/datatrigger/unlimited_translation-backend). Let's look at the backend's Dockerfile in detail:
 
-* ```FROM python:3.10```: Start from a Debian distirbution with the exact python version needed  
-* ```COPY /workdir /workdir```: Copy the scripts and source code files  
-* ```WORKDIR workdir```: Set the working directory as... The workdir folder  
-* ```RUN pip install --no-cache-dir --upgrade -r requirements.txt && python pull_nlp_models.py```: Set the python environment + download NLP models  
-* ```CMD ["uvicorn", "backend_fastapi:app", "--host", "0.0.0.0", "--port", "80"]```: Run the FastAPI microservice  
+```docker {linenos=table}
+FROM python:3.10 #Start from a Debian distirbution with the exact python version needed  
+COPY /workdir /workdir #Copy the scripts and source code files  
+WORKDIR workdir #Set the working directory as... The workdir folder  
+RUN pip install --no-cache-dir --upgrade -r requirements.txt && python pull_nlp_models.py #Set the python environment + download NLP models  
+CMD ["uvicorn", "backend_fastapi:app", "--host", "0.0.0.0", "--port", "80"] #Run the FastAPI microservice
+```  
 
 #### Keep it light
+
+Our FastAPI backend uses 2 NLP models to translate English text:
+* A SpaCy sentence segmenter
 
 ### Docker registry
 
@@ -92,8 +111,8 @@ With the above steps completed, it is now pretty straightforward to write the ``
 
 ### Networking
 
-### Security - Docker secrets
+### Docker secrets
 
-### Persist data
+### Data persistence
 
-### Orchestration (depends on...)
+### Dependency ordering
