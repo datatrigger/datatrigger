@@ -201,8 +201,6 @@ Quoting the [Docker docs](https://docs.docker.com/engine/swarm/secrets/):
 
 This means that the value of the secret is then available in a file, inside the container, at ```/run/secrets/<secret_name>```. Instead of hardcoding this path inside scripts, it is best practice to pass the path as an environment variable, as in the example just above. This way, if the name of the secret changes at some point, you won't have to edit any of the scripts using this secret.
 
-
-
 ### Data persistence
 
 ### Additional considerations
