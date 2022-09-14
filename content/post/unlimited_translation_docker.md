@@ -21,11 +21,12 @@ draft: true
 3) [Before dockerizing](#before-dockerizing)
 4) [Docker](#docker)
 5) [Docker registry](#docker-registry)
-6) [CI/CD](#ci/cd)
+6) [CI/CD](#ci-cd-with-github-actions)
 7) [Networking](#networking)
 8) [Docker secrets](#docker-secrets)
 9) [Data Persistence](#data-persistence)
-10) [Dependency ordering](#dependency-ordering)
+10) [Additional considerations](#additional-considerations)
+11) [Deployment](#deployment)
 
 ### Introduction
 
@@ -92,27 +93,122 @@ I've seen people using ```pip freeze > requirements.txt``` but I prefer to avoid
 
 With the above steps completed, it is now pretty straightforward to write the ```Dockerfile```. Check out the source for the [Flask frontend image](https://github.com/datatrigger/unlimited_translation-frontend-swarm) or the [FastAPI backend image](https://github.com/datatrigger/unlimited_translation-backend). Let's look at the backend's Dockerfile in detail:
 
-```docker {linenos=table}
+```docker {linenos=table}  
 FROM python:3.10 #Start from a Debian distirbution with the exact python version needed  
 COPY /workdir /workdir #Copy the scripts and source code files  
 WORKDIR workdir #Set the working directory as... The workdir folder  
 RUN pip install --no-cache-dir --upgrade -r requirements.txt && python pull_nlp_models.py #Set the python environment + download NLP models  
-CMD ["uvicorn", "backend_fastapi:app", "--host", "0.0.0.0", "--port", "80"] #Run the FastAPI microservice
+CMD ["uvicorn", "backend_fastapi:app", "--host", "0.0.0.0", "--port", "80"] #Run the FastAPI microservice  
 ```  
 
 #### Keep it light
 
-Our FastAPI backend uses 2 NLP models to translate English text:
-* A SpaCy sentence segmenter
+In order to translate with no character limit, the FastAPI backend works as follows:
+1) **Segment** the input text in sentences using a [SpaCy model](https://spacy.io/models/de#de_dep_news_trf)
+2) **Translate** sentences one by one with [🤗 Hugging Face](https://huggingface.co/)'s ```transformers``` library
+
+We decompose the work this way because transformers models cannot process long text: they usually take no more than 512 or 1024 words/tokens at a time.
+
+We could put these models in the source code of the Docker image along with the .py scripts, but instead we pull them at image build: through the ```requirements.txt``` file for the Spacy model and through the ```pull_nlp_models.py``` script for the translation model. We proceed this way for several reasons:
+
+* The models are very heavy and cannot fit in a standard GitHub repository (100 Mo max). Yet we need to store this code in a repo to implement CI/CD
+* It is much easier to update or change the models this way
+
+Overall, the point is to keep the source code of a Docker image as light and simple as possible.
 
 ### Docker registry
 
-### CI/CD
+The point of containers is that they can run anywhere, be it someone's local machine, a server or a Kubernetes cluster. So they have to be accessible from anywhere. This is exactly the point of a container registry. The syntax is as follows:
+
+```bash
+cd <docker_image_repo>
+docker build . -t <registry>/<image name>:<image tag>
+docker push <image name>:<image tag>
+```
+
+For the translation project, the Docker images live on my personal [DockerHub account](https://hub.docker.com/u/datatrigger). When we deploy the app later on, the images will be pulled from there to run the containers.
+
+### CI/CD with GitHub Actions
+
+It would be nice not having to manually build the image and push it to the registry each time we change something in the source code. This is where GitHub Actions comes in: each push on the repository automatically triggers a build of the image and pushes it to the registry. The detailed steps to implement CI/CD are very well documented on [Docker's official docs](https://docs.docker.com/ci-cd/github-actions/).
+
+It actually gets even better than that. If you look at our [FastAPI backend image](https://hub.docker.com/repository/docker/datatrigger/unlimited-translation_backend_fastapi) for instance:
+
+![FastAPI Docker image](/res/unlimited_translation_docker/fastapi_backend_image.png)
+
+You'll see the image repository has actually two different tags: *buildcache* and *latest*.
+
+*latest* is the tag of the actual image of the container. What about *buildcache*? GitHub Actions looks at this file to know which parts of the image are impacted by the latest changes pushed to the source repository. This allows not to re-build the entire image at each push, but just the impacted layers. This saves a huge amount of time, especially with heavy images like the [FastAPI backend](https://hub.docker.com/repository/docker/datatrigger/unlimited-translation_backend_fastapi) (2+ Go) with heavy ML models embedded in it.
 
 ### Networking
 
+For the translation app to work, the 3 microservices need to be able to talk to each other on a network:
+* The Flask frontend sends German text through HTTP requests to the FastAPI backend, who sends back the translated text
+* The Flask frontend sends queries to the MySQL database, and get the results back
+
+In this post, we deploy the translation app on a single host with Docker Compose (see the [Deployment](#deployment) section), by writing a ```docker-compose.yaml``` file:
+
+```yaml
+version: "3.9"
+services:
+
+  database:
+    ...
+
+  backend_fastapi:
+    ...
+
+  frontend_flask:
+    ...
+```
+
+As you can see, each container is defined by a name, e.g. ```database``` or ```backend_fastapi```. When deploying the app, Docker Compose creates a network that connects the containers. Then, each container can be reached through its name. For instance, here is how we send requests to the backend inside the Flask frontend script:
+
+```python
+requests.post('http://backend_fastapi/translate', headers=headers, json=json_data).json()['text_en']
+```
+
+To connect to the MySQL database, we simply specify ```database``` as the hostname in the connection parameters.
+
+As we'll see in the next post, things get way more complicated when operating on a Kubernetes cluster.
+
 ### Docker secrets
+
+In the case of our translation app, we need to provide a root password when creating the MySQL database. We also need to grant a user and password to the Flask frontend so we can insert and query previous translations.
+
+*Docker secrets* is a secure and convenient tool to manipulate sensitive data. The syntax is as follows:
+
+```bash
+printf "<secret_value>" | docker secret create <secret_name> -
+```
+
+Secrets can then be passed to containers in the ```docker-compose.yaml``` deployment file, e.g.:
+
+```yaml
+version: "3.9"
+services:
+
+  database:
+    image: mysql:latest
+    environment:
+       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+      - db_root_password
+```
+Quoting the [Docker docs](https://docs.docker.com/engine/swarm/secrets/):
+
+> the decrypted secret is mounted into the container in an in-memory filesystem. The location of the mount point within the container defaults to /run/secrets/<secret_name> in Linux containers
+
+This means that the value of the secret is then available in a file, inside the container, at ```/run/secrets/<secret_name>```. Instead of hardcoding this path inside scripts, it is best practice to pass the path as an environment variable, as in the example just above. This way, if the name of the secret changes at some point, you won't have to edit any of the scripts using this secret.
+
+
 
 ### Data persistence
 
-### Dependency ordering
+### Additional considerations
+
+#### Database dump
+
+#### Dependency ordering
+
+### Deployment
