@@ -16,10 +16,8 @@ draft: true
 * [Kubernetes deployment](https://github.com/datatrigger/unlimited-translation_kubernetes)
 
 *Content of this post:*
-1) [Deployment](#deployment)
-2) [Networking](#networking)
-3) [Docker secrets](#docker-secrets)
-4) [Data Persistence](#data-persistence)
-5) [Database dump](#database-dump)
-6) [Startup order](#startup-order)
-7) [Conclusion](#conclusion)
+1) [](#)
+2) [](#)
+3) [](#)
+
+
