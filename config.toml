@@ -29,7 +29,7 @@ googleAnalytics = "UA-165238354-1"
 
 [Params]
   homeTitle = "Data Trigger"
-  subtitle = "Data & Machine Learning Engineering"
+  subtitle = "Data Engineering & Machine Learning Operations"
   mainSections = ["post","posts"]
   logo = "img/profile/p3.jpeg" # Expecting square dimensions
   favicon = "img/icon/settings.png"
