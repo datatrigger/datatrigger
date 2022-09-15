@@ -1,9 +1,9 @@
 ---
 title: "A multi container ML app (2/3): deploying with Docker Compose"
-summary: "Now that we have Docker containers, let's deploy them together with Docer Compose. Also covered: security with Docker secrets, data persistence with Docker volumes and dependency ordering."
+summary: "Now that we have Docker containers, let's deploy them together with Docker Compose. Also covered: security with Docker secrets, data persistence with Docker volumes and dependency ordering."
 date: 2022-09-15
 tags: ["docker", "container", "compose", "secrets", "volume", "swarm"]
-draft: true
+draft: false
 ---
 
 *App:*
@@ -11,20 +11,75 @@ draft: true
 * [translation.datatrigger.org](translation.datatrigger.org)
 
 *Source code:*
-* [Docker Compose deployment](https://github.com/datatrigger/unlimited-translation_docker_swarm)
 * [Flask frontend container](https://github.com/datatrigger/unlimited_translation-frontend-swarm)
 * [FastAPI backend container](https://github.com/datatrigger/unlimited_translation-backend)
+* [Docker Compose deployment](https://github.com/datatrigger/unlimited-translation_docker_swarm)
+* [Kubernetes deployment](https://github.com/datatrigger/unlimited-translation_kubernetes)
 
 *Content of this post:*
 1) [Deployment](#deployment)
 2) [Networking](#networking)
 3) [Docker secrets](#docker-secrets)
 4) [Data Persistence](#data-persistence)
-5) [Additional considerations](#additional-considerations)
+5) [Database dump](#database-dump)
+6) [Startup order](#startup-order)
+7) [Conclusion](#conclusion)
 
 ### Deployment
 
+Let's see how we can deploy the translation app from [last post](https://www.datatrigger.org/post/unlimited_translation_docker/) using Docker Compose. We need a folder with a ```docker-compose.yaml``` file at its root, see [this repository](https://github.com/datatrigger/unlimited-translation_docker_swarm) regarding the translation app's deployment.
 
+The ```docker-compose.yaml``` file describes each microservices: which container image should be pulled, how to connect them together, should they be accessible on the network and through which port, etc...
+
+```yaml
+version: "3.9"
+services:
+
+  database:
+    image: mysql:latest
+    environment:
+       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+       MYSQL_DATABASE: translation
+       MYSQL_USER_FILE: /run/secrets/db_user
+       MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_root_password
+      - db_user
+      - db_password
+    volumes:
+      - ./mysql-dump:/docker-entrypoint-initdb.d
+      - unlimited_translation_database_volume:/var/lib/mysql
+
+  backend_fastapi:
+    image: datatrigger/unlimited-translation_backend_fastapi
+
+  frontend_flask:
+    image: datatrigger/unlimited-translation_frontend_flask:docker_swarm
+    depends_on:
+      - backend_fastapi
+      - database
+    ports:
+      - "5000:80"
+    environment:
+      FLASK_DB_USER_FILE: /run/secrets/db_user
+      FLASK_DB_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_user
+      - db_password
+
+secrets:
+    db_root_password:
+     external: true
+    db_user:
+     external: true
+    db_password:
+     external: true
+   
+volumes:
+  unlimited_translation_database_volume:
+```
+
+Let's look at each part in details.
 
 ### Networking
 
@@ -32,7 +87,7 @@ For the translation app to work, the 3 microservices need to be able to talk to 
 * The Flask frontend sends German text through HTTP requests to the FastAPI backend, who sends back the translated text
 * The Flask frontend sends queries to the MySQL database, and get the results back
 
-In this post, we deploy the translation app on a single host with Docker Compose (see the [Deployment](#deployment) section), by writing a ```docker-compose.yaml``` file:
+As you can see in ```docker-compose.yaml``` file, each container is defined by a name, e.g. ```database``` or ```backend_fastapi```:
 
 ```yaml
 version: "3.9"
@@ -48,7 +103,7 @@ services:
     ...
 ```
 
-As you can see, each container is defined by a name, e.g. ```database``` or ```backend_fastapi```. When deploying the app, Docker Compose creates a network that connects the containers. Then, each container can be reached through its name. For instance, here is how we send requests to the backend inside the Flask frontend script:
+When deploying the app, Docker Compose creates a network that connects the containers. Then, each container can be reached through its name. For instance, here is how we send requests to the backend from inside the Flask frontend container:
 
 ```python
 requests.post('http://backend_fastapi/translate', headers=headers, json=json_data).json()['text_en']
@@ -60,7 +115,7 @@ As we'll see in the next post, things get way more complicated when operating on
 
 ### Docker secrets
 
-In the case of our translation app, we need to provide a root password when creating the MySQL database. We also need to grant a user and password to the Flask frontend so we can insert and query previous translations.
+We need to provide a root password when creating the MySQL database. Ideally, we should grant the Flask frontend its own user and password so it can insert and query previous translations.
 
 *Docker secrets* is a secure and convenient tool to manipulate sensitive data. The syntax is as follows:
 
@@ -85,7 +140,7 @@ Quoting the [Docker docs](https://docs.docker.com/engine/swarm/secrets/):
 
 > the decrypted secret is mounted into the container in an in-memory filesystem. The location of the mount point within the container defaults to /run/secrets/<secret_name> in Linux containers
 
-This means that the value of the secret is then available in a file, inside the container, at ```/run/secrets/<secret_name>```. Instead of hardcoding this path inside scripts, it is best practice to pass the path as an environment variable, as in the example just above. This way, if the name of the secret changes at some point, you won't have to edit any of the scripts using this secret.
+This means that the value of the secret is then available in a file, inside the container, at ```/run/secrets/<secret_name>```. Instead of hardcoding this path inside scripts, it is best practice to pass the path as an environment variable, as in the example just above. This way, if the name of the secret changes at some point, you won't have to edit any of the scripts using this secret, but just the ```docker-compose.yaml``` file.
 
 ### Data persistence
 
@@ -107,9 +162,7 @@ volumes:
 
 At the bottom, the volume is created if it does not exist. Then, under the container definition section, we map this volume to the ```/var/lib/mysql``` folder inside the container, where MySQL stores the data. If we need to delete the volume at some point, we can run ```docker volume rm <volume_name>```.
 
-### Additional considerations
-
-#### Database dump
+### Database dump
 
 In the case of our translation app, we want to have a table ready to store our German texts and their translations up and running when the container is created. We need to be able to load the corresponding SQL instructions without manually connecting to the container each time it's launched. With the offical MySQL container, it is easy to load a [database dump](https://en.wikipedia.org/wiki/Database_dump) at startup.
 
@@ -135,7 +188,7 @@ services:
       - ./mysql-dump:/docker-entrypoint-initdb.d
 ```
 
-#### Dependency ordering
+### Startup order
 
 In order for the app to be up and running as soon as the user can access the frontend, we need to ensure both the backend and the database are available first. Docker Compose allows to control startup and shutdown order with the ```depends_on``` option:
 
@@ -146,3 +199,9 @@ frontend_flask:
       - backend_fastapi
       - database
 ```
+
+### Conclusion
+
+That is all for the Docker Compose deployment. Technically, I ended up deploying with Docker Swarm on a single node, which is pretty much the same thing. The reason for that is the Docker secrets feature missing in Docker Compose, see details in the [project repo](https://github.com/datatrigger/unlimited-translation_docker_swarm).
+
+In the [next post](https://www.datatrigger.org/post/unlimited_translation_kubernetes/), we'll deploy the translation app on a Kubernetes cluster. This requires much more work but it makes an app scalable and resilient.
