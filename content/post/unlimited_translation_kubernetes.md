@@ -20,4 +20,20 @@ draft: true
 2) [](#)
 3) [](#)
 
+# Deployments
+
+# Networks and ports
+
+# Stateful microservices
+
+# Volumes
+
+# Resources
+
+# Secrets
+
+# Image pull policies
+
+# Publishing on the Internet
+
 
