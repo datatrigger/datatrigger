@@ -20,7 +20,17 @@ draft: true
 2) [](#)
 3) [](#)
 
+# Introduction
+
+In this post, we'll deploy our 3-container translation app on a Kubernetes cluster so it is publicly available at [translation.datatrigger.org](translation.datatrigger.org).
+
+I am using a [managed cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview?authuser=3) on [Google Cloud Platform](https://cloud.google.com/)'s [GKE](https://cloud.google.com/kubernetes-engine).
+
+Assuming you have a Kubernetes cluster up and running, deploying an app basically amount to writing a .yaml file called a manifest. It describes the collection of K8s object you want the cluster to deploy and maintain. [Here](https://github.com/datatrigger/unlimited-translation_kubernetes/blob/main/unlimited-translation-k8s.yaml) is the content of the translation app's manifest.
+
 # Deployments
+
+```Deployment``` objects. 
 
 # Networks and ports
 
