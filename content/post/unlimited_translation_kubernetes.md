@@ -56,9 +56,11 @@ Implementing master-slaves data replication is far from trivial: see [this examp
 >
 > StatefulSets are the recommended method of deploying stateful applications that require a unique volume per replica. By using StatefulSets with PersistentVolumeClaim templates, you can have applications that can scale up automatically with unique PersistentVolumesClaims associated to each replica Pod.
 
-To sum up: by using a ```StatefulSet```, data persistence and availability is guaranteed even in case of failure of the MySQL container (pod).
+To sum up: by using a ```StatefulSet```, data persistence and availability are guaranteed even in case of failure of the MySQL container (pod).
 
 # Volumes
+
+
 
 # Resources
 
