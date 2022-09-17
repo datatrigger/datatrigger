@@ -22,7 +22,8 @@ draft: false
 3) [Before dockerizing](#before-dockerizing)
 4) [Docker](#docker)
 5) [Docker registry](#docker-registry)
-6) [CI/CD](#ci-cd-with-github-actions)
+6) [CI/CD](#cicd-with-github-actions)
+7) [Deployment](#deployment)
 
 ### Introduction
 

@@ -1,7 +1,7 @@
 ---
 title: "A multi container ML app (3/3): Kubernetes"
-summary: "Deploying the 3-container translation app on a Kubernetes cluster to get scalability and resilience."
-date: 2022-09-15
+summary: "Deploying our 3-container translation app on a Kubernetes cluster to get scalability and resilience."
+date: 2022-09-17
 tags: ["kubernetes", "k8s", "gcp", "google cloud", "gke", "swarm"]
 draft: true
 ---
