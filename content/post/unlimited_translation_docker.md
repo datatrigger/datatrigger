@@ -17,15 +17,15 @@ draft: false
 * [Kubernetes deployment](https://github.com/datatrigger/unlimited-translation_kubernetes)
 
 *Content of this post:*
-1) [Introduction](#introduction)
-2) [High-level overview of the app](#high-level-overview-of-the-app)
-3) [Before dockerizing](#before-dockerizing)
-4) [Docker](#docker)
-5) [Docker registry](#docker-registry)
-6) [CI/CD](#cicd-with-github-actions)
-7) [Deployment](#deployment)
+1) [Introduction](#1-introduction)  
+2) [High-level overview of the app](#2-high-level-overview-of-the-app)  
+3) [Before dockerizing](#3-before-dockerizing)  
+4) [Docker](#4-docker)  
+5) [Docker registry](#5-docker-registry)  
+6) [CI/CD](#6-cicd-with-github-actions)  
+7) [Deployment](#7-deployment)  
 
-### Introduction
+### 1) Introduction
 
 As a non-German speaker living in Switzerland, I often need to quickly translate large texts, but I get annoyed by character limits on Google Translate or DeepL. Learning German may have been a *way* better call, but instead I decided to deploy a translation application. It's made of 3 containerized microservices:
 
@@ -35,7 +35,7 @@ As a non-German speaker living in Switzerland, I often need to quickly translate
 
 In this post, we build the containers. In [part 2/3](https://www.datatrigger.org/post/unlimited_translation_deploy_with_docker_compose/), we'll deploy the app on a single node with Docker Compose. Finally, the app will be deployed on a Kubernetes cluster in [part 3/3](https://www.datatrigger.org/post/unlimited_translation_kubernetes/).
 
-### High-level overview of the app
+### 2) High-level overview of the app
 
 1) On its main page, the Flask frontend takes German text as input and sends an HTTP request to the backend, which responds with the translated text. Then, both the original text and the translation are inserted inside the MySQL database.  
   
@@ -43,7 +43,7 @@ In this post, we build the containers. In [part 2/3](https://www.datatrigger.org
 
 ![microservices chart](/res/unlimited_translation_docker/unlimited_translation_chart.png)
 
-### Before dockerizing
+### 3) Before dockerizing
 
 The first step is to build each microservice directly on our machine, without thinking about Docker. I use a virtual environment for each component (I like Python's standard ```venv```). This is much more convenient during the development phase since there is no need to rebuild a container every time something changes. In the meantime, I am in control of the modules/python version each microservice needs to work properly.
 
@@ -60,7 +60,7 @@ During this phase, I use the local network to connect the microservices together
 
 In this case, we have to write the Flask frontend and the FastAPI backend. For the MySQL database, we'll use the official container as is.
 
-### Docker
+### 4) Docker
 
 Once the app works on a local machine, we can start to build container images.
 
@@ -113,7 +113,7 @@ We could put these models in the source code of the Docker image along with the 
 
 Overall, the point is to keep the source code of a Docker image as light and simple as possible.
 
-### Docker registry
+### 5) Docker registry
 
 The point of containers is that they can run anywhere, be it someone's local machine, a server or a Kubernetes cluster. So they have to be accessible from anywhere. This is exactly the point of a container registry. The syntax is as follows:
 
@@ -125,7 +125,7 @@ docker push <image name>:<image tag>
 
 For the translation project, the Docker images live on my personal [DockerHub account](https://hub.docker.com/u/datatrigger). When we deploy the app later on, the images will be pulled from there to run the containers.
 
-### CI/CD with GitHub Actions
+### 6) CI/CD with GitHub Actions
 
 It would be nice not having to manually build the image and push it to the registry each time we change something in the source code. This is where GitHub Actions comes in: each push on the repository automatically triggers a build of the image and pushes it to the registry. The detailed steps to implement CI/CD are very well documented on [Docker's official docs](https://docs.docker.com/ci-cd/github-actions/).
 
@@ -137,6 +137,6 @@ You'll see the image repository has actually two different tags: *buildcache* an
 
 *latest* is the tag of the actual image of the container. What about *buildcache*? GitHub Actions looks at this file to know which parts of the image are impacted by the latest changes pushed to the source repository. This allows not to re-build the entire image at each push, but just the impacted layers. This saves a huge amount of time, especially with heavy images like the [FastAPI backend](https://hub.docker.com/repository/docker/datatrigger/unlimited-translation_backend_fastapi) (2+ Go) with heavy ML models embedded in it.
 
-### Deployment
+### 7) Deployment
 
 After developing and testing our microservices locally, we built container images and pushed them to a registry in a CI/CD framework. We can now easily maintain them and pull them from anywhere for deployment. Let's see how that goes in the [next post](https://www.datatrigger.org/post/unlimited_translation_deploy_with_docker_compose/).

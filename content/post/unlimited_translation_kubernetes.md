@@ -16,11 +16,16 @@ draft: false
 * [Kubernetes deployment](https://github.com/datatrigger/unlimited-translation_kubernetes)
 
 *Content of this post:*
-1) [](#)
-2) [](#)
-3) [](#)
+1) [Introduction](#1-introduction)
+2) [Deployments](#2-deployments)
+3) [Stateful microservices](#3-stateful-microservices)
+4) [Resources](#4-resources)
+5) [Secrets](#5-secrets)
+6) [Image pull policies](#6-image-pull-policies)
+7) [Networks and ports](#7-networks-and-ports)
+8) [Publishing the app on the Internet](#8-publishing-the-app-on-the-internet)
 
-# Introduction
+# 1) Introduction
 
 In this post, we'll deploy our 3-container translation app on a Kubernetes cluster and make it publicly available at [translation.datatrigger.org](translation.datatrigger.org).
 
@@ -32,7 +37,7 @@ Assuming you have a Kubernetes cluster up and running, deploying an app basicall
 
 It describes the collection of K8s object you want the cluster to manage at all time, regardless of failures or other disruptions.
 
-# Deployments
+# 2) Deployments
 
 We use ```Deployment``` objects to deploy the frontend and backend of our translation app (for the database, we use a [```StatefulSet```](#stateful-microservices)), specifying:
 
@@ -44,7 +49,7 @@ Why is there a ```selector``` section when we already have a ```template``` desc
 
 We only scratch the surface with the translation app. ```Deployment``` objects can handle rollouts, i.e updates, using different strategies, e.g. *Recreate* (delete all containers v1, then deploy all containers v2) or *Rolling* (delete a container then replace with new version, one by one). The number of pods (```replicas```) can be scaled up and down depending on the demand. Autoscaling is available on cloud platforms (see [GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-autoscaler)).
 
-# Stateful microservices
+# 3) Stateful microservices
 
 ### ```StatefulSet```
 
@@ -126,7 +131,7 @@ data:
 
 Then, we mount this object to ```/docker-entrypoint-initdb.d``` as per the official [MySQL container documentation](https://hub.docker.com/_/mysql).
 
-# Resources
+# 4) Resources
 
 The [backend image](https://hub.docker.com/repository/docker/datatrigger/unlimited-translation_backend_fastapi) is very heavy (2 GiB) and a container instance requires significant amounts of cpu/memory to load the Machine Learning models (*Spacy* and *transformers* libraries) and compute translations. GKE's autopilot cluster does not automatically provision resources. The [default values](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests) (CPU: 0.5 vCPU, Memory: 2 GiB, Ephemeral storage: 1 GiB) work fine for the Flask frontend container and for the MySQL Database. But the backend pods keep crashing.
 
@@ -178,7 +183,7 @@ Here we request 4 vCPU, that is an 8-fold increase of the default value. It is a
 
 The ideal setting would be to [run the translations on a GPU](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus) but that's a story for antoher day.
 
-# Secrets
+# 5) Secrets
 
 Just as for the [deployment with Docker Compose](https://www.datatrigger.org/post/unlimited_translation_deploy_with_docker_compose/), we need to pass a root password to the MySQL container and a user/password to the Flask frontend microservice. First, we define the credentials in the CLI of the Kubernetes cluster:
 
@@ -228,7 +233,7 @@ db_password = os.environ.get('DB_PASSWORD')
 db_name = os.environ.get('DB_NAME')
 ```
 
-# Image pull policies
+# 6) Image pull policies
 
 As per the [Kubernetes documentation](https://kubernetes.io/docs/concepts/containers/images/):
 
@@ -242,7 +247,7 @@ Since the tag of the Flask frontend container is not ```latest```, the image is 
 imagePullPolicy: Always
 ```
 
-# Networks and ports
+# 7) Networks and ports
 
 The 3 microservices need to be able to talk to each other in the Kubernetes cluster:
 * The Flask frontend sends German text through HTTP requests to the FastAPI backend, who sends back the translated text
@@ -309,7 +314,7 @@ A ```port``` must be specified. If not provided, ```targetPort``` will be set to
 
 I used a ```LoadBalancer``` during the development of the translation app (commented out in the [manifest](https://github.com/datatrigger/unlimited-translation_kubernetes/blob/main/unlimited-translation-k8s.yaml)). It conveniently gets you an IP to connect to your app. The IP is accessible by running the command ```kubectl get svc -o wide```.
 
-# Publishing the app on the Internet
+# 8) Publishing the app on the Internet
 
 In order to publish the app, we need yet another type of Kubernetes object: ```Ingress```.
 
