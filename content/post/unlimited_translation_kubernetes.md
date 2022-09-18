@@ -133,7 +133,9 @@ Then, we mount this object to ```/docker-entrypoint-initdb.d``` as per the offic
 
 # 4) Resources
 
-The [backend image](https://hub.docker.com/repository/docker/datatrigger/unlimited-translation_backend_fastapi) is very heavy (2 GiB) and a container instance requires significant amounts of cpu/memory to load the Machine Learning models (*Spacy* and *transformers* libraries) and compute translations. GKE's autopilot cluster does not automatically provision resources. The [default values](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests) (CPU: 0.5 vCPU, Memory: 2 GiB, Ephemeral storage: 1 GiB) work fine for the Flask frontend container and for the MySQL Database. But the backend pods keep crashing.
+The [backend image](https://hub.docker.com/repository/docker/datatrigger/unlimited-translation_backend_fastapi) is very heavy (2 GiB) and a container instance requires significant amounts of cpu/memory to load the Machine Learning models (*Spacy* and *transformers* libraries) and compute translations. GKE's autopilot cluster does not automatically provision resources (but nodes according to requested resources). The [default values](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests) (CPU: 0.5 vCPU, Memory: 2 GiB, Ephemeral storage: 1 GiB) work fine for the Flask frontend container and for the MySQL Database. But the backend pods keep crashing.
+
+### CPU and RAM
 
 Let's run an instance of the FastAPI backend locally so we can evaluate the resources needed:
 
@@ -182,6 +184,16 @@ spec:
 Here we request 4 vCPU, that is an 8-fold increase of the default value. It is also possible to specify ```limits```, but [GKE Autopilot only considers ```requests```](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests).
 
 The ideal setting would be to [run the translations on a GPU](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus) but that's a story for antoher day.
+
+### Ephemeral storage
+
+An quick way to roughly determine how much ephemeral storage a container needs is to run it, then ssh into it and evaluate the size of local folders.
+
+```bash
+docker run -d <container_image>
+docker exec -it <container_id> sh
+ls -l --block-size=M
+```
 
 # 5) Secrets
 
