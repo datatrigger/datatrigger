@@ -85,7 +85,7 @@ Let's look at each part in details.
 
 For the translation app to work, the 3 microservices need to be able to talk to each other on a network:
 * The Flask frontend sends German text through HTTP requests to the FastAPI backend, who sends back the translated text
-* The Flask frontend sends queries to the MySQL database, and get the results back
+* The Flask frontend sends queries to the MySQL database, and gets the results back
 
 As you can see in ```docker-compose.yaml``` file, each container is defined by a name, e.g. ```database``` or ```backend_fastapi```:
 
