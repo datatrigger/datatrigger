@@ -8,7 +8,7 @@ draft: false
 
 *App:*
 
-* [translation.datatrigger.org](translation.datatrigger.org)
+* [translate.vlgdata.io](translate.vlgdata.io)
 
 *Source code:*
 * [Flask frontend container](https://github.com/datatrigger/unlimited_translation-frontend-swarm)
@@ -27,7 +27,7 @@ draft: false
 
 ### 1) Deployment
 
-Let's see how we can deploy the translation app from [last post](https://www.datatrigger.org/post/unlimited_translation_docker/) using Docker Compose. We need a folder with a ```docker-compose.yaml``` file at its root, see [this repository](https://github.com/datatrigger/unlimited-translation_docker_swarm) regarding the translation app's deployment.
+Let's see how we can deploy the translation app from [last post](https://blog.vlgdata.io/post/unlimited_translation_docker/) using Docker Compose. We need a folder with a ```docker-compose.yaml``` file at its root, see [this repository](https://github.com/datatrigger/unlimited-translation_docker_swarm) regarding the translation app's deployment.
 
 The ```docker-compose.yaml``` file describes each microservices: which container image should be pulled, how to connect them together, should they be accessible on the network and through which port, etc...
 
@@ -204,4 +204,4 @@ frontend_flask:
 
 That is all for the Docker Compose deployment. Technically, I ended up deploying with Docker Swarm on a single node, which is pretty much the same thing. The reason for that is the Docker secrets feature missing in Docker Compose, see details in the [project repo](https://github.com/datatrigger/unlimited-translation_docker_swarm).
 
-In the [next post](https://www.datatrigger.org/post/unlimited_translation_kubernetes/), we'll deploy the translation app on a Kubernetes cluster. This requires much more work but it makes an app scalable and resilient.
+In the [next post](https://blog.vlgdata.io/post/unlimited_translation_kubernetes/), we'll deploy the translation app on a Kubernetes cluster. This requires much more work but it makes an app scalable and resilient.

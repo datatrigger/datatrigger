@@ -1,7 +1,7 @@
-baseurl = "https://datatrigger.org"
+baseurl = "https://blog.vlgdata.io"
 DefaultContentLanguage = "en"
 date = "2020-04-26T13:41:21+02:00"
-title = "Data Trigger"
+title = "VLG Data"
 theme = "beautifulhugo"
 metaDataFormat = "yaml"
 googleAnalytics = "UA-165238354-1"
@@ -28,8 +28,8 @@ googleAnalytics = "UA-165238354-1"
     tabWidth = 4
 
 [Params]
-  homeTitle = "Data Trigger"
-  subtitle = "Data Engineering & Machine Learning Operations"
+  homeTitle = "VLG Data"
+  subtitle = "A blog on Data Engineering & Machine Learning Operations"
   mainSections = ["post","posts"]
   logo = "img/profile/p3.jpeg" # Expecting square dimensions
   favicon = "img/icon/settings.png"
@@ -63,15 +63,15 @@ googleAnalytics = "UA-165238354-1"
 
 [Author]
   name = "Vincent Le Goualher"
-  website = "datatrigger.org"
-  email = "contact@datatrigger.org"
+  website = "blog.vlgdata.io"
+  email = "vlg.engineer@gmail.com"
   #facebook = "username"
   github = "datatrigger"
   #gitlab = "datatrigger"
   #bitbucket = "username"
   #twitter = "vincentgoualher"
   #reddit = "username"
-  linkedin = "datatrigger"
+  linkedin = "vlgdata"
   #xing = "username"
   #stackoverflow = "users/13450581/vincent-le-goualher"
   #snapchat = "username"

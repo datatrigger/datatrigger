@@ -14,4 +14,4 @@ Thanks for reading!
 
 * [📧 Email](mailto:vlg.engineer@gmail.com)
 * [🔗 GitHub](https://github.com/datatrigger)
-* [🔗 LinkedIn](https://www.linkedin.com/in/datatrigger/)
+* [🔗 LinkedIn](https://www.linkedin.com/in/vlgdata/)
