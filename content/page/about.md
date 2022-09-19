@@ -15,3 +15,4 @@ Thanks for reading!
 * [📧 Email](mailto:vlg.engineer@gmail.com)
 * [🔗 GitHub](https://github.com/datatrigger)
 * [🔗 LinkedIn](https://www.linkedin.com/in/vlgdata/)
+* [📄 CV](/res/cv/data_engineer_vincent_le_goualher.pdf)
