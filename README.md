@@ -11,3 +11,4 @@ Thanks for reading!
 * [📧 Email](mailto:vlg.engineer@gmail.com)
 * [🔗 Website](https://blog.vlgdata.io)
 * [🔗 LinkedIn](https://www.linkedin.com/in/vlgdata/)
+* [📄 CV](https://blog.vlgdata.io/res/cv/data_engineer_vincent_le_goualher.pdf)
