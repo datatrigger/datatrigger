@@ -28,7 +28,7 @@ googleAnalytics = "UA-165238354-1"
     tabWidth = 4
 
 [Params]
-  homeTitle = "VLG Engineering"
+  homeTitle = "VLG Data Eng."
   subtitle = "A blog on Data Engineering & Machine Learning Operations"
   mainSections = ["post","posts"]
   logo = "img/profile/p3.jpeg" # Expecting square dimensions
