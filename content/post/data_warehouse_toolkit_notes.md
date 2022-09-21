@@ -24,15 +24,13 @@ Characteristics:
 
 ### DW/BI systems
 
-E.g orders, new customers, status of operational activities, logs...
-
 Characteristics:
 * metrics/aggregation oriented
 * Usually dealing with lots of transaction at a time
 
 *A DW is definitely not a copy of operational databases.*
 
-Fundamentals requirements of a DW/I system:
+Fundamentals requirements of a DW/BI system:
 * Understandability/Accessibility from the user's standpoint
 * Consistency: data definition, labels...
 * Maintainability, handling change
