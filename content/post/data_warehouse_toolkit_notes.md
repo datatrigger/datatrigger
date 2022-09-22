@@ -1,10 +1,12 @@
 ---
 title: "The Data Warehouse Toolkit (R. Kimball): reading notes"
 summary: "It's been 10 years since I read the first few chapters of Kimball's data warehousing bible. It would have been smart to take notes at the time. Better late than never!"
-date: 2022-07-21
+date: 2022-06-15
 tags: ["data modeling", "warehouse", "dimensional data", "fact table", "data engineering"]
-draft: true
+draft: false
 ---
+
+*Work in progress*
 
 # Chapter 1: Data Warehousing
 
@@ -119,4 +121,7 @@ Amazingly, using this approach, the optimizer can evaluate arbitrary n-way joins
 to a fact table in a single pass through the fact table’s index.
 
 # Surrogate keys
+
+Say your primary key is product code, then after a few years a new product is given a product code that already exists. The consistency of the key is compromised. To avoid this kind of problem, using a meaningless integer surrogate key is recommended.
+
 
