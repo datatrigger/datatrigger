@@ -6,7 +6,7 @@ tags: ["data modeling", "warehouse", "dimensional data", "fact table", "data eng
 draft: false
 ---
 
-*Work in progress*
+*\*Work in progress\**
 
 # Chapter 1: Data Warehousing
 
