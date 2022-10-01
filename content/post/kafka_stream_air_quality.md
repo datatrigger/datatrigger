@@ -1,7 +1,7 @@
 ---
 title: "Build a real-time stream of air quality data with Apache Kafka"
 summary: "Let's build a data stream with Kafka today! We will retrieve air quality data using the [World Air Quality Index](https://aqicn.org/station/@16822) project's API, then push it on a Kafka cluster."
-date: 2022-07-20
+date: 2022-08-10
 tags: ["kafka", "stream", "API", "data engineering", "distributed", "http", "request", "air", "cluster"]
 draft: false
 ---
