@@ -6,10 +6,6 @@ tags: ["kubernetes", "k8s", "gcp", "google cloud", "gke", "swarm"]
 draft: false
 ---
 
-*App:*
-
-* [translate.vlgdata.io](https://translate.vlgdata.io)
-
 *Source code:*
 * [Flask frontend container](https://github.com/datatrigger/unlimited_translation-frontend-swarm)
 * [FastAPI backend container](https://github.com/datatrigger/unlimited_translation-backend)
@@ -27,7 +23,7 @@ draft: false
 
 # 1) Introduction
 
-In this post, we'll deploy our 3-container translation app on a Kubernetes cluster and make it publicly available at [translate.vlgdata.io](https://translate.vlgdata.io).
+In this post, we'll deploy our 3-container translation app on a Kubernetes cluster and make it publicly available at [~~translate.vlgdata.io~~](https://translate.vlgdata.io) (The application is now down for cost reasons).
 
 I am using a [managed cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview?authuser=3) on [Google Cloud Platform](https://cloud.google.com/)'s [GKE](https://cloud.google.com/kubernetes-engine).
 
@@ -346,7 +342,7 @@ The high-level steps to make our app available from the domain name [translate.v
 
 5) [Point the domain name to the static external IP address](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) by setting appropriate DNS A records
 
-Check the translation app deployed on Kubernetes at [translate.vlgdata.io](https://translate.vlgdata.io)!
+~~The translation app is now deployed on Kubernetes at [translate.vlgdata.io](https://translate.vlgdata.io)!~~ - *Update*: The app has been taken down for cost reasons.
 
 # The end
 

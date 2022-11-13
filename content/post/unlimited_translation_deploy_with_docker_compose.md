@@ -6,10 +6,6 @@ tags: ["docker", "container", "compose", "secrets", "volume", "swarm"]
 draft: false
 ---
 
-*App:*
-
-* [translate.vlgdata.io](https://translate.vlgdata.io)
-
 *Source code:*
 * [Flask frontend container](https://github.com/datatrigger/unlimited_translation-frontend-swarm)
 * [FastAPI backend container](https://github.com/datatrigger/unlimited_translation-backend)
