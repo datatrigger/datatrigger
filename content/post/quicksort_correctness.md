@@ -106,7 +106,7 @@ So **after the swap**, $array[i] \geq p$ and $array[l_i] < p$
   
 Also, the pointer ```l``` is moved to right: $l_{i+1} = l_i+1$.  
   
-**Statement 1)**: $array[l_i] < p$ (after the swap), ence statement 1) is valid for $start \leq k \leq l_i$, which is equivalent to $start \leq k < l_{i+1}$ since $l_{i+1} = l_i+1$  
+**Statement 1)**: $array[l_i] < p$ (after the swap), hence statement 1) is valid for $start \leq k \leq l_i$, which is equivalent to $start \leq k < l_{i+1}$ since $l_{i+1} = l_i+1$  
   
 **Statement 2)**: which elements are greater than $p$ since the swap? Not $array[l_i]$ anymore. But elements at index $l_i + 1$, ..., $i-1$ (if any) are still $\geq p$ as per statement 2) (step $i$). Moreover, $array[i]$ has now joined the club, since the swap. Then $array[k] \geq p \\, , \\, l_i + 1 \leq k < i + 1$, i.e. $array[k] \geq p \\, , \\, l_{i+1} \leq k < i + 1$
 
@@ -150,9 +150,9 @@ Now that the correctness of the partitioning part is established, we need to pro
 
 * When the size of the input array is 0 or 1, ```quick_sort()``` does nothing and the array is sorted
 * Suppose that ```quick_sort()``` adequately sorts any array of size $k \in \\{ 0, 1, ..., n \\}, n \geq 1$
-* Then, let's see what happens upon calling ```quick_sort()``` on an array of size $n+1$. First, the array will be partitioned in three parts: ```[left_part, pivot, right_part]```. We have show in the previous section that ```pivot``` is already at the right index. Since all the elements of ```left_part``` are less than ```pivot```, if the recursive call ```quick_sort(left_part)``` sorts left_part, then the job is done on the left side. Same logic for the right part. Well, the size of ```[left_part, pivot, right_part]``` is $s_l+1+s_r=n+1$, so $s_l+s_r \leq n$: ```left_part``` and ```left_part``` cannot be more than $n$ elements! So, by the inductive hypothesis, ```quick_sort(left_part)``` and ```quick_sort(left_part)``` do sort the arrays, and the array ```[left_part, pivot, right_part]``` of size $n+1$ ends up being sorted. The inductive statement holds at step $n+1$
+* Then, let's see what happens upon calling ```quick_sort()``` on an array of size $n+1$. First, the array will be partitioned in three parts: ```[left_part, pivot, right_part]```. We have show in the previous section that ```pivot``` is already at the right index. Since all the elements of ```left_part``` are less than ```pivot```, if the recursive call ```quick_sort(left_part)``` sorts the left part, then the job is done on the left side. Same logic for the right part. Well, the size of ```[left_part, pivot, right_part]``` is $s_l+1+s_r=n+1$, so $s_l+s_r \leq n$: ```left_part``` and ```left_part``` cannot be more than $n$ elements! So, by the inductive hypothesis, ```quick_sort(left_part)``` and ```quick_sort(left_part)``` do sort the arrays, and the array ```[left_part, pivot, right_part]``` of size $n+1$ ends up being sorted. The inductive statement holds at step $n+1$.
 
-The above shows that ```quick_sort``` sorts an array of any size $n \geq 0$.
+The above proves by strong induction that ```quick_sort``` sorts an array of any size $n \geq 0$.
 
 # References
 
