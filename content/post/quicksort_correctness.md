@@ -32,7 +32,7 @@ def quick_sort(array, start, end):
         if array[i] < p:
             array[l], array[i] = array[i], array[l]
             l += 1
-    array[l], array[end] = array[end], array[left]
+    array[l], array[end] = array[end], array[l]
 
     # Recursive calls on left and right partitions
     quick_sort(array, start, l - 1)
