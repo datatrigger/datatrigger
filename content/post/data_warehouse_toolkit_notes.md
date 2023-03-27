@@ -3,7 +3,7 @@ title: "The Data Warehouse Toolkit (R. Kimball): reading notes"
 summary: "It's been 10 years since I read the first few chapters of Kimball's data warehousing bible. It would have been smart to take notes at the time. Better late than never!"
 date: 2022-06-15
 tags: ["data modeling", "warehouse", "dimensional data", "fact table", "data engineering"]
-draft: false
+draft: true
 ---
 
 *\*Work in progress\**
