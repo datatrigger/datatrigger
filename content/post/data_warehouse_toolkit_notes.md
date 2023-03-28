@@ -56,7 +56,7 @@ Provides:
 
 A dimensional model implemented in:
 * a relational database is referred to as a **star schema**
-* a multidimensional database is referred to as a **OLAP** (OnLine Analytical Processing, not to be confused with OLTP - OnLine Transactional Processing)
+* a multidimensional database is referred to as a **OLAP** ([OnLine Analytical Processing](https://en.wikipedia.org/wiki/Online_analytical_processing), not to be confused with OLTP - OnLine Transactional Processing)
 
 Either way, the logic is the same (a dimensional model), but since the implementation differs, performance and deployment differ too. OLAP systems have a higher barrier to entry but are more efficient.
 
