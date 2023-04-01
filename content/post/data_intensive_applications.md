@@ -16,4 +16,65 @@ A few tools mentioned:
 ## 1. Reliability
 
 * Distinction between *fault* (more a less a single component not working as expected) and *failure* (refers to the whole system)
-* Netflix Chaos Monkey, then [Simian Army](https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116): an example of [chaos engineering]()
+* Netflix Chaos Monkey, then [Simian Army](https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116): an example of [chaos engineering](https://en.wikipedia.org/wiki/Chaos_engineering)
+* *Hardware* faults (MTTF) / *Software* faults / *Human* errors
+* Main concepts:  
+    * Prefer *tolerating* faults (easier) over *preventing* faults. Impossible in some cases though, e.g. security: there's no tolerating users' data being compromised
+    * Generally less correlation in hardware faults than in software bugs: example of Linux' kernel bug with the leap seconde of June 30, 2012
+    * Prefer *software* fault-tolerance over *hardware* redundancy. Hardware redundancy is not sustainable with data volumes and/or computing demand. Bonus: this helps with maintainability, e.g no need for planned downtimes.
+
+## 2. Scalability
+
+The *scalability* of a system is its ability to cope with increased load.
+
+Scalability is linked with reliability: a common reason for a system to be less reliable is the increase of the load.
+
+Scalability can be evaluated with respect to *load parameters*:
+* requests/s (web server)
+* reads/writes ratio (database)
+* active users/s (chat room)
+* Hit rate (cache)
+* ...
+
+### Twitter (2012)
+
+Post tweet: 5k requests/s on average, max 12k requests/s  
+Home timeline reads: 300k requests/s
+
+Writing a tweet is an 'easy' operation, but the [**fan-out**](https://en.wikipedia.org/wiki/Fan-out_(software)) is problematic. By fan-out, the author means the one-to-many relationship between a user and its followers. Posting 1 tweet also means making it available to all the sender's followers. Twitter had two solutions at the time (combined):
+
+1) Just insert the tweet in the central collection of tweets. Fetch it when a follower of the sender requests his timeline.
+2) Write the tweet in the home timeline cache of each user following the sender
+
+The first version is cheaper for posting tweets, but more expensive for home timeline reads. But there are far more reads than writes - almost 2 orders of magnitude - and this approach turned out not to be sustainable for Twitter. They switched to approach 2, then a mix: approach 2 is the general rule, except for users who have a large amount of followers.
+
+In this case, the key load parameters are: writes/s (post), reads/s (home timeline) and number of followers/user.
+
+### Performance
+
+2 main ways to describe performance:
+* Load is increased, but not system resources: how does the system behave?
+* load is increased and system resources as well: how much is needed to keep performance stable?
+
+What is performance?
+* *Throughput*, e.g. batch processing systems
+* *Response time*, e.g. online systems
+
+*Note*: response time = latency + service time, even if latency and response time are often used synonymously.
+
+The average is often used, but of course percentiles or the whole distribution provide more information.
+
+*Example*: Amazon describes some response time requirements in terms of p999
+
+### Coping with load
+
+* Vertical scaling (scaling up) vs horizontal scaling (scaling out)
+* *Elastic* systems: systems that can automatically add resources on load increasing
+* Distributing *stateless* services is easier than for *stateful* ones
+* Scaling architectures are very dependent on the application: 100 000 requests of 1kB/s and 3 requests of 2 GB/min are the same throughput, but require different scaling
+
+## 3. Maintainability
+
+*Operability* / *Simplicity* / *Evolvability*
+
+# Chapter 2: Data models & Query languages
