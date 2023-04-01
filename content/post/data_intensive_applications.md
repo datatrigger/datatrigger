@@ -78,3 +78,29 @@ The average is often used, but of course percentiles or the whole distribution p
 *Operability* / *Simplicity* / *Evolvability*
 
 # Chapter 2: Data models & Query languages
+
+## Relational model
+
+*Relations* and *tuples*, i.e *tables* and *rows* in the SQL world.
+
+Weak points that drove the need for alternative ('NoSQL') models:
+* Freedom in terms of data structures and queries, see [impedance mismatch](https://en.wikipedia.org/wiki/Object%E2%80%93relational_impedance_mismatch)
+* Scalability
+* Open-source tools
+
+## [Object-relational impedance mismatch](https://en.wikipedia.org/wiki/Object%E2%80%93relational_impedance_mismatch)
+
+Refers to the relative incompatibility between objects (OOP) and relational tables. **Object-relational mapping (ORM)** frameworks are tools designed to alleviate this mismatch, e.g. *Hibernate* or *ActiveRecord*.
+
+For example, relational databases are not the best to represent one-to-many relationships: in a résumé object, there is one `first_name` and one `last_name`, but possibly many `jobs` or `education` lines. There are several ways to represent one-to-many relationships:
+
+* Store a field (e.g. `jobs`) in its own normalized table, with a foreign key like `user_id`
+* Use multi-valued types like a [structured type](https://en.wikipedia.org/wiki/Structured_type) (fixed number of values) or a JSON datatype (e.g. MySQL, PostgreSQL)
+* Use a text field and store a JSON string
+* Use a document-oriented database
+
+## Document databases
+
+E.g. MongoDB, Espresso. JSON has better **locality** than multi-table relational databases: no need to perform several queries or several joins to fetch the content of one *document* (e.g. the résumé of a given user).
+
+## Relational vs document databases
