@@ -104,3 +104,49 @@ For example, relational databases are not the best to represent one-to-many rela
 E.g. MongoDB, Espresso. JSON has better **locality** than multi-table relational databases: no need to perform several queries or several joins to fetch the content of one *document* (e.g. the résumé of a given user).
 
 ## Relational vs document databases
+
+* Nested records, i.e. **one-to-many** relationships: the case where relational and document databases differ significantly:
+    * Relational: stored in a separate table
+    * Document: stored within the parent record
+* **Many-to-one** and **many-to-many**: *foreign keys* correspond to *document references*
+
+### Advantages of document data **model** (not databases)
+
+* Schema flexibility (*schema-on-read* vs *schema-on-write*)
+* Locality: the data is stored in one string, not on multiple tables. Some relational databases implement locality e.g. Google Spanner
+* Data structures more in line with applications (e.g. objects)
+
+### Advantages of relational data **model** (not databases)
+
+* Joins: better support
+* Many-to-one and many-to-many: better support
+
+## Query languages
+
+### Declarative vs imperative
+
+SQL is a declarative language, which has advantages over imperative ones:
+* Concise
+* Easy, as the implementation details are hidden inside the underlying engine
+* Efficient: the underlying engine can be upgraded without changing high-level instructions
+* Prone to parallelization
+
+### MapReduce
+
+## Graph-like Data Models
+
+Use-case: lots of many-to-many relationships in the data, possibly heterogeneous.
+
+Several models:
+* Property graph: *Neo4j*, *Titan* - Query language: *Cypher*
+* Triple store - Query languages: [Turtle](https://en.wikipedia.org/wiki/Turtle_(syntax)) (syntax), *SPARQL*
+
+A significant advantage of graph query languages: unknown numbers of vertices can be traversed easily (e.g. `:WITHIN*0..` in Cypher) whereas *recursive CTEs* are required in SQL.
+
+An important application of the triple store model: [Resource Description Framework (RDF)](https://en.wikipedia.org/wiki/Resource_Description_Framework), relating to the *semantic web*.
+
+# Chapter 3: Storage and Retrieval
+
+
+
+
