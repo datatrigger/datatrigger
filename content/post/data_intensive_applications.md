@@ -149,6 +149,84 @@ An important application of the triple store model: [Resource Description Framew
 
 # Chapter 3: Storage and Retrieval
 
+2 families of **storage engines** and **indexes** considered in this chapter:
+* *Log-structured* indexes
+* *Page-oriented* indexes
 
+## Log-structured databases and indexes
 
+*log*: append-only sequence of records
 
+### A fundamental example
+
+```bash
+#!/bin/bash
+
+db_set() {
+    echo "$1,$2" >> database
+}
+
+db_get() {
+    grep "^$1" database | sed -e "s/^$1,//" | tail -n 1
+}
+```
+
+Apart from the lack of concurrency control, disk space reclaiming mechanisms, error/partial writes handling... The performance of this log as a database is very unbalanced:
+* Writes: O(1)
+* Reads: O(n)
+
+### Indexes
+
+An **index** is an additional data structure that aims at increasing the performance of queries.  
+Trade-off: an index speeds up reads (if weel designed) and slows down writes
+
+### Hash indexes
+
+Assume the database is a [key-value store](https://en.wikipedia.org/wiki/Key%E2%80%93value_database) saved in a log. Then a hash index is an in-memory hash map where keys are mapped to byte offsets.
+* Writes (insert/update): also create/update the offset in the hash index
+* Reads: find the offset then read in O(1) time, i.e one disk seed or even better, one cache read
+
+*Use-case*: key = URL of videos, value = views. Lots of writes (hence the log), not too many distinct keys (to fit in-memory).
+
+*Example*: [Bitcask](https://en.wikipedia.org/wiki/Bitcask),the default storage engine of distributed NoSQL key-value store [Riak](https://en.wikipedia.org/wiki/Riak)
+
+### Memory management
+
+Back to the data-store (not the index): since the underlying file is append-only, how is its size kept under control?
+
+i) *Segmentation*: break the log into chunks  
+ii) *Compaction*: only retain the most recent value for each key  
+iii) *Merging*: same as compaction but over several compacted segments  
+
+Additional details:
+* Segments are never modified once written: merged segments are written to new files
+* This way, compaction/merging can be done in the background
+    * Reads: use old segment files
+    * Writes: use a new segment (not in the set of currently compacted + merged segments)
+* After merging: redirect reads to the resulting merged segment + delete old segments
+
+How to find a value? Each segment has its own in-memory hash index:
+* Search the latest segment
+* Search the second-most-recent segment
+* ...
+
+The compaction/merging process keeps the number of segments small so that lookups are fast.
+
+### Details on log files
+
+A few practical implementation issues:
+* File format efficiency: binary encodings are preferable
+* Deletion of records: see [Tombstone](https://en.wikipedia.org/wiki/Tombstone_(data_store))
+* Crashes & partial writes: snapshots (segments), checksums (record)
+* Concurrency: usually only one writer thread is implemented
+
+Advantages of the log paradigm, i.e append-only/no overwrites:
+* No risk of partial **over**writes: much easier concurrency/crash recovery
+* Sequential writes are faster than random writes
+* Less fragmentation thanks to merging
+
+Drawbacks:
+* Range queries are inefficient because the keys are stored in random order
+* Hash indexes must fit in memory
+
+### SSTables/LSM-Trees
