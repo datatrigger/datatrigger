@@ -205,7 +205,7 @@ Additional details:
     * Writes: use a new segment (not in the set of currently compacted + merged segments)
 * After merging: redirect reads to the resulting merged segment + delete old segments
 
-How to find a value? Each segment has its own in-memory hash index:
+How to find a value? **Each segment has its own in-memory hash index:**
 * Search the latest segment
 * Search the second-most-recent segment
 * ...
@@ -230,3 +230,27 @@ Drawbacks:
 * Hash indexes must fit in memory
 
 ### SSTables/LSM-Trees
+
+A Sorted String Table or SSTable is a hash table with the sequences of key-value pairs **sorted by key** in the segments.
+
+Advantages:
+* Merging segments: gets simple and efficient, as a mergesort-like algorithm can be used
+* Sparse index: no need to keep *all* the keys in memory
+* Compression & I/O brandwith: each entry of the sparse index points to a compressed block
+
+How it works:
+* Writes: insert key and value into a *memtable* := in-memory balanced tree (e.g. AVL, red-black)
+* When size(memtable) > threshold: flush memtable to disk as an SSTable
+* Reads: look into memtable, then most recent segment, then second-most-recent segment, and so on...
+* Merge and compact + discard delete/overwritten records once in a while
+
+*Examples*: LevelDB, an alternative to Bitcask in Riak. Bigtable (GCP).
+
+Implementation challenges:
+* Non-existing key lookups are long (requires checking the memtable + all segments). Solution: [*bloom filters*](https://en.wikipedia.org/wiki/Bloom_filter)
+* Efficient compacting/merging: *size-tiered* vs *leveled*
+
+SSTables, also known as Log-Structured Merge-Trees (LSM-Trees), can sustain high throughput because the writes are sequential.
+
+### B-Trees
+
