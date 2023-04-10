@@ -275,7 +275,42 @@ Implementation challenges/optimizations:
 * Crash recovery: *Write-Ahead Log* (WAL) a.k.a. *redo log* / copy-on-write schemes (also helps with concurrency)
 * Store abbreviated keys, i.e just enough information to be used ad boundaries between key ranges
 * Additional data structure to link leaf pages in sequential order, or references to siblings
+* Concurrency: see *B-Tree locking*
 
 ### SSTables vs B-Trees
 
-Generally, SSTables appear to be faster for writes and slower for reads (multiple segments to check at different stages of compaction).
+Generally, SSTables appear to be:
+    * Faster for writes: writing is sequential, less *write amplification*, less fragmentation
+    * slower for reads: multiple segments to check at different stages of compaction
+
+See detailed comparison p. 84-85
+
+### Additional considerations on indexes
+
+#### Secondary indexes
+
+Secondary indexes may index **duplicate values** (in the previous section, the indexed keys were assumed to be primary keys). Log-structured indexes and B-Trees can be used as secondary indexes. Techniques to deal with duplicate indexed values:
+* [inverted index / postings list](https://www.educative.io/answers/what-is-an-inverted-index)
+* Append a row identifier to each entry
+
+#### Values and indexes
+
+Values can be either referenced by indexes and stored in an auxiliary *heap*, or be part of the index itself.
+* *Clustered* indexes store the value
+* *Nonclustered* indexes store references
+* *Covering* indexes store the values of a subset of columns. A query is said to be covered by the index if it can be answered using the covering index alone
+
+#### *Concatenated* indexes
+
+The key is created by simple concatenation of several fields, e.g `last_name` + `first_name`
+
+Use-case example: spatial data, see [R-trees](https://en.wikipedia.org/wiki/R-tree)
+
+#### Fuzzy, full-text indexes
+
+See [Apache Lucene](https://lucene.apache.org/)
+
+#### In-memory databases
+
+## OLTP vs OLAP
+
