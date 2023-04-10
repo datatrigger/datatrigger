@@ -1,10 +1,12 @@
 ---
 title: "Designing Data-Intensive Applications (M. Kleppmann): reading notes"
-summary: "Reading through a classic about low-level data engineering."
+summary: "Reading through this classic about data engineering."
 date: 2023-03-27
 tags: ["reliability", "scalability", "maintainability", "system design", "data engineering"]
 draft: false
 ---
+
+*Work in progress*
 
 ![Designing Data-Intensive Applications, by Martin Kleppmann](/res/designing_data_applications/designing-data-intensive-applications-martin-kleppmann.jpeg)
 
@@ -248,9 +250,32 @@ How it works:
 
 Implementation challenges:
 * Non-existing key lookups are long (requires checking the memtable + all segments). Solution: [*bloom filters*](https://en.wikipedia.org/wiki/Bloom_filter)
-* Efficient compacting/merging: *size-tiered* vs *leveled*
+* Efficient compacting/merging strategies: *size-tiered* vs *leveled*
 
 SSTables, also known as Log-Structured Merge-Trees (LSM-Trees), can sustain high throughput because the writes are sequential.
 
 ### B-Trees
 
+[B-trees](https://en.wikipedia.org/wiki/B-tree) also sorts they key-value pairs by key. They are a generalization of binary search trees.  
+
+The database is split into fixed-sized chunks called *pages* or *blocks*. Only 1 page is read/written at a time. Files are overwritten and modified in-place, with no restriction to appending data as with SStables.
+
+Overwrites are risky and complicated. Example: writing to an already-full page requires the page to be updated and spit into two children. What if the database crashes in the middle of the operation? *Orphan pages* may be created.
+
+Structure:
+* *Root*: the first page of the B-tree, where all lookups start.
+* Root and subsequent pages contain:
+    * Keys
+    * References: a reference surrounded by key X and Y leads to a page with X < keys < Y
+* *Leaves*: pages with only references to values, or keys + values
+
+*Branching factor*: number of references in child pages
+
+Implementation challenges/optimizations:
+* Crash recovery: *Write-Ahead Log* (WAL) a.k.a. *redo log* / copy-on-write schemes (also helps with concurrency)
+* Store abbreviated keys, i.e just enough information to be used ad boundaries between key ranges
+* Additional data structure to link leaf pages in sequential order, or references to siblings
+
+### SSTables vs B-Trees
+
+Generally, SSTables appear to be faster for writes and slower for reads (multiple segments to check at different stages of compaction).
