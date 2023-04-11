@@ -312,5 +312,50 @@ See [Apache Lucene](https://lucene.apache.org/)
 
 #### In-memory databases
 
+Disks have 2 significant advantages:
+* Durability
+* Low cost per GB
+
+The second advantage is less and less significant over time and now many datasets fit in the RAM, hence the rise of in-memory databases.
+
+*Examples*: Redis, VoltDB, MemSQL...
+
+Some in-memory databases provide multiple levels of durability (none, weak...) by several means:
+* Log (on disk)
+* Snapshots (on disk)
+* Replication
+
+Counterintuitive:  in-memory databases are not really faster thanks to not reading/writing to disk. Traditional databases rely on the OS caching disk blocks, which can lead to similar results in terms of speed. In-memory databases are actually faster because they avoid the overhead of encoding data structures to writeable formats.
+
 ## OLTP vs OLAP
+
+I.e. *Online Transaction Processing* vs *Online Analytical Processing*, also related to *transaction processing* vs *batch processing*.
+
+* OLTP: Low-latency reads/writes, small number of records per query, fetched by some key and using an index
+* OLAP: large number of rows fetched per query, but only a few columns, and aggregated
+
+### Data warehousing
+
+The various OLTP systems in an organization (e.g. logistics, sales, employees, suppliers...) need high availability + low latency, thus they are not suited for complex analytics queries fetching many rows. The general idea of the data warehouse is to centralize read-only copies of the various OLTP systems, through ETLs. Also, they are optimized for these queries and use different indexing strategies than what was presented above.
+
+Key ideas: facts, dimensions, star schema, snowflake schema
+
+### Columnar storage
+
+Most OLTP systems store the values of a given row next to each other. Instead, OLAP systems tend to use column-oriented storage. This allows reads of only a subset of columns, as often needed with analytics queries.
+
+Columnar storage can be coupled with several technique for even more efficient data retrieval:
+
+* Column compression
+    * *Bitmap encoding* (similar to One-Hot encoding in Data Science), which allows *vectorized processing* downstream
+    * *Run-length encoding* on top of bitmap encoding
+* *Sort order* on one or several columns, e.g. `date_key` if date ranges are often targeted, or even several different sort orders (one sort order per replica, Vertica does this)
+
+Column compression and ordering are more easily implemented with LSM-Trees with their sorted in-memory structure and incremental merges with files on disk. On the contrary, B-Trees require in-place updates, making them inappropriate for these use-cases.
+
+### Materialized views
+
+Unlike traditional views in relational databases, materialized views are actual copies of a table + a query. *Data cubes* or *OLAP cubes* are examples of materialized views: a grid of aggregates grouped by different dimensions, e.g. `date` and `product_sk`. They enhance performance on given queries but lack flexibility: for example, once aggregated, no filtering is possible anymoren e.g. it's impossible to know the revenue on a given date, but only for a given location.
+
+# Chapter 4: Encoding and Evolution
 
