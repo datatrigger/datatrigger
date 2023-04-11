@@ -8,7 +8,7 @@ draft: false
 
 ![Designing Data-Intensive Applications, by Martin Kleppmann](/res/designing_data_applications/designing-data-intensive-applications-martin-kleppmann.jpeg)
 
-{{ title "Part 1: Foundations of Data Systems" }}
+# Part 1: Foundations of Data Systems
 
 # Chapter 1: Reliable, scalable and maintainable applications
 
