@@ -1,14 +1,14 @@
 ---
 title: "Designing Data-Intensive Applications (M. Kleppmann): reading notes"
-summary: "Reading through this classic about data engineering."
+summary: "Reading through this classic about data engineering. Part 1: Foundations of Data Systems"
 date: 2023-03-27
 tags: ["reliability", "scalability", "maintainability", "system design", "data engineering"]
 draft: false
 ---
 
-*Work in progress*
-
 ![Designing Data-Intensive Applications, by Martin Kleppmann](/res/designing_data_applications/designing-data-intensive-applications-martin-kleppmann.jpeg)
+
+{{ title "Part 1: Foundations of Data Systems" }}
 
 # Chapter 1: Reliable, scalable and maintainable applications
 
