@@ -1,5 +1,5 @@
 ---
-title: "Designing Data-Intensive Applications (M. Kleppmann): reading notes"
+title: "Designing Data-Intensive Applications (M. Kleppmann): reading notes 1/3"
 summary: "Reading through this classic about data engineering. Part 1: Foundations of Data Systems"
 date: 2023-03-27
 tags: ["reliability", "scalability", "maintainability", "system design", "data engineering"]
@@ -359,3 +359,6 @@ Unlike traditional views in relational databases, materialized views are actual 
 
 # Chapter 4: Encoding and Evolution
 
+*Evolvability* was introduced in chapter 1, and changes in applications generally bring about changes in data.
+
+Chapter 2: in relational databases, only 1 schema is valid at a given time. *Schema-on-read* or *schemaless* databases allow different formats to coexist.
