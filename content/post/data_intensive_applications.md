@@ -6,6 +6,8 @@ tags: ["reliability", "scalability", "maintainability", "system design", "data e
 draft: false
 ---
 
+*Work in progress*
+
 ![Designing Data-Intensive Applications, by Martin Kleppmann](/res/designing_data_applications/designing-data-intensive-applications-martin-kleppmann.jpeg)
 
 # Part 1: Foundations of Data Systems
@@ -24,7 +26,7 @@ A few tools mentioned:
 * *Hardware* faults (MTTF) / *Software* faults / *Human* errors
 * Main concepts:  
     * Prefer *tolerating* faults (easier) over *preventing* faults. Impossible in some cases though, e.g. security: there's no tolerating users' data being compromised
-    * Generally less correlation in hardware faults than in software bugs: example of Linux' kernel bug with the leap seconde of June 30, 2012
+    * Generally less correlation in hardware faults than in software bugs: example of Linux' kernel bug with the leap second of June 30, 2012
     * Prefer *software* fault-tolerance over *hardware* redundancy. Hardware redundancy is not sustainable with data volumes and/or computing demand. Bonus: this helps with maintainability, e.g no need for planned downtimes.
 
 ## 2. Scalability
