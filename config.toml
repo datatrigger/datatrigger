@@ -4,7 +4,7 @@ date = "2020-04-26T13:41:21+02:00"
 title = "VLG Data Engineering"
 theme = "beautifulhugo"
 metaDataFormat = "yaml"
-GoogleAnalyticsID = "G-4WPB68BNTC"
+googleAnalytics = "G-4WPB68BNTC"
 
 #disqusShortname = "XXX"
 
