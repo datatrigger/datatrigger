@@ -81,9 +81,12 @@ try:
         raise HTTPError
     price = float(response.json()["close"])
 except HTTPError as error:
-    logging.exception(msg = f"The following HTTP request failed with status code {response.status_code}: {payload}")
+    logging.exception(msg = f"The following HTTP request failed with status code\
+    {response.status_code}: {payload}")
     raise error
 ```
+
+Explanation: before raising the error, we catch it (`except`) to log it, then it is raised again.
 
 ### Asynchronous HTTP requests
 
@@ -115,7 +118,7 @@ const results = ref(null);
     results.value = await response.json();
 ```
 
-But the rest of the application is loaded before the completion of the above HTTP request (the Vite and Vue.js logo can be seen while waiting for the chart to appear). This is done with Vue's *Suspense* feature:
+But the rest of the application is loaded before the completion of the above HTTP request (the Vite and Vue.js logos can be seen while waiting for the chart to appear). This is done with Vue's *Suspense* feature:
 
 ```html
   <Suspense>
@@ -201,6 +204,6 @@ The frontend of the stocks application is built with Vite in a folder named `dis
     * Annualized Volatility: $\sqrt{261} \thinspace \sigma_r$, with $\sigma_r$ the standard deviation of the daily returns
 * Show live data updated without the user refreshing the page, with Javascript's `setInterval()` (but the Polygon API subscription for live data is very expensive)
 * Implement unit tests and integrations tests
-* Use Google Cloud Functions or AWS Lambda to store historical data on a remote service (bucket, database) and update it on a daily basis
+* Use Google Cloud Functions or AWS Lambda to store historical data on a remote service (e.g. bucket, cloud database) and update it on a daily basis
     * Avoid re-fetching historical data at every update
     * Likely to decrease loading time
