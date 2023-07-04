@@ -207,3 +207,5 @@ The frontend of the stocks application is built with Vite in a folder named `dis
 * Use Google Cloud Functions or AWS Lambda to store historical data on a remote service (e.g. bucket, cloud database) and update it on a daily basis
     * Avoid re-fetching historical data at every update
     * Likely to decrease loading time
+
+Thanks for reading!
