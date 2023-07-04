@@ -191,7 +191,7 @@ Netlify is a free platform, it is great to serve static content. Features includ
 
 The frontend of the stocks application is built with Vite in a folder named `dist`. This information is easily provided to Netlify for the automatic deployment:
 
-![Netlify continuous deployment](/res/stocks/netlify_continuous_build.png)
+![Netlify continuous deployment](/res/stocks/netlifybuild.png)
 
 *This blog is also deployed on Netlify*
 
