@@ -159,7 +159,7 @@ The container is deployed on GCP's Cloud Run service:
 
 ![Cloud Run](/res/stocks/cloud_run.png)
 
-###### Security
+##### Security
 
 The API key is stored in Google Secret Manager, fetched by Cloud Run and injected in the Docker container as an environment variable
 
@@ -167,11 +167,11 @@ The API key is stored in Google Secret Manager, fetched by Cloud Run and injecte
 api_key = os.environ.get("API_KEY") # Fetched from GCP Secrets
 ```
 
-###### Continuous Deployment
+##### Continuous Deployment
 
 Cloud Run builds/deploys the container directly from the backend source [repository]((https://github.com/datatrigger/stocks_backend)). Each push on the repo automatically triggers a new build in Cloud Run.
 
-###### Autoscaling
+##### Autoscaling
 
 Cloud Run automatically scales the number of containers depending on the traffic. Min and max number of container instances are specified by the user:
 
