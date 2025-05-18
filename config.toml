@@ -1,7 +1,7 @@
 baseurl = "https://blog.vlgdata.io"
 DefaultContentLanguage = "en"
 date = "2020-04-26T13:41:21+02:00"
-title = "VLG Data Engineering"
+title = "VLG Engineering"
 theme = "beautifulhugo"
 metaDataFormat = "yaml"
 
@@ -30,8 +30,8 @@ metaDataFormat = "yaml"
       unsafe = true
 
 [Params]
-  homeTitle = "VLG Data Eng."
-  subtitle = "A blog on Data Engineering & Machine Learning Operations"
+  homeTitle = "VLG Engineering"
+  subtitle = "A blog on backend development, DevOps and data engineering"
   mainSections = ["post","posts"]
   logo = "img/profile/p3.jpeg" # Expecting square dimensions
   favicon = "img/icon/settings.png"
