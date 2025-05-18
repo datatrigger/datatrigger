@@ -4,7 +4,6 @@ date = "2020-04-26T13:41:21+02:00"
 title = "VLG Data Engineering"
 theme = "beautifulhugo"
 metaDataFormat = "yaml"
-googleAnalytics = "G-4WPB68BNTC"
 
 #disqusShortname = "XXX"
 
@@ -26,6 +25,9 @@ googleAnalytics = "G-4WPB68BNTC"
     noClasses = true
     style = "pygments"
     tabWidth = 4
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
 
 [Params]
   homeTitle = "VLG Data Eng."
@@ -47,6 +49,10 @@ googleAnalytics = "G-4WPB68BNTC"
   hideAuthor = true
   #gcse = "012345678901234567890:abcdefghijk" # Get your code from google.com/cse. Make sure to go to "Look and Feel" and change Layout to "Full Width" and Theme to "Classic"
   custom_css = ["css/custom.css"]
+
+[services]
+  [services.googleAnalytics]
+    id = 'G-4WPB68BNTC'
 
 
 #[[Params.bigimg]]
