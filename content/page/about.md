@@ -1,18 +1,20 @@
 ---
 title: About me
 ---
+Hi, I’m Vincent — a Software Engineer based in Switzerland. I specialize in backend development, data engineering and DevOps. Over the past few years, I’ve contributed to projects across public health, finance, consumer electronics, transportation, and social insurance. My daily toolkit includes:
+* Languages \& Tools: Python, Bash, SQL, Git, Docker, Terraform, GitHub Actions, pytest
+* DevOps/MLOPs: CI/CD pipelines, containerized application deployment, automated testing, IaC, monitoring & alerting
+* Cloud & Data Platforms: GCP (Cloud Run, Cloud Build, BigQuery…), Azure (Data Factory, Databricks…), Snowflake
+* Data Engineering: Data modeling, data warehousing, workflow orchestration
 
-Hello Internet! I am Vincent, a Software Engineer based in Switzerland. I have been focusing on Data Engineering and Machine Learning Operations (MLOps) over the past few years: data pipelines, CI/CD frameworks, workflow management, APIs..
-
-So far, I have worked in several domains, namely public health, financial services and now consumer electronics. I conducted a wide variety of projects involving tools like containers (e.g. Docker, Kubernetes), cloud providers (AWS, GCP), distributed computing (e.g. Spark), databases (e.g. Snowflake) and Machine Learning (e.g PyTorch, XGBoost, pandas, scikit-learn...). I use Linux shells, Git/GitHub, Python and SQL on a daily basis.
-
-I created this website to archive projects and code that might be useful to other people, including future me. All the content is under MIT license and the source code can be found on [GitHub](https://github.com/datatrigger).
+I built this website to document projects, code, and thoughts that might be useful to others — including my future self. All the content is under MIT license and the source code can be found on [GitHub](https://github.com/datatrigger).
 
 Thanks for reading!
 
-### Links
+### Contact \& Links
 
-* [📧 Email](mailto:vlg.engineer@gmail.com)
-* [🔗 GitHub](https://github.com/datatrigger)
-* [🔗 LinkedIn](https://www.linkedin.com/in/vlg-engineer/)
-* [📄 CV](/res/cv/data_engineer_vincent_le_goualher.pdf)
+[✉️ Email](mailto:vlg.engineer@gmail.com)  
+[📄 CV](/res/cv/data_engineer_vincent_le_goualher.pdf)  
+[🐈‍⬛ GitHub](https://github.com/datatrigger)  
+[💼 LinkedIn](https://www.linkedin.com/in/vlg-engineer/)  
+ 
