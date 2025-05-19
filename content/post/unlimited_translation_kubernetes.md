@@ -23,7 +23,7 @@ draft: false
 
 # 1) Introduction
 
-In this post, we'll deploy our 3-container translation app on a Kubernetes cluster and make it publicly available at [~~translate.vlgdata.io~~](https://translate.vlgdata.io) (The application is now down for cost reasons).
+In this post, we'll deploy our 3-container translation app on a Kubernetes cluster and make it publicly available at [~~translate.vlg.engineer~~](https://translate.vlg.engineer) (The application is now down for cost reasons).
 
 I am using a [managed cluster](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview?authuser=3) on [Google Cloud Platform](https://cloud.google.com/)'s [GKE](https://cloud.google.com/kubernetes-engine).
 
@@ -193,7 +193,7 @@ ls -l --block-size=M
 
 # 5) Secrets
 
-Just as for the [deployment with Docker Compose](https://blog.vlgdata.io/post/unlimited_translation_deploy_with_docker_compose/), we need to pass a root password to the MySQL container and a user/password to the Flask frontend microservice. First, we define the credentials in the CLI of the Kubernetes cluster:
+Just as for the [deployment with Docker Compose](https://vlg.engineer/post/unlimited_translation_deploy_with_docker_compose/), we need to pass a root password to the MySQL container and a user/password to the Flask frontend microservice. First, we define the credentials in the CLI of the Kubernetes cluster:
 
 ```bash
 kubectl create secret generic mysql-db-secret \
@@ -328,7 +328,7 @@ In order to publish the app, we need yet another type of Kubernetes object: ```I
 
 > Ingress is a Kubernetes resource that encapsulates a collection of rules and configuration for routing external HTTP(S) traffic to internal services.
 
-The high-level steps to make our app available from the domain name [translate.vlgdata.io](https://translate.vlgdata.io) are as follows:
+The high-level steps to make our app available from the domain name [translate.vlg.engineer](https://translate.vlg.engineer) are as follows:
 
 0) Get the domain name
 
@@ -342,7 +342,7 @@ The high-level steps to make our app available from the domain name [translate.v
 
 5) [Point the domain name to the static external IP address](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip) by setting appropriate DNS A records
 
-~~The translation app is now deployed on Kubernetes at [translate.vlgdata.io](https://translate.vlgdata.io)!~~ - *Update*: The app has been taken down for cost reasons.
+~~The translation app is now deployed on Kubernetes at [translate.vlg.engineer](https://translate.vlg.engineer)!~~ - *Update*: The app has been taken down for cost reasons.
 
 # The end
 

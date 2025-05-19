@@ -8,7 +8,7 @@ draft: false
 
 ![Stocks app](/res/stocks/stocks_app.png)
 
-*App:* [stocks.vlgdata.io](https://stocks.vlgdata.io)  
+*App:* [stocks.vlg.engineer](https://stocks.vlg.engineer)  
 *Source code*: [FastAPI Backend](https://github.com/datatrigger/stocks_backend) | [Vue.js Frontend](https://github.com/datatrigger/stocks_frontend)  
 
 # 0) The app

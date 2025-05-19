@@ -29,7 +29,7 @@ As a non-German speaker living in Switzerland, I often need to quickly translate
 * A FastAPI API backend to translate English text, using open-source models (SpaCy, Hugging Face)
 * A MySQL database to store previous translations
 
-In this post, we build the containers. In [part 2/3](https://blog.vlgdata.io/post/unlimited_translation_deploy_with_docker_compose/), we'll deploy the app on a single node with Docker Compose. Finally, the app will be deployed on a Kubernetes cluster in [part 3/3](https://blog.vlgdata.io/post/unlimited_translation_kubernetes/).
+In this post, we build the containers. In [part 2/3](https://vlg.engineer/post/unlimited_translation_deploy_with_docker_compose/), we'll deploy the app on a single node with Docker Compose. Finally, the app will be deployed on a Kubernetes cluster in [part 3/3](https://vlg.engineer/post/unlimited_translation_kubernetes/).
 
 ### 2) High-level overview of the app
 
@@ -135,4 +135,4 @@ You'll see the image repository has actually two different tags: *buildcache* an
 
 ### 7) Deployment
 
-After developing and testing our microservices locally, we built container images and pushed them to a registry in a CI/CD framework. We can now easily maintain them and pull them from anywhere for deployment. Let's see how that goes in the [next post](https://blog.vlgdata.io/post/unlimited_translation_deploy_with_docker_compose/).
+After developing and testing our microservices locally, we built container images and pushed them to a registry in a CI/CD framework. We can now easily maintain them and pull them from anywhere for deployment. Let's see how that goes in the [next post](https://vlg.engineer/post/unlimited_translation_deploy_with_docker_compose/).
