@@ -12,7 +12,7 @@ I built this website to document projects, code, and thoughts that might be usef
 Thanks for reading!
 
 [✉️ Email](mailto:vlg.engineer@gmail.com)  
-[📄 CV](/res/cv/data_engineer_vincent_le_goualher.pdf)  
+[📄 CV](/res/cv/software_engineer_vincent_le_goualher.pdf)  
 [🐈‍⬛ GitHub](https://github.com/datatrigger)  
 [💼 LinkedIn](https://www.linkedin.com/in/vlg-engineer/)  
  
