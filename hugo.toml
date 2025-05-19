@@ -1,0 +1,61 @@
+baseurl = "https://vlg.engineer"
+DefaultContentLanguage = "en"
+date = "2020-04-26T13:41:21+02:00"
+title = "VLG Engineering"
+theme = "beautifulhugo"
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = true
+    style = "pygments"
+    tabWidth = 4
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[Params]
+  homeTitle = "VLG Engineering"
+  subtitle = "A blog on backend development, DevOps and data engineering"
+  mainSections = ["post","posts"]
+  logo = "img/profile/p3.jpeg" # Expecting square dimensions
+  favicon = "img/icon/settings.png"
+  #favicon = "img/icon/gear_32.ico"
+  dateFormat = "January 2, 2006"
+  commit = false
+  rss = false
+  comments = false
+  readingTime = false
+  wordCount = false
+  useHLJS = false
+  socialShare = true
+  delayDisqus = false
+  showRelatedPosts = false
+  hideAuthor = true
+  custom_css = ["css/custom.css"]
+
+[services]
+  [services.googleAnalytics]
+    id = 'G-4WPB68BNTC'
+
+[Params.author]
+  name = "Vincent Le Goualher"
+  website = "vlg.engineer"
+  email = "vlg.engineer@gmail.com"
+  github = "datatrigger"
+  linkedin = "vlg-engineer"
+
+[[menu.main]]
+    name = "Blog"
+    url = ""
+    weight = 1
+
+[[menu.main]]
+    name = "About"
+    url = "page/about/"
+    weight = 2
