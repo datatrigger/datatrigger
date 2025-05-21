@@ -9,6 +9,6 @@ I created this GitHub account to archive projects and code that might be useful 
 Thanks for reading!
 
 [✉️ Email](mailto:vlg.engineer@gmail.com)  
-[📄 CV](/res/cv/software_engineer_vincent_le_goualher.pdf)  
+[📄 CV](https://vlg.engineer/res/cv/software_engineer_vincent_le_goualher.pdf)  
 [🐈‍⬛ GitHub](https://github.com/datatrigger)  
 [💼 LinkedIn](https://www.linkedin.com/in/vlg-engineer/)  
