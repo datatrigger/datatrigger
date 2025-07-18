@@ -1,0 +1,21 @@
+{
+  "name": "Hugo Static Site Development",
+  "image": "mcr.microsoft.com/devcontainers/base:alpine",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/hugo:1": {
+      "version": "latest",
+      "extended": true
+    }
+  },
+  "postCreateCommand": "hugo version && git --version",
+  "forwardPorts": [1313],
+  "portsAttributes": {
+    "1313": {
+      "label": "Hugo Dev Server",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "remoteUser": "vscode"
+}
