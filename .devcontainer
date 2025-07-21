@@ -9,7 +9,7 @@
       "extended": true
     }
   },
-  "postCreateCommand": "hugo version && git --version",
+  "postCreateCommand": "hugo mod get",
   "forwardPorts": [1313],
   "portsAttributes": {
     "1313": {
