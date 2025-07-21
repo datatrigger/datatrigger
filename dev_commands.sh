@@ -1,0 +1,1 @@
+hugo server -D --appendPort=false --baseURL "https://${CODESPACE_NAME}-1313.app.github.dev/"
