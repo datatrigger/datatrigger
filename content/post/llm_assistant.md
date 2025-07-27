@@ -196,11 +196,76 @@ Initially, I started to write my own Dockerfile for the Spring backend, but I qu
 
 That's it! The buildpack automatically detects my Gradle Spring Boot project, selects the right Java runtime, optimizes the build with proper caching, and creates a security-hardened production image. No Dockerfile maintenance, automatic security updates, and framework-specific optimizations! Shout out to this incredibly useful project.
 
+## API testing with Bruno
+
+Here's another tool that I got familiar with during this project: [Bruno](https://www.usebruno.com/). It is an open-source API client that competes with Postman. The benefits are: collections are stored as plain text files (git-friendly + no cloud-only stuff), it's lightweight and fast, and it supports environment variables and scripting for automated testing workflows. There is a desktop app and a CLI, which is very useful for me since I developed this project almost entirely in GitHub codespaces with just a terminal available.
+
+As an example, here is my test about starting a conversation, `start_conversation.bru`:
+
+```
+meta {
+  name: start_conversation
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{backend_url}}/api/llm/prompt
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "prompt": "Tell me a fun fact about Switzerland.",
+    "userId": "test_user"
+  }
+}
+
+tests {
+  test("should return conversationId", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.conversationId).to.be.a('string');
+    bru.setVar("conversationId", res.body.conversationId);
+  });
+}
+```
+
+I wanted to ask the follow-up question *What did I just asked about?* to test the conversation persistence. In order to do that, I need to store the `conversationId` and get it in the second test, `start_conversation.bru`:
+
+```
+body:json {
+  {
+    "prompt": "What did I just asked about?",
+    "userId": "test_user",
+    "conversationId": "{{conversationId}}"
+  }
+}
+```
+
+And that's how it's done. Really simple and convenient.
+
 ## Codespaces
 
+I am a heavy user of [GitHub Codespaces](https://github.com/features/codespaces) because it lets me work on the same remote development environment from both my laptop and home computer.
 
+What I did not know before this project is that you can have different codespaces on the same repo. You just have to create subfolders in the root `.devcontainer` folder:
 
-## API testing with Bruno
+![devcontainers config files](/res/llm_assistant/devcontainers.png)
+
+That turned out to be very useful for this project because many technologies cohabitate:
+* Frontend: Typescript, Angular CLI
+* Backend: Java, Gradle, Google Cloud CLI
+* LLM Server: Go, Docker
+
+With this setup, I can choose which .devcontainer to use whenever I create a codespace:
+
+![codespaces](/res/llm_assistant/codespaces.png)
+
 
 ## Next steps
 
