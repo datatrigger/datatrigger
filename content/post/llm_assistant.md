@@ -176,15 +176,29 @@ Next, I searched about ways to efficiently run these models and discoverd Ollama
 
 In the end, I just forked this repo and made a few adjustments for my use-case. Most notably, I removed the api key check in order to use service-to-service authentication. I made this change in the Golang proxy server that translates between Google's Gemini AI API format and OpenAI's API format.
 
-## Continuous integration
+## CI/CD
 
-The entire source code is in a single repo with a folder for each component: frontend, backend and llm-server. Each push on the main branch affecting a folder triggers the build/publish of the corresponding component. For the frontend, I use Netlify's built-in continuous deployment feature. For the backend and the llm server, I use GCP's Cloud Build.
+The entire source code is in a single repo with a folder for each component: frontend, backend and llm-server. Each push on the main branch affecting one of these folders triggers the build/publish of the corresponding component. For the frontend, I use Netlify's built-in continuous deployment feature. For the backend and the llm server, I use GCP's Cloud Build.
 
-#### Buildpacks
+#### Cloud Native Buildpacks
 
+Initially, I started to write my own Dockerfile for the Spring backend, but I quickly found out about [Cloud Native Buildpacks](https://buildpacks.io/). Buildpacks are incredible: they automatically transform source code into optimized container images, without custom Dockerfiles. For my Spring Boot app, this meant:
 
+```yaml
+# In cloudbuild.yaml
+- name: 'gcr.io/k8s-skaffold/pack'
+  args:
+    - 'build'
+    - 'europe-west6-docker.pkg.dev/$PROJECT_ID/docker-repo/llm-backend:latest'
+    - '--builder=gcr.io/buildpacks/builder'
+    - '--path=backend'
+```
+
+That's it! The buildpack automatically detects my Gradle Spring Boot project, selects the right Java runtime, optimizes the build with proper caching, and creates a security-hardened production image. No Dockerfile maintenance, automatic security updates, and framework-specific optimizations! Shout out to this incredibly useful project.
 
 ## Codespaces
+
+
 
 ## API testing with Bruno
 
