@@ -1,14 +1,14 @@
 ---
-title: "I built my own low-cost LLM assistant app"
+title: "I built my own low-cost LLM app"
 summary: "Hosting my own chatbot on GCP using open-source LLM Gemma 3, Spring Boot and Angular."
 date: 2025-07-21
 tags: ["ai", "llm", "gemma", "spring", "spring boot", "java", "angular", "cloud run", "gcp", "firestore", "bruno"]
-draft: true
+draft: false
 ---
 
 *Source repository: [datatrigger/llm_app](https://github.com/datatrigger/llm_app/tree/main)*
 
-Meet [Talian](assistant.vlg.engineer), my personal LLM assistant. It is a minimal ChatGPT clone giving me complete control over data privacy, deployed on GCP at low cost:
+Meet [Talian](https://assistant.vlg.engineer), my personal LLM assistant. It is a minimal ChatGPT clone giving me complete control over data privacy, deployed on GCP at low cost:
 
 ![Talian app](/res/llm_assistant/talian.png)
 
@@ -34,13 +34,13 @@ Here the user prompt *What language would you advise for Advent of Code?* is par
 
 I am billed between $15 and $30 a month depending on my usage. Let's break it down.
 
-#### Conversation data persistence
+#### Conversation data persistence: 0$
 
 Initially, I was looking for a pay-per-use (sometimes called serverless pay-as-you-go) relational database. I found out there are such services outside of GCP (Supabase Postgres, AWS Aurora serverless v2) but on GCP's side, Cloud SQL incurs charges even for idle instances. Since I wanted to stay on GCP, I went with document database Firestore instead.
 
 Firestore is truly serverless. Moreover, the free tier is very generous: tens of thousands of read/write requests and 1 GB of storage. More than enough for my application.
 
-#### Backend
+#### Backend: $15-$30/month
 
 The Java Spring backend and the LLM server are both containerized and deployed on Cloud Run. I set the minimum number of active instances to 0, which means these containers only start when they receive a request.
 
@@ -48,9 +48,7 @@ Since the config for the Spring backend container is minimal (1 GB of RAM, 1 vCP
 
 For the LLM server, I'm using a NVIDIA L4 GPU at $0.0001867 per second. That would be $483 per month for an instance running 24/7... Now since I scale down to 0 instances when there is no request, the costs are manageable. Still, with my average billing of $0.5 to $1 a day, which amounts to $15-$30 a month. The big downside of scaling down to 0 is cold starts: I have to wait about 30 seconds for my first prompt to be answered.
 
-Cost: $15-$30/month
-
-#### Frontend
+#### Frontend: 0$
 
 It is hosted on Netlify at no cost, even with CI/CD (up to 5 hours of build time each month).
 
@@ -270,9 +268,11 @@ The machine configuration can also be adjusted: for the frontend and spring back
 
 ## Next steps
 
-There are still a few features I would like to implement:
+There are still a few features I would like to implement to make this app more useable:
 * Authentication with GitHub/Google
 * User access to the history of conversations
 * Personas: choose a profile associated with a pre-defined prompt (e.g. work, private...)
+
+Anyway, whenever I need to prompt a LLM with sensitive data, especially personal health-related discussions, that is my go-to LLM assistant.
 
 Thanks for reading!
