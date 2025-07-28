@@ -28,7 +28,7 @@ The backend is stateless, so the state of the ongoing conversation must be maint
 
 ![LLM app architecture](/res/llm_assistant/firestore.png)
 
-Here the user prompt *What language would you advise for Advent of Code?* is part of the conversation *0jO7d3JznKvi179sbbtt*. This conversation ID is sent back to the frontend along with the LLM answer. If the user continues the conversation, the new prompt will be sent to the backend along with the conversation ID. This way, the backend is able to fetch all the previous messages of the current conversation.
+Here the user prompt `What language would you advise for Advent of Code?` is part of the conversation `0jO7d3JznKvi179sbbtt`. This conversation ID is sent back to the frontend along with the LLM answer. If the user continues the conversation, the new prompt will be sent to the backend along with the conversation ID. This way, the backend is able to fetch all the previous messages of the current conversation.
 
 ## Cost management
 
@@ -233,12 +233,12 @@ tests {
 }
 ```
 
-I wanted to ask the follow-up question *What did I just ask about?* to test the conversation persistence. In order to do that, I need to store the `conversationId` and use it in the second test, `start_conversation.bru`:
+I wanted to ask the follow-up question `What did I just ask about?` to test the conversation persistence. In order to do that, I need to store the `conversationId` and use it in the second test, `start_conversation.bru`:
 
 ```
 body:json {
   {
-    "prompt": "What did I just asked about?",
+    "prompt": "What did I just ask about?",
     "userId": "test_user",
     "conversationId": "{{conversationId}}"
   }
