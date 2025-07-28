@@ -176,7 +176,7 @@ In the end, I just forked this repo and made a few adjustments for my use-case. 
 
 ## CI/CD
 
-The entire source code is in a single repo with a folder for each component: frontend, backend and llm-server. Each push on the main branch affecting one of these folders triggers the build/publish of the corresponding component. For the frontend, I use Netlify's built-in continuous deployment feature. For the backend and the llm server, I use GCP's Cloud Build.
+The entire source code is in a single repo with a folder for each component: `frontend`, `backend` and `llm-server`. Each push on the main branch affecting one of these folders triggers the build/publish of the corresponding component. For the frontend, I use Netlify's built-in continuous deployment feature. For the backend and the llm server, I use GCP's Cloud Build.
 
 #### Cloud Native Buildpacks
 
@@ -273,6 +273,6 @@ There are still a few features I would like to implement to make this app more u
 * User access to the history of conversations
 * Personas: choose a profile associated with a pre-defined prompt (e.g. work, private...)
 
-Anyway, whenever I need to prompt a LLM with sensitive data, especially personal health-related discussions, that is my go-to LLM assistant.
+Anyway, whenever I need to prompt a LLM with sensitive data, especially personal health-related discussions, [Talian](https://assistant.vlg.engineer) is my go-to LLM assistant.
 
 Thanks for reading!
