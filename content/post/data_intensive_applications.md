@@ -1,48 +1,52 @@
 ---
-title: "Designing Data-Intensive Applications (M. Kleppmann): reading notes 1/3"
-summary: "Reading through this classic about data engineering. Part 1: Foundations of Data Systems"
+title: "Designing Data-Intensive Applications: reading notes 1/3"
+summary: "Reading through this backend/data engineering classic. Part 1: Foundations of Data Systems"
 date: 2023-03-27
 tags: ["reliability", "scalability", "maintainability", "system design", "data engineering"]
 draft: false
 ---
 
-*Work in progress*
-
 ![Designing Data-Intensive Applications, by Martin Kleppmann](/res/designing_data_applications/designing-data-intensive-applications-martin-kleppmann.jpeg)
 
 # Part 1: Foundations of Data Systems
 
-# Chapter 1: Reliable, scalable and maintainable applications
+Premise: modern applications tend to be data-intensive rather than compute-intensive.
+
+## Chapter 1: Reliable, scalable and maintainable applications
 
 A few tools mentioned:
-* [Data stores](https://en.wikipedia.org/wiki/Data_store) e.g. Redis. A datastore is an ill-defined term that design a data system in between data warehouses and data lakes. It can refer to noSQL, non-ACID semi-structured data applications like Redis.
-* Caching layers e.g. Memcached (also a use-case of Redis)
+* in-memory data store *Redis*
+* in-memory caching layer *Memcached*
 * [Full-text search](https://en.wikipedia.org/wiki/Full-text_search) servers e.g. Elasticsearch or Solr
 
-## 1. Reliability
+Modern data tools often serve multiple overlapping use cases: for example, Redis can function as a message broker, while Apache Kafka offers database-like durability guarantees. At the same time, modern applications tend to have so many requirements that multiple tools need to be architected together.
 
-* Distinction between *fault* (more a less a single component not working as expected) and *failure* (refers to the whole system)
-* Netflix Chaos Monkey, then [Simian Army](https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116): an example of [chaos engineering](https://en.wikipedia.org/wiki/Chaos_engineering)
-* *Hardware* faults (MTTF) / *Software* faults / *Human* errors
-* Main concepts:  
-    * Prefer *tolerating* faults (easier) over *preventing* faults. Impossible in some cases though, e.g. security: there's no tolerating users' data being compromised
-    * Generally less correlation in hardware faults than in software bugs: example of Linux' kernel bug with the leap second of June 30, 2012
-    * Prefer *software* fault-tolerance over *hardware* redundancy. Hardware redundancy is not sustainable with data volumes and/or computing demand. Bonus: this helps with maintainability, e.g no need for planned downtimes.
+This chapter covers three key variables that data system design often optimizes for: reliability, scalability, and maintainability.
 
-## 2. Scalability
+### 1. Reliability
+
+A reliable system basically keeps working when things go wrong. A single thing going wrong is called a *fault*, while a *failure* means the whole system stops working. Faults can be made unlikely but they are inevitable. So, in general, implementing fault-tolerance is more realistic than no fault at all. Unless the error cannot be tolerated (e.g. security leaks). The book focuses on tolerable faults.
+
+Testing fault-tolerance with [chaos engineering](https://en.wikipedia.org/wiki/Chaos_engineering): Netflix Chaos Monkey, then [Simian Army](https://netflixtechblog.com/the-netflix-simian-army-16e57fbab116).
+
+#### Hardware faults (MTTF) vs Software faults vs Human errors
+
+Prefer *software* fault-tolerance over *hardware* redundancy. Hardware redundancy is not sustainable with data volumes and/or computing demand. Bonus: this helps with maintainability, e.g no need for planned downtimes. Also, there is generally less correlation in hardware faults than in software bugs: example of Linux' kernel bug with the leap second of June 30, 2012.
+
+### 2. Scalability
 
 The *scalability* of a system is its ability to cope with increased load.
 
-Scalability is linked with reliability: a common reason for a system to be less reliable is the increase of the load.
+#### Load
 
-Scalability can be evaluated with respect to *load parameters*:
+Load can be evaluated with respect to *load parameters*:
 * requests/s (web server)
 * reads/writes ratio (database)
 * active users/s (chat room)
 * Hit rate (cache)
 * ...
 
-### Twitter (2012)
+##### Twitter (2012)
 
 Post tweet: 5k requests/s on average, max 12k requests/s  
 Home timeline reads: 300k requests/s
@@ -56,11 +60,11 @@ The first version is cheaper for posting tweets, but more expensive for home tim
 
 In this case, the key load parameters are: writes/s (post), reads/s (home timeline) and number of followers/user.
 
-### Performance
+#### Performance
 
-2 main ways to describe performance:
-* Load is increased, but not system resources: how does the system behave?
-* load is increased and system resources as well: how much is needed to keep performance stable?
+2 main ways to describe scalability with regard to load, by looking at the functions:
+* Fixed resources: $$f_{resource}(load) = performance$$
+* Fixed performance: $$f_{performance}(load) = resource$$
 
 What is performance?
 * *Throughput*, e.g. batch processing systems
@@ -72,20 +76,20 @@ The average is often used, but of course percentiles or the whole distribution p
 
 *Example*: Amazon describes some response time requirements in terms of p999
 
-### Coping with load
+#### Coping with load
 
 * Vertical scaling (scaling up) vs horizontal scaling (scaling out)
 * *Elastic* systems: systems that can automatically add resources on load increasing
 * Distributing *stateless* services is easier than for *stateful* ones
 * Scaling architectures are very dependent on the application: 100 000 requests of 1kB/s and 3 requests of 2 GB/min are the same throughput, but require different scaling
 
-## 3. Maintainability
+### 3. Maintainability
 
 *Operability* / *Simplicity* / *Evolvability*
 
-# Chapter 2: Data models & Query languages
+## Chapter 2: Data models & Query languages
 
-## Relational model
+### Relational model
 
 *Relations* and *tuples*, i.e *tables* and *rows* in the SQL world.
 
@@ -94,7 +98,7 @@ Weak points that drove the need for alternative ('NoSQL') models:
 * Scalability
 * Open-source tools
 
-## [Object-relational impedance mismatch](https://en.wikipedia.org/wiki/Object%E2%80%93relational_impedance_mismatch)
+### [Object-relational impedance mismatch](https://en.wikipedia.org/wiki/Object%E2%80%93relational_impedance_mismatch)
 
 Refers to the relative incompatibility between objects (OOP) and relational tables. **Object-relational mapping (ORM)** frameworks are tools designed to alleviate this mismatch, e.g. *Hibernate* or *ActiveRecord*.
 
@@ -105,31 +109,31 @@ For example, relational databases are not the best to represent one-to-many rela
 * Use a text field and store a JSON string
 * Use a document-oriented database
 
-## Document databases
+### Document databases
 
 E.g. MongoDB, Espresso. JSON has better **locality** than multi-table relational databases: no need to perform several queries or several joins to fetch the content of one *document* (e.g. the résumé of a given user).
 
-## Relational vs document databases
+### Relational vs document databases
 
 * Nested records, i.e. **one-to-many** relationships: the case where relational and document databases differ significantly:
     * Relational: stored in a separate table
     * Document: stored within the parent record
 * **Many-to-one** and **many-to-many**: *foreign keys* correspond to *document references*
 
-### Advantages of document data **model** (not databases)
+#### Advantages of document data **model** (not databases)
 
 * Schema flexibility (*schema-on-read* vs *schema-on-write*)
 * Locality: the data is stored in one string, not on multiple tables. Some relational databases implement locality e.g. Google Spanner
 * Data structures more in line with applications (e.g. objects)
 
-### Advantages of relational data **model** (not databases)
+#### Advantages of relational data **model** (not databases)
 
 * Joins: better support
 * Many-to-one and many-to-many: better support
 
-## Query languages
+### Query languages
 
-### Declarative vs imperative
+#### Declarative vs imperative
 
 SQL is a declarative language, which has advantages over imperative ones:
 * Concise
@@ -137,9 +141,9 @@ SQL is a declarative language, which has advantages over imperative ones:
 * Efficient: the underlying engine can be upgraded without changing high-level instructions
 * Prone to parallelization
 
-### MapReduce
+#### MapReduce
 
-## Graph-like Data Models
+### Graph-like Data Models
 
 Use-case: lots of many-to-many relationships in the data, possibly heterogeneous.
 
@@ -151,17 +155,17 @@ A significant advantage of graph query languages: unknown numbers of vertices ca
 
 An important application of the triple store model: [Resource Description Framework (RDF)](https://en.wikipedia.org/wiki/Resource_Description_Framework), relating to the *semantic web*.
 
-# Chapter 3: Storage and Retrieval
+## Chapter 3: Storage and Retrieval
 
 2 families of **storage engines** and **indexes** considered in this chapter:
 * *Log-structured* indexes
 * *Page-oriented* indexes
 
-## Log-structured databases and indexes
+### Log-structured databases and indexes
 
 *log*: append-only sequence of records
 
-### A fundamental example
+#### A fundamental example
 
 ```bash
 #!/bin/bash
@@ -179,12 +183,12 @@ Apart from the lack of concurrency control, disk space reclaiming mechanisms, er
 * Writes: O(1)
 * Reads: O(n)
 
-### Indexes
+#### Indexes
 
 An **index** is an additional data structure that aims at increasing the performance of queries.  
 Trade-off: an index speeds up reads (if weel designed) and slows down writes
 
-### Hash indexes
+#### Hash indexes
 
 Assume the database is a [key-value store](https://en.wikipedia.org/wiki/Key%E2%80%93value_database) saved in a log. Then a hash index is an in-memory hash map where keys are mapped to byte offsets.
 * Writes (insert/update): also create/update the offset in the hash index
@@ -194,7 +198,7 @@ Assume the database is a [key-value store](https://en.wikipedia.org/wiki/Key%E2%
 
 *Example*: [Bitcask](https://en.wikipedia.org/wiki/Bitcask),the default storage engine of distributed NoSQL key-value store [Riak](https://en.wikipedia.org/wiki/Riak)
 
-### Memory management
+#### Memory management
 
 Back to the data-store (not the index): since the underlying file is append-only, how is its size kept under control?
 
@@ -216,7 +220,7 @@ How to find a value? **Each segment has its own in-memory hash index:**
 
 The compaction/merging process keeps the number of segments small so that lookups are fast.
 
-### Details on log files
+#### Details on log files
 
 A few practical implementation issues:
 * File format efficiency: binary encodings are preferable
@@ -233,7 +237,7 @@ Drawbacks:
 * Range queries are inefficient because the keys are stored in random order
 * Hash indexes must fit in memory
 
-### SSTables/LSM-Trees
+#### SSTables/LSM-Trees
 
 A Sorted String Table or SSTable is a hash table with the sequences of key-value pairs **sorted by key** in the segments.
 
@@ -256,7 +260,7 @@ Implementation challenges:
 
 SSTables, also known as Log-Structured Merge-Trees (LSM-Trees), can sustain high throughput because the writes are sequential.
 
-### B-Trees
+#### B-Trees
 
 [B-trees](https://en.wikipedia.org/wiki/B-tree) also sorts they key-value pairs by key. They are a generalization of binary search trees.  
 
@@ -279,7 +283,7 @@ Implementation challenges/optimizations:
 * Additional data structure to link leaf pages in sequential order, or references to siblings
 * Concurrency: see *B-Tree locking*
 
-### SSTables vs B-Trees
+#### SSTables vs B-Trees
 
 Generally, SSTables appear to be:
     * Faster for writes: writing is sequential, less *write amplification*, less fragmentation
@@ -287,32 +291,32 @@ Generally, SSTables appear to be:
 
 See detailed comparison p. 84-85
 
-### Additional considerations on indexes
+#### Additional considerations on indexes
 
-#### Secondary indexes
+**Secondary indexes**
 
 Secondary indexes may index **duplicate values** (in the previous section, the indexed keys were assumed to be primary keys). Log-structured indexes and B-Trees can be used as secondary indexes. Techniques to deal with duplicate indexed values:
 * [inverted index / postings list](https://www.educative.io/answers/what-is-an-inverted-index)
 * Append a row identifier to each entry
 
-#### Values and indexes
+**Values and indexes**
 
 Values can be either referenced by indexes and stored in an auxiliary *heap*, or be part of the index itself.
 * *Clustered* indexes store the value
 * *Nonclustered* indexes store references
 * *Covering* indexes store the values of a subset of columns. A query is said to be covered by the index if it can be answered using the covering index alone
 
-#### *Concatenated* indexes
+**Concatenated indexes**
 
 The key is created by simple concatenation of several fields, e.g `last_name` + `first_name`
 
 Use-case example: spatial data, see [R-trees](https://en.wikipedia.org/wiki/R-tree)
 
-#### Fuzzy, full-text indexes
+**Fuzzy, full-text indexes**
 
 See [Apache Lucene](https://lucene.apache.org/)
 
-#### In-memory databases
+** In-memory databases**
 
 Disks have 2 significant advantages:
 * Durability
@@ -329,20 +333,20 @@ Some in-memory databases provide multiple levels of durability (none, weak...) b
 
 Counterintuitive:  in-memory databases are not really faster thanks to not reading/writing to disk. Traditional databases rely on the OS caching disk blocks, which can lead to similar results in terms of speed. In-memory databases are actually faster because they avoid the overhead of encoding data structures to writeable formats.
 
-## OLTP vs OLAP
+### OLTP vs OLAP
 
 I.e. *Online Transaction Processing* vs *Online Analytical Processing*, also related to *transaction processing* vs *batch processing*.
 
 * OLTP: Low-latency reads/writes, small number of records per query, fetched by some key and using an index
 * OLAP: large number of rows fetched per query, but only a few columns, and aggregated
 
-### Data warehousing
+#### Data warehousing
 
 The various OLTP systems in an organization (e.g. logistics, sales, employees, suppliers...) need high availability + low latency, thus they are not suited for complex analytics queries fetching many rows. The general idea of the data warehouse is to centralize read-only copies of the various OLTP systems, through ETLs. Also, they are optimized for these queries and use different indexing strategies than what was presented above.
 
 Key ideas: facts, dimensions, star schema, snowflake schema
 
-### Columnar storage
+#### Columnar storage
 
 Most OLTP systems store the values of a given row next to each other. Instead, OLAP systems tend to use column-oriented storage. This allows reads of only a subset of columns, as often needed with analytics queries.
 
@@ -355,11 +359,11 @@ Columnar storage can be coupled with several technique for even more efficient d
 
 Column compression and ordering are more easily implemented with LSM-Trees with their sorted in-memory structure and incremental merges with files on disk. On the contrary, B-Trees require in-place updates, making them inappropriate for these use-cases.
 
-### Materialized views
+#### Materialized views
 
 Unlike traditional views in relational databases, materialized views are actual copies of a table + a query. *Data cubes* or *OLAP cubes* are examples of materialized views: a grid of aggregates grouped by different dimensions, e.g. `date` and `product_sk`. They enhance performance on given queries but lack flexibility: for example, once aggregated, no filtering is possible anymoren e.g. it's impossible to know the revenue on a given date, but only for a given location.
 
-# Chapter 4: Encoding and Evolution
+## Chapter 4: Encoding and Evolution
 
 *Evolvability* was introduced in chapter 1, and changes in applications generally bring about changes in data.
 
