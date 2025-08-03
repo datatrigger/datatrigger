@@ -269,8 +269,9 @@ The machine configuration can also be adjusted: for the frontend and spring back
 ## Next steps
 
 There are still a few features I would like to implement to make this app more useable:
+* Streaming the model's answer token by token
 * Authentication with GitHub/Google
-* User access to the history of conversations
+* User interface to read/continue past conversations
 * Personas: choose a profile associated with a pre-defined prompt (e.g. work, private...)
 
 Anyway, whenever I need to prompt a LLM with sensitive data, especially personal health-related discussions, [Talian](https://assistant.vlg.engineer) is my go-to LLM assistant.
