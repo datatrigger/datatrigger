@@ -763,39 +763,33 @@ h4.panel-title > span.badge {
   }
 }
 
-/* --- Tables --- */
+//* --- Tables --- */
 
 table {
   padding: 0;
 }
 table tr {
   border-top: 1px solid #cccccc;
-  background-color: #ffffff;
+  background-color: #ffffff !important;
   margin: 0;
   padding: 0;
 }
-/* @media (prefers-color-scheme: dark) { */
-/* } */
 table tr:nth-child(2n) {
-  background-color: #f8f8f8;
-}
-/* @media (prefers-color-scheme: dark) { */
-/* table tr { */
-  /* background-color: #181818; */
-/* } */
-table tr:nth-child(2n) {
-  background-color: #303030
-}
+  background-color: #f8f8f8 !important;
 }
 table tr th {
   font-weight: bold;
   border: 1px solid #cccccc;
+  background-color: #ffffff !important;
+  color: #404040 !important;
   text-align: left;
   margin: 0;
   padding: 6px 13px;
 }
 table tr td {
   border: 1px solid #cccccc;
+  background-color: inherit !important;
+  color: #404040 !important;
   text-align: left;
   margin: 0;
   padding: 6px 13px;
@@ -959,3 +953,79 @@ h4.see-also {
     overflow-x: auto;
     overflow-y: hidden;
   }
+
+/* --- Code blocks - Force light mode --- */
+code {
+  background-color: #f9f2f4 !important;
+  color: #c7254e !important;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace !important;
+  font-size: 90% !important;
+}
+
+/* Code inside pre blocks should be different */
+pre code {
+  background-color: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+}
+
+pre {
+  background-color: #f8f8f8 !important;
+  color: #333 !important;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  overflow-x: auto;
+}
+
+/* Chroma syntax highlighting - Light mode */
+.chroma {
+  background-color: #f8f8f8 !important;
+  color: #333 !important;
+}
+
+.chroma .k { color: #0000ff !important; } /* Keywords - blue */
+.chroma .kt { color: #0000ff !important; } /* Keyword type */
+.chroma .kn { color: #0000ff !important; } /* Keyword namespace */
+.chroma .kp { color: #0000ff !important; } /* Keyword pseudo */
+.chroma .kr { color: #0000ff !important; } /* Keyword reserved */
+.chroma .kc { color: #0000ff !important; } /* Keyword constant */
+.chroma .kd { color: #0000ff !important; } /* Keyword declaration */
+
+.chroma .s { color: #008000 !important; } /* Strings - green */
+.chroma .s1 { color: #008000 !important; } /* String single */
+.chroma .s2 { color: #008000 !important; } /* String double */
+.chroma .se { color: #008000 !important; } /* String escape */
+.chroma .si { color: #008000 !important; } /* String interpol */
+
+.chroma .c { color: #008000 !important; font-style: italic; } /* Comments - green italic */
+.chroma .c1 { color: #008000 !important; font-style: italic; } /* Comment single */
+.chroma .cm { color: #008000 !important; font-style: italic; } /* Comment multi */
+
+.chroma .n { color: #333 !important; } /* Names */
+.chroma .na { color: #ff0000 !important; } /* Name attribute - red */
+.chroma .nb { color: #0000ff !important; } /* Name builtin - blue */
+.chroma .nc { color: #0000ff !important; } /* Name class */
+.chroma .nd { color: #0000ff !important; } /* Name decorator */
+.chroma .ne { color: #0000ff !important; } /* Name exception */
+.chroma .nf { color: #0000ff !important; } /* Name function */
+.chroma .nl { color: #0000ff !important; } /* Name label */
+.chroma .nn { color: #0000ff !important; } /* Name namespace */
+.chroma .nt { color: #0000ff !important; } /* Name tag */
+.chroma .nv { color: #0000ff !important; } /* Name variable */
+
+.chroma .o { color: #333 !important; } /* Operators */
+.chroma .ow { color: #0000ff !important; } /* Operator word */
+
+.chroma .m { color: #ff0000 !important; } /* Numbers - red */
+.chroma .mi { color: #ff0000 !important; } /* Number integer */
+.chroma .mf { color: #ff0000 !important; } /* Number float */
+.chroma .mh { color: #ff0000 !important; } /* Number hex */
+.chroma .mo { color: #ff0000 !important; } /* Number oct */
+
+.chroma .p { color: #333 !important; } /* Punctuation */
+
+.chroma .err { color: #ff0000 !important; background-color: #ffcccc !important; } /* Errors */
