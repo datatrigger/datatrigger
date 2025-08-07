@@ -2,9 +2,8 @@
     <link rel="stylesheet" href="{{ . | absURL }}">
 {{- end }}
 
-<style>
-  /* Prevent automatic dark mode */
-  :root {
-    color-scheme: light only;
-  }
-</style>
+  {{- if .Site.Params.disableDarkmode -}}
+	  <link rel="stylesheet" href="{{ "css/main-nodark.css" | absURL }}" />
+  {{- else -}}
+    <link rel="stylesheet" href="{{ "css/main.css" | absURL }}" />
+  {{- end -}}
