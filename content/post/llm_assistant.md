@@ -299,3 +299,5 @@ There are still a few features I would like to implement to make this app more u
 Anyway, whenever I need to prompt a LLM with sensitive data, especially personal health-related discussions, [Talian](https://assistant.vlg.engineer) is my go-to LLM assistant.
 
 Thanks for reading!
+
+*Special thanks to my dear colleagues [David Salathé](https://www.linkedin.com/in/david-salathe/) and [Théo Daviet](https://www.linkedin.com/in/th%C3%A9o-daviet-711309a7/) for taking the time to review my work.*
