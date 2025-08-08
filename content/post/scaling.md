@@ -10,9 +10,9 @@ draft: false
 
 Scaling data is essential before applying a lot of Machine Learning techniques. For example, distance-based methods such as K-Nearest Neighbors, Principal Component Analysis or Support-Vector Machines will artificially attribute a great importance to a given feature if its range is extremely broad. As a consequence, these kind of algorithms require scaling to work properly. Although not *absolutely* necessary, scaling and specifically normalizing helps a lot with the convergence of gradient descent [[1]](https://arxiv.org/abs/1502.03167). Hence it is generally recommended for Deep Learning. On the contrary, tree-based methods such as Random Forest or XGBoost do not require the input features to be scaled.
   
-Today, we will only consider the two main ways of scaling, i.e *standardization*, a.k.a Z-score normalization and *normalization*, a.k.a Min-Max scaling. The **standardized** version of the numerical feature $X$ is: $$\tilde{X} := \frac{X - \overline{X}}{\hat{\sigma}}$$ where $\overline{X}$ is the estimated mean of $X$ and $\hat{\sigma}$ its estimated standard deviation. The point of this transformation is that $\tilde{X}$ has an estimated mean equal to 0 and an estimated standard deviation equal to 1.  
+Today, we will only consider the two main ways of scaling, i.e *standardization*, a.k.a Z-score normalization and *normalization*, a.k.a Min-Max scaling. The **standardized** version of the numerical feature \\( X \\) is: $$\tilde{X} := \frac{X - \overline{X}}{\hat{\sigma}}$$ where \\( \overline{X} \\) is the estimated mean of \\( X \\) and \\( \hat{\sigma} \\) its estimated standard deviation. The point of this transformation is that \\( \tilde{X} \\) has an estimated mean equal to 0 and an estimated standard deviation equal to 1.  
   
-On the other hand, **normalization** consists in the transformation: $$\tilde{X} := \frac{X - min(X)}{max(X) - min(X)}$$ Consequently, $\tilde{X} \in [0;1]$.
+On the other hand, **normalization** consists in the transformation: $$\tilde{X} := \frac{X - min(X)}{max(X) - min(X)}$$ Consequently, \\( \tilde{X} \in [0;1] \\).
 
 ### Scaling *can* be tricky
 
@@ -24,11 +24,11 @@ In his excellent [blog post](https://sebastianraschka.com/faq/docs/scale-trainin
 Any other method (scaling then splitting or scaling each sample with its own parameters for example) is wrong because it makes use of information extracted from the test sample to build the model afterwards. Sebastian gives extreme examples to illustrate this in his post. Although improper scaling may have minor consequences when working with a large dataset, it can seriously diminish the performance of a given model if only a few observations are available.  
   
 Programmatically speaking, splitting and scaling a dataset using the method presented above can be a little bit more troublesome than just scaling a set of observations by itself. Let us see how to proceed in a variety of frameworks. As an example, we will work on a dataset composed of three independent features:  
-* $X \sim \mathcal{N}(\mu = 2, \sigma = 2)$
-* $Y \sim \mathcal{C}(x_0 = 0, \gamma = 1)$
-* $Z \sim \mathcal{U}(a = 5, b = 10)$
+* \\( X \sim \mathcal{N}(\mu = 2, \sigma = 2) \\)
+* \\( Y \sim \mathcal{C}(x_0 = 0, \gamma = 1) \\)
+* \\( Z \sim \mathcal{U}(a = 5, b = 10) \\)
 
-Where the letters $\mathcal{N}$, $\mathcal{C}$ and $\mathcal{U}$ refer to Normal, Cauchy and Uniform distributions, respectively. We draw fifty observations from each (independent) random variable X, Y and Z.  
+Where the letters \\( \mathcal{N} \\), \\( \mathcal{C} \\) and \\( \mathcal{U} \\) refer to Normal, Cauchy and Uniform distributions, respectively. We draw fifty observations from each (independent) random variable X, Y and Z.  
   
 **All the code below (and more) is available [here](https://github.com/datatrigger/scaling).**
 

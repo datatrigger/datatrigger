@@ -199,9 +199,9 @@ The frontend of the stocks application is built with Vite in a folder named `dis
 
 * Let the user choose the historical window and the tickers
 * Compute metrics in the backend and display them in the frontend, in a table component:
-    * Cumulative Return: $R_c = \frac{P_{end} - P_{start}}{P_{start}}$
-    * Annualized return: $R_a = (1 + R_c)^{\frac{365}{n}} - 1$, $n$ is the length of window in days
-    * Annualized Volatility: $\sqrt{261} \thinspace \sigma_r$, with $\sigma_r$ the standard deviation of the daily returns
+    * Cumulative Return: \\( R_c = \frac{P_{end} - P_{start}}{P_{start}} \\)
+    * Annualized return: \\( R_a = (1 + R_c)^{\frac{365}{n}} - 1 \\), \\( n \\) is the length of window in days
+    * Annualized Volatility: \\( \sqrt{261} \thinspace \sigma_r \\), with \\( \sigma_r \\) the standard deviation of the daily returns
 * Show live data updated without the user refreshing the page, with Javascript's `setInterval()` (but the Polygon API subscription for live data is very expensive)
 * Implement unit tests and integrations tests
 * Use Google Cloud Functions or AWS Lambda to store historical data on a remote service (e.g. bucket, cloud database) and update it on a daily basis

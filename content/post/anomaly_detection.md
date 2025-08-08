@@ -15,7 +15,7 @@ An outlier can be defined as *an observation that appears to deviate markedly fr
 
 ### Different ways to identify outliers
 
-There are quite a few methods to study outliers and eventually detect anomalies. They can be classified in several ways. Some methods are global as opposed to local algorithms, which only use the $k \in \mathbb{N}$ nearest neighbors. Algorithms like [DBSCAN](https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf) [2] assign a binary label to observations (outlier or not) while others ([Isolation Forest](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf?q=isolation-forest) [3], [Local Outlier Factor](https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf) [4] or more recently [Local Distance-based Outlier Factor](https://arxiv.org/pdf/0903.3257.pdf) [5]) output an anomaly score. Other criteria are to be considered depending on the use case: parametric or not, supervised or unsupervised, etc...  
+There are quite a few methods to study outliers and eventually detect anomalies. They can be classified in several ways. Some methods are global as opposed to local algorithms, which only use the \\( k \in \mathbb{N} \\) nearest neighbors. Algorithms like [DBSCAN](https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf) [2] assign a binary label to observations (outlier or not) while others ([Isolation Forest](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf?q=isolation-forest) [3], [Local Outlier Factor](https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf) [4] or more recently [Local Distance-based Outlier Factor](https://arxiv.org/pdf/0903.3257.pdf) [5]) output an anomaly score. Other criteria are to be considered depending on the use case: parametric or not, supervised or unsupervised, etc...  
 
 ### Local Outlier Factor
 
@@ -27,17 +27,17 @@ This dataset will be our case study.
 
 ### So, why does it have to be local ?
 
-In the example above, largely inspired from the original [*LOF* paper](https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf) [4], $C_1$/$C_2$ are cluster and $O_l$/$O_g$ are outliers. $O_l$ is considered a local outlier because the distance between $C_1$ and $O_l$ is not greater than say the average distance between $C_2$'s neighboring points. On the contrary, $O_g$ is clearly a global outlier. In this situation, a global anomaly detection method will most likely identify as outlier only $O_g$, or $O_g$, $O_l$ *and* a many observations from $C_2$. Only a local method will detect $O_g$ and $O_l$. This point is important because real-world data is often scattered, with several clusters of different densities.
+In the example above, largely inspired from the original [*LOF* paper](https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf) [4], \\( C_1 \\)/\\( C_2 \\) are cluster and \\( O_l \\)/\\( O_g \\) are outliers. \\( O_l \\) is considered a local outlier because the distance between \\( C_1 \\) and \\( O_l \\) is not greater than say the average distance between \\( C_2 \\)'s neighboring points. On the contrary, \\( O_g \\) is clearly a global outlier. In this situation, a global anomaly detection method will most likely identify as outlier only \\( O_g \\), or \\( O_g \\), \\( O_l \\) *and* a many observations from \\( C_2 \\). Only a local method will detect \\( O_g \\) and \\( O_l \\). This point is important because real-world data is often scattered, with several clusters of different densities.
 
 ### The input parameter k
 
-The LOF method is a k-nearest neighbors style algorithm [[4]](https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf), so it requires an integer $k$ as an input argument. Its creators were nice enough to give guidelines for choosing a set of appropriate values for the parameter $k$.  
-First, $k=10$ appears to be a reasonable lower bound. Indeed if $k < 10$, the authors have empirically observed that the standard deviation of LOF computed on observations from a 2D Gaussian sample is unstable, and that some observations from a 2D uniform distribution are clearly identified as outliers, which is problematic in this case. Alternatively, the lower bound for $k$ can be regarded as the minimal number of observations a set has to contain in order to be considered a cluster.   
-Secondly, the upper bound for k can be regarded as the highest number of outliers there can be relatively to a given cluster. In our case study, we only have two outliers so it is unnecessary to go well above 10. We decide to compute LOF for $10 \leq k \leq 15$. As the creators suggest, we will retain the maximum value i.e $\underset{10 \leq k \leq 15}{max} \  LOF_k(observation)$ for each observation.
+The LOF method is a k-nearest neighbors style algorithm [[4]](https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf), so it requires an integer \\( k \\) as an input argument. Its creators were nice enough to give guidelines for choosing a set of appropriate values for the parameter \\( k \\).  
+First, \\( k=10 \\) appears to be a reasonable lower bound. Indeed if \\( k < 10 \\), the authors have empirically observed that the standard deviation of LOF computed on observations from a 2D Gaussian sample is unstable, and that some observations from a 2D uniform distribution are clearly identified as outliers, which is problematic in this case. Alternatively, the lower bound for \\( k \\) can be regarded as the minimal number of observations a set has to contain in order to be considered a cluster.   
+Secondly, the upper bound for k can be regarded as the highest number of outliers there can be relatively to a given cluster. In our case study, we only have two outliers so it is unnecessary to go well above 10. We decide to compute LOF for \\( 10 \leq k \leq 15 \\). As the creators suggest, we will retain the maximum value i.e \\( \underset{10 \leq k \leq 15}{max} \  LOF_k(observation) \\) for each observation.
 
 ### Interpretation of the Local Outlier Factor
 
-Let $C$ be a set of observations and $k$ the input parameter presented above. Then for all $p \in C$ such that the k-nearest neighbors of $p$ and *their* k-nearest neighbors also belong to $C$, the following inequality stands [[4]](https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf): $$\frac{1}{1+\epsilon} \leq \ LOF_{Minpts}(p) \ \leq 1+\epsilon$$ where $\epsilon$ is a measure of $C$'s "looseness". Hence if $C$ is a "tight" cluster, then the local outlier factor of all the observations that belong to $C$ is close to 1. On the contrary, the LOF of an outlier is well above 1.
+Let \\( C \\) be a set of observations and \\( k \\) the input parameter presented above. Then for all \\( p \in C \\) such that the k-nearest neighbors of \\( p \\) and *their* k-nearest neighbors also belong to \\( C \\), the following inequality stands [[4]](https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf): $$\frac{1}{1+\epsilon} \leq \ LOF_{Minpts}(p) \ \leq 1+\epsilon$$ where \\( \epsilon \\) is a measure of \\( C \\)'s "looseness". Hence if \\( C \\) is a "tight" cluster, then the local outlier factor of all the observations that belong to \\( C \\) is close to 1. On the contrary, the LOF of an outlier is well above 1.
 
 ### *LOF* vs *Isolation Forest*: let the battle begin
 
@@ -45,7 +45,7 @@ Now, let us see how *LOF* performs on the dataset plotted above, and compare the
 
 #### Dataset
 
-First, let us generate the data. We use a normal distribution for $C_1$ and a uniform distribution for $C_2$, then we manually add the two outliers to the dataset. We also add an id column as a primary key for the observations.
+First, let us generate the data. We use a normal distribution for \\( C_1 \\) and a uniform distribution for \\( C_2 \\), then we manually add the two outliers to the dataset. We also add an id column as a primary key for the observations.
 
 ###### Python
 ```python {linenos=table}
@@ -121,7 +121,7 @@ We get the dataset we already showed above, with two clusters, one global outlie
 
 #### LOF
 
-Now let us begin the outlier detection process. As explained before, we compute the LOF of each observation for $10 \leq k \leq 15$, then we retain the maximal value.
+Now let us begin the outlier detection process. As explained before, we compute the LOF of each observation for \\( 10 \leq k \leq 15 \\), then we retain the maximal value.
 
 ###### Python
 We use the beloved module scikit-learn.
@@ -224,7 +224,7 @@ df_if <- df %>%
 &nbsp;  
 ![IF results - table](/res/lof/if_table.png)
 
-As a global anomaly detection, Isolation Forest clearly detects the outlier $O_g$. The anomaly score of this global outlier is the highest, and well above the second highest value. However, the Isolation Forest algorithm fails to distinctely identify the local outlier $O_l$. Even though its anomaly score is the third highest value of the dataset, it does not clearly stands out from the other anomaly scores.
+As a global anomaly detection, Isolation Forest clearly detects the outlier \\( O_g \\). The anomaly score of this global outlier is the highest, and well above the second highest value. However, the Isolation Forest algorithm fails to distinctely identify the local outlier \\( O_l \\). Even though its anomaly score is the third highest value of the dataset, it does not clearly stands out from the other anomaly scores.
 
 ### Conclusion
 
