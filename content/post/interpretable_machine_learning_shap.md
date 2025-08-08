@@ -20,7 +20,7 @@ df = pd.read_csv("insurance.csv")
 
 ![Insurance dataset](/res/interpretable_machine_learning/1.df.png)
 
-The names of the independent variables are self-explanatory, except for the column *BMI*. *BMI* stands for [Body Mass Index](https://en.wikipedia.org/wiki/Body_mass_index), defined as $BMI = \frac{weight}{height²}$ in kg/m². It is considered normal between 18.5 and 25 kg/m². Obesity starts at 30 kg/m².
+The names of the independent variables are self-explanatory, except for the column *BMI*. *BMI* stands for [Body Mass Index](https://en.wikipedia.org/wiki/Body_mass_index), defined as \\( BMI = \frac{weight}{height²} \\) in kg/m². It is considered normal between 18.5 and 25 kg/m². Obesity starts at 30 kg/m².
 
 ## II) Brief analysis
 
@@ -122,7 +122,7 @@ for category in category_counts:
 
 The dataset is very well balanced regarding *sex* and *region*. This is less true regarding the *smoker* feature with around one smoker in four individuals, but the situation is far from being critical and does not require any specific data processing in my experience.  
   
-Now let us compute Cramér's V for each pair of distinct categorical variables. Since this metric is based on the $\chi²$ test of independence, each cell of the contingency tables should have a frequency greater than 5, otherwise the computed values will not be reliable.
+Now let us compute Cramér's V for each pair of distinct categorical variables. Since this metric is based on the \\( \chi² \\) test of independence, each cell of the contingency tables should have a frequency greater than 5, otherwise the computed values will not be reliable.
 
 ```python
 # Compute crosstabs to make sure the conditions for the Chi-squared test of independence are met
@@ -200,7 +200,7 @@ We are going to train 6 models and we will keep the one that minimizes the test 
 * Since the target is an amount of money that seems to be log-normal, log-transforming the charges could help increase accuracy (2 models)
 * Based on the feature analysis, we doubt wether we should include *age*, *BMI* or both variables in the model (3 models)
 
-That makes $3 \times 2 = 6$ possibilities.
+That makes \\( 3 \times 2 = 6 \\) possibilities.
 
 ### i) Linear models
 
@@ -219,7 +219,7 @@ The models built with the log-transformed target perform worse than the others o
 
 We have seen that the features *age* and *BMI* both have moderately high variance inflation factors, which suggests that maybe one of them could be excluded to improve the model and make interpretations more reliable. However, including both variables has yielded the lowest out-of-sample RMSE, while excluding the *BMI* increases it by approximately 350 dollars. Is this significant ?
 
-Let us switch to R to perform an analysis of variance of the nested models with/without the *BMI* variable. The F-statistic will help us to determine if the full model yields a significant drop in sum of square errors or not. In this case, we are testing the nullity of only one feature so the F-statistic is equivalent to the t-statistic of *BMI* in the full model ($F = t²$). The associated p-values are equal.
+Let us switch to R to perform an analysis of variance of the nested models with/without the *BMI* variable. The F-statistic will help us to determine if the full model yields a significant drop in sum of square errors or not. In this case, we are testing the nullity of only one feature so the F-statistic is equivalent to the t-statistic of *BMI* in the full model (\\( F = t² \\)). The associated p-values are equal.
 
 We will also evaluate the homoscedasticity and normality of the residuals that are assumed by analysis of variance.
 

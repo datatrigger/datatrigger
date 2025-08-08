@@ -19,19 +19,19 @@ Let's implement a custom asymmetric loss for this purpose. We will use this [Kag
 
 Surprisingly, I have found very little data about asymmetric loss functions **in the context of regression**. Most of the papers/threads I have came across mention variations of the standard quadratic loss (see [here](https://editorialexpress.com/cgi-bin/conference/download.cgi?db_name=ESAM09&paper_id=194) and [there](https://datascience.stackexchange.com/questions/10471/linear-regression-with-non-symmetric-cost-function)) or other impractical functions. Why impractical? Because these losses do not have "smooth" derivatives! This is unfortunate for us Machine Learning practioners, who abide by the almighty gradient descent approach.
 
-[This paper [1]](https://www.scirp.org/journal/paperinformation.aspx?paperid=97986) and a few *Stack Overflow* / *Cross Validated* threads bring up the linear-exponential loss, sometime called LINEX. Let us denote it by ($lexp$). It is defined as follows:
+[This paper [1]](https://www.scirp.org/journal/paperinformation.aspx?paperid=97986) and a few *Stack Overflow* / *Cross Validated* threads bring up the linear-exponential loss, sometime called LINEX. Let us denote it by (\\( lexp \\)). It is defined as follows:
 
 $$lexp \colon E \longmapsto b \cdot [e^{a \cdot E} - a \cdot E - 1]$$
 
-where $E$ is the difference between the observed value and the predicted value, i.e $E:=y-\hat{y}$.
+where \\( E \\) is the difference between the observed value and the predicted value, i.e \\( E:=y-\hat{y} \\).
 
-When $a$ is close to 0, then $lexp(E) \sim b \cdot \frac{a^2 \cdot E^2}{2} + o(E^2)$ (see Taylor series of $exp$). So, let us set $b=\frac{2}{a^2}$. This way, we will have $lexp(E) \approx E^2$ when $a$ is small. When $a$ increases, the "asymmetry" of the loss increases as well:
+When \\( a \\) is close to 0, then \\( lexp(E) \sim b \cdot \frac{a^2 \cdot E^2}{2} + o(E^2) \\) (see Taylor series of \\( exp \\)). So, let us set \\( b=\frac{2}{a^2} \\). This way, we will have \\( lexp(E) \approx E^2 \\) when \\( a \\) is small. When \\( a \\) increases, the "asymmetry" of the loss increases as well:
 
 ![Linear-exponential loss](/res/asymmetric_loss/linex.gif)
 
 As this function is infinitely differentiable, it can very well be implemented as a custom loss in popular Machine Learning libraries: see with [PyTorch](https://neptune.ai/blog/pytorch-loss-functions#custom-pytorch-loss-function) or [Keras](https://keras.io/api/losses/#creating-custom-losses) for example. 
 
-Let us give an XGBoost example. To train such a model with this custom loss, we will need to provide its first and second order derivatives with respect to the prediction $\hat{y}$ (see section 2.2 of the [XGBoost paper](https://arxiv.org/pdf/1603.02754.pdf), or the [example in the doc](https://xgboost.readthedocs.io/en/latest/tutorials/custom_metric_obj.html)):
+Let us give an XGBoost example. To train such a model with this custom loss, we will need to provide its first and second order derivatives with respect to the prediction \\( \hat{y} \\) (see section 2.2 of the [XGBoost paper](https://arxiv.org/pdf/1603.02754.pdf), or the [example in the doc](https://xgboost.readthedocs.io/en/latest/tutorials/custom_metric_obj.html)):
 
 $$
 \begin{cases}
@@ -41,7 +41,7 @@ lexp (y, \hat{y}) = \frac{2}{a^2} \cdot [e^{a \cdot (\hat{y}-y)} - a \cdot (\hat
 \end{cases}
 $$
 
-Here we have defined the error as the unconventional $\hat{y}-y$. The point is to avoid minus signs all over the place when computing derivatives. This will lead to penalize overestimations more than underestimation: overall, the model will underestimate. If we want to train the regressor the other way around, then we will swap $\hat{y}-y$ for the "usual" $y-\hat{y}$, keeping in mind the following high school classics:
+Here we have defined the error as the unconventional \\( \hat{y}-y \\). The point is to avoid minus signs all over the place when computing derivatives. This will lead to penalize overestimations more than underestimation: overall, the model will underestimate. If we want to train the regressor the other way around, then we will swap \\( \hat{y}-y \\) for the "usual" \\( y-\hat{y} \\), keeping in mind the following high school classics:
 
 $$
 \begin{cases}
@@ -56,7 +56,7 @@ $$
 
 Let us compare the usual squared error and the linear-exponential loss using a few metrics: RMSE, mean, median and 95<sup>th</sup> percentile of the residuals on the test set. These numbers are very dependent on the train-test split because the dataset is very small. In order to get stable values, we use the following method:
 
-* For each $a$ value:
+* For each \\( a \\) value:
     * Make a random train-test split
     * Build a squared-error-loss model and a linear-exponential-loss model, retrieve residuals
     * Repeat 500 times
@@ -67,9 +67,9 @@ Let us compare the usual squared error and the linear-exponential loss using a f
 
 ![losses_comparison](/res/asymmetric_loss/results.png)
 
-There is an interesting phenomenon happening between $a \approx 13$ and $a \approx 20$: the mean/median/perc. 95 start decreasing but the overall RMSE does not degrade. In other words, we are actually achieving **underestimation without degrading the accuracy** of the model.
+There is an interesting phenomenon happening between \\( a \approx 13 \\) and \\( a \approx 20 \\): the mean/median/perc. 95 start decreasing but the overall RMSE does not degrade. In other words, we are actually achieving **underestimation without degrading the accuracy** of the model.
 
-When $a=20$, the RMSE is the same for the two losses but the prices are estimated 200 dollars lower, on average. This means the linear-exponential loss allows the errors distribution to be **skewed**. Actually, in this case the squared-error-loss residuals are initially skewed to the right, as shown below. The linear-exponential loss "unskews" the residuals to the left.
+When \\( a=20 \\), the RMSE is the same for the two losses but the prices are estimated 200 dollars lower, on average. This means the linear-exponential loss allows the errors distribution to be **skewed**. Actually, in this case the squared-error-loss residuals are initially skewed to the right, as shown below. The linear-exponential loss "unskews" the residuals to the left.
 
 ![skewness_comparison](/res/asymmetric_loss/skewness.png)
 

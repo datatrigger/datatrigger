@@ -8,7 +8,7 @@ draft: false
 
 # The quick-sort algorithm
 
-Quick-sort is an efficient (in-place, unstable) sorting algorithm. Although its worst-case time complexity is $O(n^{2})$, the average complexity is $O(nlog(n))$. On real-world (≈ random) inputs, quick-sort is even more efficient than other sorting algorithms with worst-case $O(nlog(n))$ time complexity like merge-sort.
+Quick-sort is an efficient (in-place, unstable) sorting algorithm. Although its worst-case time complexity is \\( O(n^{2}) \\), the average complexity is \\( O(nlog(n)) \\). On real-world (≈ random) inputs, quick-sort is even more efficient than other sorting algorithms with worst-case \\( O(nlog(n)) \\) time complexity like merge-sort.
 
 I am currently reviewing my sorting algorithms and after all these years, quick-sort still baffles me. It is the less intuitive sorting algorithms that I know of. Now, there is a ton of content about the way quick-sort works and how to implement it. But this time, I wanted to *prove* to myself that it does work, and I had the most trouble finding a complete and rigorous correctness proof. In this post, I will formalize and gather the elements I have found [here and there](#references).
 
@@ -48,7 +48,7 @@ The partitioning step (lines 12-18 above) selects a pivot *p*, say the last elem
 
 How come the partition works? Let's show the following **invariants** hold throughout the for loop:
 
-At the **beginning** of each $i \in \\{ start, ..., end - 1 \\}$,
+At the **beginning** of each \\( i \in \\{ start, ..., end - 1 \\} \\),
 
 $$
 \mathcal{P} \(i\): 
@@ -60,7 +60,7 @@ $$
 
 ## Intuition
 
-$\mathcal{P} \(i\)$ means that at the beginning of step ```i``` in the for loop:
+\\( \mathcal{P} \(i\) \\) means that at the beginning of step ```i``` in the for loop:
 
 1) All the elements strictly on the left of pointer ```l``` are < ```p```
 2) The elements on the right of pointer ```l``` (included) are ≥ ```p```, up until index ```i-1```
@@ -79,50 +79,50 @@ The following is not a proof by induction per say because the input *array* is f
 
 ### Base case
 
-At the beginning of the first step of the for loop, $i = s = l_i$, so statements 1) and 2) are vacuous truths (no $k$ exists in both cases). Statement 3) is trivially true as we've just defined $p=array[end]$ just before entering the loop. Therefore, $\mathcal{P} \(start\)$.
+At the beginning of the first step of the for loop, \\( i = s = l_i \\), so statements 1) and 2) are vacuous truths (no \\( k \\) exists in both cases). Statement 3) is trivially true as we've just defined \\( p=array[end] \\) just before entering the loop. Therefore, \\( \mathcal{P} \(start\) \\).
 
 ### 'Induction'
 
-Let $i \in \\{ start, ..., end - 1 \\}$ and assume $\mathcal{P} \(i\)$. Now, let's enter inside the loop and see what happens at step $i$:
+Let \\( i \in \\{ start, ..., end - 1 \\} \\) and assume \\( \mathcal{P} \(i\) \\). Now, let's enter inside the loop and see what happens at step \\( i \\):
 
 &nbsp;
 
-* **A.** If $array[i] \geq p$.
+* **A.** If \\( array[i] \geq p \\).
 
-Nothing happens, the pointer ```l``` is not moved to right: $l_{i+1} = l_i$.  
+Nothing happens, the pointer ```l``` is not moved to right: \\( l_{i+1} = l_i \\).  
   
 
-**Statement 1)**: We can replace $l_i$ by $l_{i+1}$ at no cost: statement 1) still holds at step $i+1$.  
+**Statement 1)**: We can replace \\( l_i \\) by \\( l_{i+1} \\) at no cost: statement 1) still holds at step \\( i+1 \\).  
   
-**Statement 2)**: same thing, $array[k] \geq p \\, , \\, l_{i+1} \leq k < i$ since $l_{i+1} = l_i$. Moreover, since $array[i] \geq p$, then $array[k] \geq p \\, , \\, l_{i+1} \leq k < i+1$, i.e statement 2) holds at step $i+1$
+**Statement 2)**: same thing, \\( array[k] \geq p \\, , \\, l_{i+1} \leq k < i \\) since \\( l_{i+1} = l_i \\). Moreover, since \\( array[i] \geq p \\), then \\( array[k] \geq p \\, , \\, l_{i+1} \leq k < i+1 \\), i.e statement 2) holds at step \\( i+1 \\)
 
 &nbsp;
 
-* **B.** Else if $array[i] < p$. Then:
+* **B.** Else if \\( array[i] < p \\). Then:
 
-**Before the swap**: $array[i] < p$ (**B.**) and $array[l_i] \geq p$ as per statement 2) of $\mathcal{P} \(i\)$ with $k=l_i$.
+**Before the swap**: \\( array[i] < p \\) (**B.**) and \\( array[l_i] \geq p \\) as per statement 2) of \\( \mathcal{P} \(i\) \\) with \\( k=l_i \\).
 
-So **after the swap**, $array[i] \geq p$ and $array[l_i] < p$
+So **after the swap**, \\( array[i] \geq p \\) and \\( array[l_i] < p \\)
   
-Also, the pointer ```l``` is moved to right: $l_{i+1} = l_i+1$.  
+Also, the pointer ```l``` is moved to right: \\( l_{i+1} = l_i+1 \\).  
   
-**Statement 1)**: $array[l_i] < p$ (after the swap), hence statement 1) is valid for $start \leq k \leq l_i$, which is equivalent to $start \leq k < l_{i+1}$ since $l_{i+1} = l_i+1$  
+**Statement 1)**: \\( array[l_i] < p \\) (after the swap), hence statement 1) is valid for \\( start \leq k \leq l_i \\), which is equivalent to \\( start \leq k < l_{i+1} \\) since \\( l_{i+1} = l_i+1 \\)  
   
-**Statement 2)**: which elements are greater than $p$ since the swap? Not $array[l_i]$ anymore. But elements at index $l_i + 1$, ..., $i-1$ (if any) are still $\geq p$ as per statement 2) (step $i$). Moreover, $array[i]$ has now joined the club, since the swap. Then $array[k] \geq p \\, , \\, l_i + 1 \leq k < i + 1$, i.e. $array[k] \geq p \\, , \\, l_{i+1} \leq k < i + 1$
+**Statement 2)**: which elements are greater than \\( p \\) since the swap? Not \\( array[l_i] \\) anymore. But elements at index \\( l_i + 1 \\), ..., \\( i-1 \\) (if any) are still \\( \geq p \\) as per statement 2) (step \\( i \\)). Moreover, \\( array[i] \\) has now joined the club, since the swap. Then \\( array[k] \geq p \\, , \\, l_i + 1 \leq k < i + 1 \\), i.e. \\( array[k] \geq p \\, , \\, l_{i+1} \leq k < i + 1 \\)
 
-In both possible cases **A.** and **B.**, $\mathcal{P} \(i+1\)$ holds.
+In both possible cases **A.** and **B.**, \\( \mathcal{P} \(i+1\) \\) holds.
 
 ### Conclusion
 
 We have proven:
 
-* $\mathcal{P} \(0\)$
-* $\mathcal{P} \(0\) \implies \mathcal{P} \(1\)$
-* $\mathcal{P} \(1\) \implies \mathcal{P} \(2\)$
+* \\( \mathcal{P} \(0\) \\)
+* \\( \mathcal{P} \(0\) \implies \mathcal{P} \(1\) \\)
+* \\( \mathcal{P} \(1\) \implies \mathcal{P} \(2\) \\)
 * ...
-* $\mathcal{P} \(end-1\) \implies \mathcal{P} \(end\)$
+* \\( \mathcal{P} \(end-1\) \implies \mathcal{P} \(end\) \\)
 
-From the above, we can conclude that $\mathcal{P} \(end\)$ holds:
+From the above, we can conclude that \\( \mathcal{P} \(end\) \\) holds:
 
 $$
 \mathcal{P} \(end\): 
@@ -132,7 +132,7 @@ $$
 \end{cases}
 $$
 
-The above is true at the beginning of step $i=end$, or more precisely at the end of step $i=end-1$ since the loop stops before $i=end$. At this point, one more instruction is executed: swapping $array[l_{end}]$ and $array[end]=p$. So, after the final swap, $array[l_{end}] = p$ and $array[end] \geq p$ (from $\mathcal{P} \(end\)$ - Statement 2). Finally:
+The above is true at the beginning of step \\( i=end \\), or more precisely at the end of step \\( i=end-1 \\) since the loop stops before \\( i=end \\). At this point, one more instruction is executed: swapping \\( array[l_{end}] \\) and \\( array[end]=p \\). So, after the final swap, \\( array[l_{end}] = p \\) and \\( array[end] \geq p \\) (from \\( \mathcal{P} \(end\) \\) - Statement 2). Finally:
 
 $$
 \begin{cases}
@@ -149,10 +149,10 @@ Q.E.D.
 Now that the correctness of the partitioning part is established, we need to prove that recursively calling ```quick_sort(array)``` sorts ```array```. This part is much easier than the correctness of the partition, and more documented as well.
 
 * When the size of the input array is 0 or 1, ```quick_sort()``` does nothing and the array is sorted
-* Suppose that ```quick_sort()``` adequately sorts any array of size $k \in \\{ 0, 1, ..., n \\}, n \geq 1$
-* Then, let's see what happens upon calling ```quick_sort()``` on an array of size $n+1$. First, the array will be partitioned in three parts: ```[left_part, pivot, right_part]```. We have show in the previous section that ```pivot``` is already at the right index. Since all the elements of ```left_part``` are less than ```pivot```, if the recursive call ```quick_sort(left_part)``` sorts the left part, then the job is done on the left side. Same logic for the right part. Well, the size of ```[left_part, pivot, right_part]``` is $s_l+1+s_r=n+1$, so $s_l+s_r \leq n$: ```left_part``` and ```left_part``` cannot be more than $n$ elements! So, by the inductive hypothesis, ```quick_sort(left_part)``` and ```quick_sort(left_part)``` do sort the arrays, and the array ```[left_part, pivot, right_part]``` of size $n+1$ ends up being sorted. The inductive statement holds at step $n+1$.
+* Suppose that ```quick_sort()``` adequately sorts any array of size \\( k \in \\{ 0, 1, ..., n \\}, n \geq 1 \\)
+* Then, let's see what happens upon calling ```quick_sort()``` on an array of size \\( n+1 \\). First, the array will be partitioned in three parts: ```[left_part, pivot, right_part]```. We have show in the previous section that ```pivot``` is already at the right index. Since all the elements of ```left_part``` are less than ```pivot```, if the recursive call ```quick_sort(left_part)``` sorts the left part, then the job is done on the left side. Same logic for the right part. Well, the size of ```[left_part, pivot, right_part]``` is \\( s_l+1+s_r=n+1 \\), so \\( s_l+s_r \leq n \\): ```left_part``` and ```left_part``` cannot be more than \\( n \\) elements! So, by the inductive hypothesis, ```quick_sort(left_part)``` and ```quick_sort(left_part)``` do sort the arrays, and the array ```[left_part, pivot, right_part]``` of size \\( n+1 \\) ends up being sorted. The inductive statement holds at step \\( n+1 \\).
 
-The above proves by strong induction that ```quick_sort``` sorts an array of any size $n \geq 0$.
+The above proves by strong induction that ```quick_sort``` sorts an array of any size \\( n \geq 0 \\).
 
 # References
 

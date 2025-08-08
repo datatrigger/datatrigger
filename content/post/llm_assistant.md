@@ -30,11 +30,15 @@ The backend is stateless, so the state of the ongoing conversation must be maint
 
 Here the user prompt `What language would you advise for Advent of Code?` is part of the conversation `0jO7d3JznKvi179sbbtt`. This conversation ID is sent back to the frontend along with the LLM answer. If the user continues the conversation, the new prompt will be sent to the backend along with the conversation ID. This way, the backend is able to fetch all the previous messages of the current conversation.
 
+#### Why the Firestore database?
+
+While the frontend could handle this by keeping the conversation history in memory, I chose to store it in the database for future-proofing. The current implementation uses a placeholder user ID, but I plan to add GitHub/Google authentication. Once authenticated, users will want to access their conversation history across different devices and browser sessions. By storing conversations in Firestore from the start, this feature becomes straightforward to implement.
+
 ## Cost management
 
 I am billed between $15 and $30 a month depending on my usage. Let's break it down.
 
-#### Conversation data persistence: 0$
+#### Conversation data persistence: $0
 
 Initially, I was looking for a pay-per-use (sometimes called serverless pay-as-you-go) relational database. I found out there are such services outside of GCP (Supabase Postgres, AWS Aurora serverless v2) but on GCP's side, Cloud SQL incurs charges even for idle instances. Since I wanted to stay on GCP, I went with document database Firestore instead.
 
@@ -48,7 +52,7 @@ Since the config for the Spring backend container is minimal (1 GB of RAM, 1 vCP
 
 For the LLM server, I'm using a NVIDIA L4 GPU at $0.0001867 per second. That would be $483 per month for an instance running 24/7... Now since I scale down to 0 instances when there is no request, the costs are manageable. Still, with my average billing of $0.5 to $1 a day, which amounts to $15-$30 a month. The big downside of scaling down to 0 is cold starts: I have to wait about 30 seconds for my first prompt to be answered.
 
-#### Frontend: 0$
+#### Frontend: $0
 
 It is hosted on Netlify at no cost, even with CI/CD (up to 5 hours of build time each month).
 
@@ -265,6 +269,24 @@ With this setup, I can choose which .devcontainer to use whenever I create a cod
 ![codespaces](/res/llm_assistant/codespaces.png)
 
 The machine configuration can also be adjusted: for the frontend and spring backend, I use the minimal config, but for the LLM server running Gemma 3 in a container, I have 8 cores and 32 GB RAM.
+
+## How I used AI during development
+
+While this project is all about hosting my own LLM, I also relied on AI throughout the development process (Claude 4), especially in areas where I have less experience.
+
+#### Frontend
+
+As frontend development is not my forte, I leaned on the LLM to help me get the Angular part off the ground. I started by giving it the backend source code as context. The result was surprisingly good, and the very first iteration actually worked. From there, I was able to *vibe code* the design iteratively and I quickly ended up with a frontend that was about 90% complete.
+
+At that point, the LLM couldn’t push it much further. I’m glad I had to step in! For instance, the LLM could not really break the main giant file it produced into readable parts, so I spent some time doing cleanup and refactoring. It also struggled with integrating Markdown support. When my dear colleague and frontend developer Théo reviewed the app, he spotted that the auto-scrolling on sending a message did not properly use Angular signals. For some reason, the LLM could not implement this correctly ([replacing `ngAfterViewChecked()` with `effect()`](https://github.com/datatrigger/llm_app/blob/23e02e7533dac4d0c991d898a22f555c86e0cbee/frontend/src/app/app.component.ts)).
+
+All in all, I must say Claude 4 accelerated my frontend work dramatically.
+
+#### Backend
+
+On the backend side, I mostly used Claude for boilerplate code, review, and documentation. I did try to build the backend from the ground up out of curiosity, but clearly LLMs  cannot handle that level of complexity at the moment. At least as far as I can tell. With that said, Claude was helpful in organizing DTOs, clarifying GCP-related questions (e.g. authentication between services) or adding logging.
+
+I actually tried for real to offload a bigger part of the backend to Claude, namely tests. I could get a good part done (e.g. standard Mockito tests) but not all the way. Claude 4 was not able to set up WireMock properly in order to simulate the LLM server part of the application.
 
 ## Next steps
 

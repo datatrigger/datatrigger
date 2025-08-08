@@ -41,6 +41,7 @@ title = "VLG Engineering"
   showRelatedPosts = false
   hideAuthor = true
   custom_css = ["css/custom.css"]
+  disableDarkmode = true
 
 [services]
   [services.googleAnalytics]
