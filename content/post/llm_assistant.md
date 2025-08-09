@@ -20,7 +20,7 @@ Meet [Talian](https://assistant.vlg.engineer), my personal LLM assistant. It is 
 
 * Frontend: Angular 20 deployed on Netlify
 * Backend: Spring Boot 3.5 REST API, deployed on GCP Cloud Run
-* LLM Service: Gemma 3 4B model running on Ollama, deployed on GCP Cloud Run with GPU
+* LLM Service: open-source model Gemma 3 (4B), running on Ollama, deployed on GCP Cloud Run with GPU
 * Database: Google Firestore for conversation persistence
 * Authentication: GCP service-to-service authentication
 
