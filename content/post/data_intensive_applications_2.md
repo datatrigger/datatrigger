@@ -73,6 +73,11 @@ The problem: the user reads data from a replica, then again from another replica
 
 Another type of consistency that preserves the order of writes. The problem of returning records in a shuffled order is particularly common in partitioned/sharded databases.
 
+#### Monotonic reads vs Prefix reads
+
+**Monotonic Reads**: Focuses on one client’s sequential reads. Ensure there is no going backwards for a given item.  
+**Consistent Prefix Reads**: Focuses on global write order. Ensure there is no newer writes without earlier ones, even across different keys.*
+
 ## Multi-leader replication
 
 Multi-leader replication is the combination of two things:
