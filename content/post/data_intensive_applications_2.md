@@ -123,3 +123,7 @@ Assume the following setup:
 * A read is successful if \\( r \\) nodes confirm it
 
 To ensure up-to-date reads, \\( w + r > n \\) must hold. To adjust the parameters, consider the application's needs in terms of writes vs reads, node availability and so on. The condition is necessary, but not sufficient. On page 181, the author enumerates a few ways stale records can be returned despite quorum consistency. Monitoring staleness is encouraged.
+
+# Chapter 6: Partitioning i.e. Sharding
+
+*TODO*
