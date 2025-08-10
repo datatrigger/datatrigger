@@ -1,7 +1,7 @@
 ---
 title: "Full Stack Data Engineering"
 summary: "Building a single-page application that fetches stocks data and displays their performance."
-date: 2023-07-03
+date: 2024-04-05
 tags: ["api", "fastapi", "async", "cloud", "container", "docker", "javascript", "dataclass", "python"]
 draft: false
 ---
