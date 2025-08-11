@@ -131,4 +131,20 @@ To ensure up-to-date reads, \\( w + r > n \\) must hold. To adjust the parameter
 
 # Chapter 6: Partitioning i.e. Sharding
 
-*TODO*
+## Partitioning
+
+### How to?
+
+The problem you want to avoid is a **skewed** partition causing some nodes to be **hot spots**. But assigning nodes randomly is not really an option since it would take all nodes to be queried for each request. Instead, there are mainly 2 strategies:
+* Partitioning by key range (much like an encyclopedia): efficient with range queries, but can lead to hot spots
+* Partitioning by hash key: avoids skewed partitions, but does not work for range queries
+
+A *compound primary key* implements a hybrid approach where the first part of the key is hashed and the second part is used for sorting: e.g. `(user_id, update_timestamp)`.
+
+## Secondary indexes for partitioning
+
+*Local* vs *Global* indexes, e.g. each partition has its own secondary index for its data, vs the secondary index for the entire dataset is partitioned itself.
+
+## Rebalancing
+
+## Routing
