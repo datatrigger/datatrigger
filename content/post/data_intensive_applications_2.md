@@ -143,7 +143,11 @@ A *compound primary key* implements a hybrid approach where the first part of th
 
 ## Secondary indexes for partitioning
 
-*Local* vs *Global* indexes, e.g. each partition has its own secondary index for its data, vs the secondary index for the entire dataset is partitioned itself.
+### **Local** vs **Global** secondary indexes
+
+Local secondary indexes are easier to implement and maintain: each partition has its own secondary index for its data. On the other hand, they are not efficient for reads because they require *all* partitions to be queried, unless a specific partitioning has been enforced by the user.
+
+A global secondary index is unique for the entire dataset, and it is partitioned itself. It is *term-partitioned* because each key of the index is attributed a partition. The reads are more efficient but the writes are slower and harder to implement, because each write require the update of the global index, most likely on a separate partition.
 
 ## Rebalancing
 
