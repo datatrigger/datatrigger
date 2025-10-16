@@ -131,4 +131,40 @@ To ensure up-to-date reads, \\( w + r > n \\) must hold. To adjust the parameter
 
 # Chapter 6: Partitioning i.e. Sharding
 
-*TODO*
+## Partitioning
+
+### How to?
+
+The problem you want to avoid is a **skewed** partition causing some nodes to be **hot spots**. But assigning nodes randomly is not really an option since it would take all nodes to be queried for each request. Instead, there are mainly 2 strategies:
+* Partitioning by **key range** (much like an encyclopedia): efficient with range queries, but can lead to hot spots
+* Partitioning by **key hash**: avoids skewed partitions, but does not work for range queries
+
+A *compound primary key* implements a hybrid approach where the first part of the key is hashed and the second part is used for sorting: e.g. `(user_id, update_timestamp)`.
+
+## Secondary indexes for partitioning
+
+### **Local** vs **Global** secondary indexes: a read/write tradeoff
+
+Local secondary indexes are easier to implement and maintain: each partition has its own secondary index for its data. On the other hand, they are not efficient for reads because they require *all* partitions to be queried, unless a specific partitioning has been enforced by the user.
+
+A global secondary index is unique for the entire dataset, and it is partitioned itself. It is *term-partitioned* because each key of the index is attributed a partition. The reads are more efficient but the writes are slower and harder to implement, because each write requires the update of the global index, most likely on a separate partition.
+
+## Rebalancing
+
+Always map keys -> partitions -> nodes, not keys -> nodes directly. E.g. if `node(key) = hash(key) % nodes`, then the entire dataset must be shuffled around when adding a new node.
+
+Strategies:
+* Fixed number of partitions: size partition α dataset
+* Fixed size of partitions: number partitions α dataset (**dynamic partitioning**)
+* Fixed numberer of partitions per node
+
+## Routing
+
+Strategies:
+* Client knows which node to talk to
+* A *routing tier* acts as partition-aware load balancer
+* Any node is a routing tier (round robin)
+
+See diagram page 215.
+
+Tools like ZooKeeper keeps track of which partition lives on which node.
