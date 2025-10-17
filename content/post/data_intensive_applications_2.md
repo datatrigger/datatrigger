@@ -168,3 +168,76 @@ Strategies:
 See diagram page 215.
 
 Tools like ZooKeeper keeps track of which partition lives on which node.
+
+# Chapter 7: Transactions
+
+A transaction is a set of read/write operations grouped as a single logical unit, with several safety guarantees implied.
+
+## ACID
+
+*Atomicity, Consistency, Isolation and Durability* are the safety guarantees generally provided by transactions.
+
+⚠️These terms are overloaded and ambiguous.
+
+### Atomicity
+
+Atomicity refers to the following **binary** property: the group of operations encapsulated by the transaction either succeeds (*commit*) or fails (*rollback*, *abort*) as a whole. There can be no partial failure.
+
+Atomicity is **not** about:
+* Concurrency
+* Temporality
+
+The benefits of atomicity include safer retries, easier application error handling and data integrity.
+
+### Consistency
+
+ACID's consistency refers to data consistency, or data *invariants*. E.g. `sum(debits) = sum(credits)` in accounting data.
+
+Consistency may rely on atomicity and isolation, but ultimately it concerns instances of transactions, not properties of transactions.
+
+### Isolation
+
+Unlike atomicity, isolation is a **continuum**. Isolation is about concurrency. The academic term is **serializability**.
+
+A perfectly isolated database system guarantees that running a set of transactions concurrently or serially always yields the same result. Hence, true isolation is called **serializable isolation**.
+
+If transaction A consists of several writes, then transaction B can only read either all of A's writes, or none of them.
+
+### Durability
+
+Durability is also a continuous property. A durable database persists data with a high probability. Durability is supported by both hardware (failure rate, quality...) and software (file systems, replication setups). In turn, even parameters like weather and geography play a role.
+
+Durability is also a continuous property. A durable database ensures data persistence with a high degree of reliability. Durability depends on both hardware (failure rates, quality) and software (file systems, replication strategies). Even external factors, including weather conditions and geographic location, can influence durability.
+
+## ACID transactions are multi-object operations
+
+Nowadays, atomicity and isolation are a given for single-object operations on a single node. Atomicity is often implemented with WALs, and isolation relies on locks. So transactions usually do not entail this specific context:
+
+||Single-node|Distributed|
+| ------ | ----- | ------- |
+|**Single-object operation**|X|O|
+|**Multi-object operation**|O|O|
+
+## Weak isolation
+
+In practice, most databases do not implement serializable isolation, but weaker forms of isolation for performance reasons.
+
+### 1 Read Committed
+
+* Only committed data is read
+* Only committed data is overwritten
+
+In other words, no *dirty reads* or *dirty writes* allowed.
+
+#### Implementation details
+
+Locks are used to prevent dirty reads or write. Usually, only writes use locks. If a value is locked by an ongoing write transaction, read requests are served the "old value", i.e. before the ongoing write transaction.
+
+### 2 Snapshot isolation
+
+
+
+
+
+
+## Serializability
