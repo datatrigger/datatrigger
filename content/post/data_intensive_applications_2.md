@@ -274,12 +274,51 @@ Note: locking or compare-and-set assume a unique value per data point. This assu
 
 A write skew is a generalized lost update, where the written object can be different from the read object in the read-modify-write cycle.
 
-The only viable solution to guard against write skew is the strongest level of isolatin, i.e. serializable isolation.
+The only viable solution to guard against write skew is the strongest level of isolation: serializable isolation.
 
 ## Serializable Isolation
 
 ### Actual serial execution
 
-### 2PL
+To account for the lack of concurrency, in practice the only systems with serializable isolation are:
+* In-memory
+* OLTP (small transactions)
 
-### SSI
+Example: Redis
+
+Stored Procedures are a way to execute a set of transactions (not the whole database) serially, if the database lives on just one single-threated node. Partitioning can distribute the system while maintaining serializable isolation, under heavy conditions.
+
+### 2PL: Two-Phase Locking
+
+2PL breaks Snapshot Isolation's *readers never block writers, and writers never block readers* to guarantee serializability.
+
+* Readers must acquire locks in *shared* mode
+* Writes must acquire locks in *exclusive* mode
+
+Downsides:
+* Performance
+* Deadlocks
+
+### SSI: Serializable Snapshot Isolation
+
+Though not state-of-the-art anymore, SSI has wide adoption (e.g. PostgreSQL) and provides true serializability while maintaining good performance. SSI is an optimistic concurrency control mechanism: instead of blocking transactions upfront with locks, transactions are attempted and committed only if no isolation violations are detected during the process.
+
+For example, SSI will abort a transaction if Write Skew is detected. This is done by identifying an *outdated premise* for a given premise: the value read somewhere in the transaction has become stale during execution. There are 2 cases:
+* Reads after an uncommitted write: stale MVCC
+* Writes after a read
+
+# Chapter 8: The Trouble with Distributed Systems
+
+The state of a single node is, for the most part:
+* Deterministic: the same operation always produces the same result
+* Binary: a process either works or does not work
+
+On the contrary, distributed systems are subject to **nondeterministic** and **partial** failures. Distributed computing is about *building a reliable system from unreliable components*. The chapter lists the usual sources of failure in distributed systems.
+
+## Networks
+
+## Clocks
+
+## Node-level *knowledge* of the distributed system's state
+
+# Chapter 9: Consistency and Consensus
