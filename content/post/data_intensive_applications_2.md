@@ -42,7 +42,7 @@ Fully asynchronous replication is widespread, even if there is a risk of data lo
 
 ### Failures
 
-Replicated databases make an extensive use *log* files to handle failures gracefully.  
+Replicated databases make extensive use of *log* files to handle failures gracefully.  
 Followers do **catch-up recovery**. They make a diff between their own log and the leader's log to fetch the latest data changes since failure.  
 When a leader fails, the process of promoting a follower to replace the lost leader is called  **failover**. Failover is much more complicated for a bunch of reasons:
 * A follower may have data that the new leader does not have. This data may be discarded, but systems may have read it in the meantime.
@@ -51,11 +51,11 @@ When a leader fails, the process of promoting a follower to replace the lost lea
 
 ### Replicating logs
 
-**Statement-based replication** is not widely used because it can cause a lot of problems, e.g. nondeterministic functions like `NOW()`, out of sync sequences or side effects...  Instead, **physical-log-based replicaton** uses the actual log of the storage engine: the WAL for B-tree based engines, or SSTables for LSM-tree bases engines. In this case the leader "writes twice" its log: first locally, then sending it over the network to the followers. A big downside: as a low-level object, the WAL is tightly coupled to the storage engine. As a consequence, database version mismatches between nodes are risky. This prevents zero-downtime rolling upgrades. As a middle ground, higher-level **logical log** objects are often used to avoid coupling replication and storage engines.
+**Statement-based replication** is not widely used because it can cause a lot of problems, e.g. nondeterministic functions like `NOW()`, out of sync sequences or side effects...  Instead, **physical-log-based replication** uses the actual log of the storage engine: the WAL for B-tree based engines, or SSTables for LSM-tree based engines. In this case the leader "writes twice" its log: first locally, then sending it over the network to the followers. A big downside: as a low-level object, the WAL is tightly coupled to the storage engine. As a consequence, database version mismatches between nodes are risky. This prevents zero-downtime rolling upgrades. As a middle ground, higher-level **logical log** objects are often used to avoid coupling replication and storage engines.
 
 ### Replication lag
 
-Leader-based replication scales when data access is mostly reads, not writes: just add followers. Realistically, replication is asynchronous (see above) and brings about **eventual consistency** and **replication lag**. Some examples:
+Leader-based replication scales when data access is mostly reads, not writes: just add followers. In practice, replication is asynchronous (see above) and brings about **eventual consistency** and **replication lag**. Some examples:
 
 #### Read-your-writes consistency
 
@@ -76,7 +76,7 @@ Another type of consistency that preserves the order of writes. The problem of r
 #### Monotonic reads vs Prefix reads
 
 **Monotonic Reads**: Focuses on one client’s sequential reads. Ensure there is no going backwards for a given item.  
-**Consistent Prefix Reads**: Focuses on global write order. Ensure there is no newer writes without earlier ones, even across different keys.*
+**Consistent Prefix Reads**: Focuses on global write order. Ensure there is no newer writes without earlier ones, even across different keys.
 
 ## Multi-leader replication
 
@@ -84,7 +84,7 @@ Multi-leader replication is the combination of two things:
 1) Single-leader replication, replicated \\( n \\) times
 2) Each leader is a follower of the other leaders
 
-Multi-leader replication is much harder than single-leader replication and should be avoided when possible. The reason for that is **write conflicts** between leaders. Now, the benefits are latency (e.g. multiple datacenters), reliability and write throughput.
+Multi-leader replication is much harder than single-leader replication and should be avoided whenever possible. The reason for that is **write conflicts** between leaders. Now, the benefits are latency (e.g. multiple datacenters), reliability and write throughput.
 
 The typical use case is a multi-datacenter setup. Other use cases include multi-device offline applications or real-time collaborative applications, where each device/user is both a leader and a follower (no strict followers).
 
@@ -92,7 +92,7 @@ The typical use case is a multi-datacenter setup. Other use cases include multi-
 
 #### Avoidance
 
-One way to avoid conflicts is to map subsets of records to a unique leader, e.g. attributing a given datacenter to some user.
+One way to avoid conflicts is to map subsets of records to a unique leader, e.g. assigning users to a given datacenter.
 
 #### Convergence
 
@@ -108,7 +108,7 @@ All-to-all topologies are more fault-tolerant, but require more work to guarante
 
 ## Leaderless replication
 
-Leaderless replication is not multi-leader replication with only leaders (like one of the examples of multi-leader setups). There is no concept of any leader node replicating data to followers. Instead, write request are sent altogether to all nodes, either by the client itself or by a coordinator gateway node. Read requests are also sent to all nodes. In case of conflicts, the reader retains the most up-to-date record, e.g. with the highest version number.
+Leaderless replication is not multi-leader replication with only leaders (like one of the examples of multi-leader setups). There is no concept of any leader node replicating data to followers. Instead, write requests are sent altogether to all nodes, either by the client itself or by a coordinator gateway node. Read requests are also sent to all nodes. In case of conflicts, the reader retains the most up-to-date record, e.g. with the highest version number.
 
 ## Catch-up mechanisms
 
@@ -127,7 +127,7 @@ Assume the following setup:
 * A write is successful if \\( w \\) nodes confirm it
 * A read is successful if \\( r \\) nodes confirm it
 
-To ensure up-to-date reads, \\( w + r > n \\) must hold. To adjust the parameters, consider the application's needs in terms of writes vs reads, node availability and so on. The condition is necessary, but not sufficient. On page 181, the author enumerates a few ways stale records can be returned despite quorum consistency. Monitoring staleness is encouraged.
+To ensure up-to-date reads, \\( w + r > n \\) must hold. To adjust these parameters, consider the application's needs in terms of writes vs reads, node availability and so on. The condition is necessary, but not sufficient. On page 181, the author enumerates a few ways stale records can be returned despite quorum consistency. Monitoring staleness is encouraged.
 
 # Chapter 6: Partitioning i.e. Sharding
 
@@ -147,16 +147,16 @@ A *compound primary key* implements a hybrid approach where the first part of th
 
 Local secondary indexes are easier to implement and maintain: each partition has its own secondary index for its data. On the other hand, they are not efficient for reads because they require *all* partitions to be queried, unless a specific partitioning has been enforced by the user.
 
-A global secondary index is unique for the entire dataset, and it is partitioned itself. It is *term-partitioned* because each key of the index is attributed a partition. The reads are more efficient but the writes are slower and harder to implement, because each write requires the update of the global index, most likely on a separate partition.
+A global secondary index is unique for the entire dataset, and is itself partitioned. It is *term-partitioned* because each key of the index is attributed a partition. The reads are more efficient but the writes are slower and harder to implement, because each write requires the update of the global index, most likely on a separate partition.
 
 ## Rebalancing
 
 Always map keys -> partitions -> nodes, not keys -> nodes directly. E.g. if `node(key) = hash(key) % nodes`, then the entire dataset must be shuffled around when adding a new node.
 
 Strategies:
-* Fixed number of partitions: size partition α dataset
-* Fixed size of partitions: number partitions α dataset (**dynamic partitioning**)
-* Fixed numberer of partitions per node
+* Fixed number of partitions: partition size ∝ dataset
+* Fixed size of partitions: partition count ∝ dataset (**dynamic partitioning**)
+* Fixed number of partitions per node
 
 ## Routing
 
@@ -165,7 +165,7 @@ Strategies:
 * A *routing tier* acts as partition-aware load balancer
 * Any node is a routing tier (round robin)
 
-See diagram page 215.
+See diagram on page 215.
 
 Tools like ZooKeeper keeps track of which partition lives on which node.
 
@@ -205,8 +205,6 @@ If transaction A consists of several writes, then transaction B can only read ei
 
 ### Durability
 
-Durability is also a continuous property. A durable database persists data with a high probability. Durability is supported by both hardware (failure rate, quality...) and software (file systems, replication setups). In turn, even parameters like weather and geography play a role.
-
 Durability is also a continuous property. A durable database ensures data persistence with a high degree of reliability. Durability depends on both hardware (failure rates, quality) and software (file systems, replication strategies). Even external factors, including weather conditions and geographic location, can influence durability.
 
 ## ACID transactions are multi-object operations
@@ -235,6 +233,8 @@ Locks are used to prevent dirty reads or write. Usually, only writes use locks. 
 
 ### 2 Snapshot isolation
 
+This level of isolation guards against *nonrepeatable reads*:
+
 ![Read Committed isolation vs Snapshot isolation](/res/designing_data_applications/acid_isolation.excalidraw.png)
 
 #### Implementations details
@@ -243,9 +243,9 @@ Much like Read Committed isolation, Snapshot isolation also follows the *readers
 
 ## Other issues and mitigations
 
-In a nutshell, Read Committed isolation ensures only committed data is read/written *at runtime*, and snapshot does the same but for data *at the start of the transaction*. But these weak isolation fail to cover other categories of problems:
+In a nutshell, Read Committed isolation ensures only committed data is read/written *at runtime*, and Snapshot isolation does the same but for data *at the start of the transaction*. But these weak forms of isolation fail to cover other categories of problems:
 
-||Read Committed solation|Snapshot isolation|
+||Read Committed isolation|Snapshot isolation|
 |:---|:---:|:---:|
 |Dirty reads|✅|✅|
 |Dirty writes|✅|✅|
@@ -286,7 +286,7 @@ To account for the lack of concurrency, in practice the only systems with serial
 
 Example: Redis
 
-Stored Procedures are a way to execute a set of transactions (not the whole database) serially, if the database lives on just one single-threated node. Partitioning can distribute the system while maintaining serializable isolation, under heavy conditions.
+Stored Procedures are a way to execute a set of transactions (not the whole database) serially, if the database lives on just one single-threaded node. Partitioning can distribute the system while maintaining serializable isolation, under heavy conditions.
 
 ### 2PL: Two-Phase Locking
 
@@ -303,7 +303,7 @@ Downsides:
 
 Though not state-of-the-art anymore, SSI has wide adoption (e.g. PostgreSQL) and provides true serializability while maintaining good performance. SSI is an optimistic concurrency control mechanism: instead of blocking transactions upfront with locks, transactions are attempted and committed only if no isolation violations are detected during the process.
 
-For example, SSI will abort a transaction if Write Skew is detected. This is done by identifying an *outdated premise* for a given premise: the value read somewhere in the transaction has become stale during execution. There are 2 cases:
+For example, SSI will abort a transaction if Write Skew is detected. This is done by identifying an *outdated premise*: the value read somewhere in the transaction has become stale during execution. There are 2 cases:
 * Reads after an uncommitted write: stale MVCC
 * Writes after a read
 
