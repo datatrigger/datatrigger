@@ -168,3 +168,157 @@ Strategies:
 See diagram page 215.
 
 Tools like ZooKeeper keeps track of which partition lives on which node.
+
+# Chapter 7: Transactions
+
+A transaction is a set of read/write operations grouped as a single logical unit, with several safety guarantees implied.
+
+## ACID
+
+*Atomicity, Consistency, Isolation and Durability* are the safety guarantees generally provided by transactions.
+
+⚠️These terms are overloaded and ambiguous.
+
+### Atomicity
+
+Atomicity refers to the following **binary** property: the group of operations encapsulated by the transaction either succeeds (*commit*) or fails (*rollback*, *abort*) as a whole. There can be no partial failure.
+
+Atomicity is **not** about:
+* Concurrency
+* Temporality
+
+The benefits of atomicity include safer retries, easier application error handling and data integrity.
+
+### Consistency
+
+ACID's consistency refers to data consistency, or data *invariants*. E.g. `sum(debits) = sum(credits)` in accounting data.
+
+Consistency may rely on atomicity and isolation, but ultimately it concerns instances of transactions, not properties of transactions.
+
+### Isolation
+
+Unlike atomicity, isolation is a **continuum**. Isolation is about concurrency. The academic term is **serializability**.
+
+A perfectly isolated database system guarantees that running a set of transactions concurrently or serially always yields the same result. Hence, true isolation is called **serializable isolation**.
+
+If transaction A consists of several writes, then transaction B can only read either all of A's writes, or none of them.
+
+### Durability
+
+Durability is also a continuous property. A durable database persists data with a high probability. Durability is supported by both hardware (failure rate, quality...) and software (file systems, replication setups). In turn, even parameters like weather and geography play a role.
+
+Durability is also a continuous property. A durable database ensures data persistence with a high degree of reliability. Durability depends on both hardware (failure rates, quality) and software (file systems, replication strategies). Even external factors, including weather conditions and geographic location, can influence durability.
+
+## ACID transactions are multi-object operations
+
+Nowadays, atomicity and isolation are a given for single-object operations on a single node. Atomicity is often implemented with WALs, and isolation relies on locks. So transactions usually do not entail this specific context:
+
+||Single-node|Distributed|
+|:---|:---:|:---:|
+|**Single-object operation**|X|O|
+|**Multi-object operation**|O|O|
+
+## Weak isolation
+
+In practice, most databases do not implement serializable isolation, but weaker forms of isolation for performance reasons.
+
+### 1 Read Committed
+
+* Only committed data is read
+* Only committed data is overwritten
+
+In other words, no *dirty reads* or *dirty writes* allowed.
+
+#### Implementation details
+
+Locks are used to prevent dirty reads or write. Usually, only writes use locks. If a value is locked by an ongoing write transaction, read requests are served the "old value", i.e. before the ongoing write transaction.
+
+### 2 Snapshot isolation
+
+![Read Committed isolation vs Snapshot isolation](/res/designing_data_applications/acid_isolation.excalidraw.png)
+
+#### Implementations details
+
+Much like Read Committed isolation, Snapshot isolation also follows the *readers never block writers, and writers never block readers* principle: only writes require locks. But now reads rely on *Multi Version Concurrency Control* (MVCC) to read consistent snapshots of the data at different points in time. For that, an incremental sequence identifies each transaction; whenever data is written, it is also tagged with the transaction's id.
+
+## Other issues and mitigations
+
+In a nutshell, Read Committed isolation ensures only committed data is read/written *at runtime*, and snapshot does the same but for data *at the start of the transaction*. But these weak isolation fail to cover other categories of problems:
+
+||Read Committed solation|Snapshot isolation|
+|:---|:---:|:---:|
+|Dirty reads|✅|✅|
+|Dirty writes|✅|✅|
+|Repeatable reads|❌|✅|
+|Lost updates|❌|❌|
+|Write skew|❌|❌|
+
+### Lost updates
+
+Updates lost in concurrent read-modify-write cycles:
+
+1. Reader 1 and reader 2 read counter C = 42
+2. Reader 1 increments C: set C = 43
+3. Reader 2 increments C: set C = 43
+4. Now C = 43 instead of 44
+
+Solutions:
+* Atomic operations: encapsulate the read-modify-write cycle in an atomic operation
+* Explicit locking: lock data until completion of the read-modify-write cycle
+* Lost update detection
+* Compare-and-set: read-modify-*read again*-write. If the second read is not consistent with the first read, abort update
+
+Note: locking or compare-and-set assume a unique value per data point. This assumption does not hold in replicated database systems. In this case, preventing lost updates rely on atomic operations or conflict resolution.
+
+### Write skew
+
+A write skew is a generalized lost update, where the written object can be different from the read object in the read-modify-write cycle.
+
+The only viable solution to guard against write skew is the strongest level of isolation: serializable isolation.
+
+## Serializable Isolation
+
+### Actual serial execution
+
+To account for the lack of concurrency, in practice the only systems with serializable isolation are:
+* In-memory
+* OLTP (small transactions)
+
+Example: Redis
+
+Stored Procedures are a way to execute a set of transactions (not the whole database) serially, if the database lives on just one single-threated node. Partitioning can distribute the system while maintaining serializable isolation, under heavy conditions.
+
+### 2PL: Two-Phase Locking
+
+2PL breaks Snapshot Isolation's *readers never block writers, and writers never block readers* to guarantee serializability.
+
+* Readers must acquire locks in *shared* mode
+* Writes must acquire locks in *exclusive* mode
+
+Downsides:
+* Performance
+* Deadlocks
+
+### SSI: Serializable Snapshot Isolation
+
+Though not state-of-the-art anymore, SSI has wide adoption (e.g. PostgreSQL) and provides true serializability while maintaining good performance. SSI is an optimistic concurrency control mechanism: instead of blocking transactions upfront with locks, transactions are attempted and committed only if no isolation violations are detected during the process.
+
+For example, SSI will abort a transaction if Write Skew is detected. This is done by identifying an *outdated premise* for a given premise: the value read somewhere in the transaction has become stale during execution. There are 2 cases:
+* Reads after an uncommitted write: stale MVCC
+* Writes after a read
+
+# Chapter 8: The Trouble with Distributed Systems
+
+The state of a single node is, for the most part:
+* Deterministic: the same operation always produces the same result
+* Binary: a process either works or does not work
+
+On the contrary, distributed systems are subject to **nondeterministic** and **partial** failures. Distributed computing is about *building a reliable system from unreliable components*. The chapter lists the usual sources of failure in distributed systems.
+
+## Networks
+
+## Clocks
+
+## Node-level *knowledge* of the distributed system's state
+
+# Chapter 9: Consistency and Consensus
