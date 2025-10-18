@@ -315,10 +315,8 @@ The state of a single node is, for the most part:
 
 On the contrary, distributed systems are subject to **nondeterministic** and **partial** failures. Distributed computing is about *building a reliable system from unreliable components*. The chapter lists the usual sources of failure in distributed systems.
 
-## Networks
-
-## Clocks
-
-## Node-level *knowledge* of the distributed system's state
+* Networks
+* Clocks
+* Knowledge of the global state by a given node
 
 # Chapter 9: Consistency and Consensus
