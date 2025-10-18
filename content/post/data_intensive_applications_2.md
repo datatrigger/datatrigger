@@ -214,7 +214,7 @@ Durability is also a continuous property. A durable database ensures data persis
 Nowadays, atomicity and isolation are a given for single-object operations on a single node. Atomicity is often implemented with WALs, and isolation relies on locks. So transactions usually do not entail this specific context:
 
 ||Single-node|Distributed|
-| ------ | ----- | ------- |
+|:---|:---:|:---:|
 |**Single-object operation**|X|O|
 |**Multi-object operation**|O|O|
 
@@ -235,9 +235,51 @@ Locks are used to prevent dirty reads or write. Usually, only writes use locks. 
 
 ### 2 Snapshot isolation
 
+![Read Committed isolation vs Snapshot isolation](/res/designing_data_applications/acid_isolation.excalidraw.png)
 
+#### Implementations details
 
+Much like Read Committed isolation, Snapshot isolation also follows the *readers never block writers, and writers never block readers* principle: only writes require locks. But now reads rely on *Multi Version Concurrency Control* (MVCC) to read consistent snapshots of the data at different points in time. For that, an incremental sequence identifies each transaction; whenever data is written, it is also tagged with the transaction's id.
 
+## Other issues and mitigations
 
+In a nutshell, Read Committed isolation ensures only committed data is read/written *at runtime*, and snapshot does the same but for data *at the start of the transaction*. But these weak isolation fail to cover other categories of problems:
 
-## Serializability
+||Read Committed solation|Snapshot isolation|
+|:---|:---:|:---:|
+|Dirty reads|✅|✅|
+|Dirty writes|✅|✅|
+|Repeatable reads|❌|✅|
+|Lost updates|❌|❌|
+|Write skew|❌|❌|
+
+### Lost updates
+
+Updates lost in concurrent read-modify-write cycles:
+
+1. Reader 1 and reader 2 read counter C = 42
+2. Reader 1 increments C: set C = 43
+3. Reader 2 increments C: set C = 43
+4. Now C = 43 instead of 44
+
+Solutions:
+* Atomic operations: encapsulate the read-modify-write cycle in an atomic operation
+* Explicit locking: lock data until completion of the read-modify-write cycle
+* Lost update detection
+* Compare-and-set: read-modify-*read again*-write. If the second read is not consistent with the first read, abort update
+
+Note: locking or compare-and-set assume a unique value per data point. This assumption does not hold in replicated database systems. In this case, preventing lost updates rely on atomic operations or conflict resolution.
+
+### Write skew
+
+A write skew is a generalized lost update, where the written object can be different from the read object in the read-modify-write cycle.
+
+The only viable solution to guard against write skew is the strongest level of isolatin, i.e. serializable isolation.
+
+## Serializable Isolation
+
+### Actual serial execution
+
+### 2PL
+
+### SSI
