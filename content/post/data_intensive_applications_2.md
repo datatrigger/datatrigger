@@ -274,7 +274,7 @@ Note: locking or compare-and-set assume a unique value per data point. This assu
 
 A write skew is a generalized lost update, where the written object can be different from the read object in the read-modify-write cycle.
 
-The read object is typically a set of rows matching a given predicate. At the beginning of transaction 1, this set is \\( S_1 \\). The write operation is then determined depending on the value of \\( S_1 \\). But in the meantime, another transaction 2 committed, causing the set to become \\( S_2 \\). The write operation is then done with the outdated \\( S_1 \\). \\( S_2 \\) is called a **phantom read**.
+The read object is typically a set of rows matching a given predicate. At the beginning of transaction 1, this set is \\( S_1 \\). The write operation is then determined depending on the value of \\( S_1 \\). But in the meantime, another transaction 2 committed, causing the set to become \\( S_2 \\). The write operation is then done based on the outdated information in \\( S_1 \\). \\( S_2 \\) is called a **phantom read**.
 
 The only viable solution to guard against write skew is the strongest level of isolation: serializable isolation.
 
