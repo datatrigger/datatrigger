@@ -181,11 +181,12 @@ A transaction is a set of read/write operations grouped as a single logical unit
 
 ### Atomicity
 
-Atomicity refers to the following **binary** property: the group of operations encapsulated by the transaction either succeeds (*commit*) or fails (*rollback*, *abort*) as a whole. There can be no partial failure.
+Atomicity refers to the following **binary** property of **a single transaction**: the group of operations encapsulated by the transaction either succeeds (*commit*) or fails (*rollback*, *abort*) as a whole. There can be no partial failure.
 
 Atomicity is **not** about:
 * Concurrency
 * Temporality
+* Multiple isolated transactions
 
 The benefits of atomicity include safer retries, easier application error handling and data integrity.
 
@@ -197,7 +198,7 @@ Consistency may rely on atomicity and isolation, but ultimately it concerns inst
 
 ### Isolation
 
-Unlike atomicity, isolation is a **continuum**. Isolation is about concurrency. The academic term is **serializability**.
+Unlike atomicity, isolation is a **continuum**. Isolation is about **multiple** concurrent transactions. The academic term is **serializability**.
 
 A perfectly isolated database system guarantees that running a set of transactions concurrently or serially always yields the same result. Hence, true isolation is called **serializable isolation**.
 
