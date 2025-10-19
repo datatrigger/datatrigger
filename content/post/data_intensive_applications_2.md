@@ -1,5 +1,5 @@
 ---
-title: "Designing Data-Intensive Applications: reading notes 2/3"
+title: "Designing Data-Intensive Applications: reading notes, part 2"
 summary: "Reading through this backend/data engineering classic. Part 2: Distributed Data"
 date: 2023-09-03
 tags: ["backend", "databases", "system design", "distributed computing", "replication", "partitioning"]

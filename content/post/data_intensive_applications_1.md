@@ -1,5 +1,5 @@
 ---
-title: "Designing Data-Intensive Applications: reading notes 1/3"
+title: "Designing Data-Intensive Applications: reading notes, part 1"
 summary: "Reading through this backend/data engineering classic. Part 1: Foundations of Data Systems"
 date: 2023-03-27
 tags: ["backend", "databases", "system design", "data engineering", "indexes", "data structures"]
