@@ -1,17 +1,11 @@
 ---
 title: About me
 ---
-Hi, I’m Vincent — a Software Engineer based in Switzerland. I specialize in backend development, with deep experience in cloud services (GCP, AWS, Azure) and data systems. Over the past few years, I’ve contributed to projects across public health, finance, consumer electronics, transportation, and social insurance. My daily toolkit includes:
-* **Languages**: Java, Python, Scala, SQL, Bash
-* **Backend \& DevOps**: Spring, Docker, Kubernetes, Terraform, CI/CD, automated testing, IaC
-* **Cloud**: GCP, AWS, Azure
+Hi, I’m Vincent, a Software Engineer based in Switzerland. I specialize in backend development in Java and Python, with deep experience in cloud services (GCP, AWS, Azure) and data systems. I’ve built and operated services across various industries e.g., finance, public health, transportation, and delivery.
 
 I built this website to document projects, code, and thoughts that might be useful to others — including my future self. All the content is under MIT license and the source code can be found on [GitHub](https://github.com/datatrigger).
-
-Thanks for reading!
 
 [✉️ Email](mailto:vlg.engineer@gmail.com)  
 [📄 CV](/res/cv/software_engineer_vincent_le_goualher.pdf)  
 [🐈‍⬛ GitHub](https://github.com/datatrigger)  
-[💼 LinkedIn](https://www.linkedin.com/in/vlg-engineer/)  
- 
+[💼 LinkedIn](https://www.linkedin.com/in/vlg-engineer/)
