@@ -1,8 +1,8 @@
 ---
-title: "Full Stack Data Engineering"
-summary: "Building a single-page application that fetches stocks data and displays their performance."
+title: "Full Stack Web App: Stocks Dashboard"
+summary: "Building and deploying a full-stack web application with a Python backend, JavaScript frontend, and containerized cloud deployment."
 date: 2024-04-05
-tags: ["api", "fastapi", "async", "cloud", "container", "docker", "javascript", "dataclass", "python"]
+tags: ["api", "fastapi", "async", "cloud", "container", "docker", "javascript", "python", "backend", "frontend", "deployment"]
 draft: false
 ---
 
@@ -17,8 +17,8 @@ This application shows the performance of 3 stocks (Google, Amazon and Microsoft
 
 The app is made of 2 components:
 
-* Python **Backend**: fetches data from a stock API, processes it and properly formats it for plotting
-* Javascript **Frontend**: requests data from backend and builds the live chart
+* Python **Backend**: a REST API that fetches data from an external stock API, processes it and formats it for the frontend
+* Javascript **Frontend**: requests data from the backend and builds the live chart
 
 # 1) Backend
 
