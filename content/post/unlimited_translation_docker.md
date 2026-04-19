@@ -1,7 +1,7 @@
 ---
 title: "A multi container ML app (1/3): Docker"
 summary: "Building a translation app by putting together 3 containerized microservices: a Flask frontend, a FastAPI backend and a MySQL database. Let's skim through the development process and the containerization. Also covered: Docker registry and CI/CD with GitHub Actions."
-date: 2022-09-11
+date: 2022-08-11
 tags: ["docker", "container", "api", "nlp", "database", "flask", "fastapi", "python", "sql", "ci/cd", "registry"]
 draft: false
 ---

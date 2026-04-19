@@ -1,7 +1,7 @@
 ---
 title: "Full Stack Web App: Stocks Dashboard"
 summary: "Building and deploying a full-stack web application with a Python backend, JavaScript frontend, and containerized cloud deployment."
-date: 2024-04-05
+date: 2023-09-03
 tags: ["api", "fastapi", "async", "cloud", "container", "docker", "javascript", "python", "backend", "frontend", "deployment"]
 draft: false
 ---

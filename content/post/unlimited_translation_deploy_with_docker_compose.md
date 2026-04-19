@@ -1,7 +1,7 @@
 ---
 title: "A multi container ML app (2/3): deploying with Docker Compose"
 summary: "Now that we have Docker containers, let's deploy them together with Docker Compose. Also covered: security with Docker secrets, data persistence with Docker volumes and dependency ordering."
-date: 2022-09-15
+date: 2022-08-15
 tags: ["docker", "container", "compose", "secrets", "volume", "swarm"]
 draft: false
 ---
