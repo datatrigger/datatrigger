@@ -24,7 +24,7 @@ title = "VLG Engineering"
 
 [Params]
   homeTitle = "VLG Engineering"
-  subtitle = "A blog on backend development, DevOps and data engineering"
+  subtitle = "Software development, cloud infrastructure, data systems"
   mainSections = ["post","posts"]
   logo = "img/profile/p3.jpeg" # Expecting square dimensions
   favicon = "img/icon/settings.png"
