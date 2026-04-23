@@ -1,7 +1,7 @@
 ---
 title: About me
 ---
-Hi, I’m Vincent, a Software Engineer based in Switzerland. I specialize in backend development in Java and Python, with deep experience in cloud services and data systems. I’ve built and operated services across various industries e.g., finance, public health, transportation, and delivery.
+Hi, I’m Vincent, a Software Engineer based in Switzerland. I build backend systems in Java and Python, with a focus on cloud infrastructure and data systems. I’ve worked across finance, public health, transportation, and delivery.
 
 I built this website to document projects, code, and thoughts that might be useful to others — including my future self. All the content is under MIT license and the source code can be found on [GitHub](https://github.com/datatrigger).
 
