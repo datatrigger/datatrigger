@@ -11,13 +11,15 @@ draft: false
 *App:* [stocks.vlg.engineer](https://stocks.vlg.engineer)  
 *Source code*: [FastAPI Backend](https://github.com/datatrigger/stocks_backend) | [Vue.js Frontend](https://github.com/datatrigger/stocks_frontend)  
 
+*Note (2026-10-13): prices are now simulated to avoid API costs.*
+
 # 0) The app
 
 This application shows the performance of 3 stocks (Google, Amazon and Microsoft) over the last 10 business days. The 3 stocks are normalized to an initial value of 100 for easier comparison.
 
 The app is made of 2 components:
 
-* Python **Backend**: a REST API that fetches data from an external stock API, processes it and formats it for the frontend
+* Python **Backend**: a REST API that fetches data from an external stock API (now: generates simulated prices, see note above), processes it and formats it for the frontend
 * Javascript **Frontend**: requests data from the backend and builds the live chart
 
 # 1) Backend
@@ -45,7 +47,7 @@ The `Stocks` class is intentionally instantiated in the endpoint, because this p
 Some fields of the data class `Stocks` depend on other fields, and should not be specified at instantiation:
 
 ```python
-dataclass()
+@dataclass()
 class Stocks:
     window: int
     tickers: list[str]
@@ -169,7 +171,7 @@ api_key = os.environ.get("API_KEY") # Fetched from GCP Secrets
 
 ##### Continuous Deployment
 
-Cloud Run builds/deploys the container directly from the backend source [repository]((https://github.com/datatrigger/stocks_backend)). Each push on the repo automatically triggers a new build in Cloud Run.
+Cloud Run builds/deploys the container directly from the backend source [repository](https://github.com/datatrigger/stocks_backend). Each push on the repo automatically triggers a new build in Cloud Run.
 
 ##### Autoscaling
 
