@@ -6,7 +6,7 @@ tags: ["computer vision", "transfer learning", "pre-trained models", "deployment
 draft: false
 ---
 
-*Test my [aircraft classifier](https://aircraft-classifier-007.herokuapp.com/) with your own images*  
+*Note: the web app that used to be hosted at aircraft-classifier-007.herokuapp.com has been taken down for cost reasons. The source code is still available (see [Source code](#source-code)).*  
 
 ### *fastai*
 
@@ -147,14 +147,14 @@ learn.dls.vocab
 
 ![labels](/res/aircraft_classifier/labels.png)
 
-The model is ready to be deployed on a cloud platform. In order to let any user test our aircraft classifier, we have built a very simple [web application](https://aircraft-classifier-007.herokuapp.com/) using IPython widgets (GUI components) and Voilà, a library that turns Jupyter notebooks into standalone application. The app is currently deployed on *Heroku*:
+The model is ready to be deployed on a cloud platform. In order to let any user test our aircraft classifier, we built a very simple web application using IPython widgets (GUI components) and Voilà, a library that turns Jupyter notebooks into standalone application. The app was deployed on *Heroku*, but has since been taken down for cost reasons. Here is what it looked like:
 
 ![web app](/res/aircraft_classifier/web_app.png)
 
 ### Source code
 
 * [Notebook](https://github.com/datatrigger/computer_vision) to build the dataset and the model.
-* [Source of the Heroku app](https://github.com/datatrigger/aircraft_classifier) where the aircraft classifier is deployed.
+* [Source of the Heroku app](https://github.com/datatrigger/aircraft_classifier) where the aircraft classifier was deployed (no longer online).
 
 ### Conclusion
 
